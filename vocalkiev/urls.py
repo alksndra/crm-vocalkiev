@@ -19,10 +19,9 @@ from django.conf.urls.i18n import i18n_patterns
 
 
 urlpatterns = [
-    path('', include('vocalkiev_com.urls')),
 ]
 
 urlpatterns += i18n_patterns(
+    path('', admin.site.urls),  # admin panel
     path('crm/', include('crm.urls')),
-    path('admin/', admin.site.urls),
 )
