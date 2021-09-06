@@ -1,0 +1,260 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-08-09 10:30+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: crm/admin.py:9
+msgid "vocalkiev.com"
+msgstr ""
+
+#: crm/admin.py:10
+msgid "Dashboard"
+msgstr "«Панель управления"
+
+#: crm/admin.py:11
+msgid "CRM Dashboard"
+msgstr "«Панель управления CRM»"
+
+#: crm/models.py:16
+msgid "ACTIVE"
+msgstr "Активен"
+
+#: crm/models.py:17
+msgid "INACTIVE"
+msgstr "Неактивен"
+
+#: crm/models.py:21
+msgid "CASH"
+msgstr "Наличный расчет"
+
+#: crm/models.py:22
+msgid "CARD"
+msgstr "Безналичный расчет"
+
+#: crm/models.py:26 crm/models.py:101
+msgid "First name"
+msgstr "Имя"
+
+#: crm/models.py:27
+msgid "Last name"
+msgstr "Фамилия"
+
+#: crm/models.py:28
+msgid "Email"
+msgstr ""
+
+#: crm/models.py:29
+msgid "Phone number"
+msgstr "Номер телефона"
+
+#: crm/models.py:30 crm/models.py:50 crm/models.py:124 crm/models.py:157
+#: crm/models.py:175
+msgid "Comment"
+msgstr "Коментарий"
+
+#: crm/models.py:31
+msgid "Created"
+msgstr "Изменено"
+
+#: crm/models.py:32
+msgid "Updated"
+msgstr "Добавлено"
+
+#: crm/models.py:35 crm/models.py:48 crm/models.py:121
+#: crm/templates/schedule.html:91
+msgid "Client"
+msgstr "Клиент"
+
+#: crm/models.py:36
+msgid "Clients"
+msgstr "Клиенты"
+
+#: crm/models.py:49 crm/models.py:156
+msgid "User"
+msgstr "Пользователь"
+
+#: crm/models.py:51 crm/models.py:107 crm/models.py:126 crm/models.py:143
+#: crm/models.py:158 crm/models.py:176
+#, fuzzy
+#| msgid "Created"
+msgid "Created at"
+msgstr "Изменено"
+
+#: crm/models.py:52 crm/models.py:108 crm/models.py:127 crm/models.py:144
+#: crm/models.py:159 crm/models.py:177
+#, fuzzy
+#| msgid "Updated"
+msgid "Updated at"
+msgstr "Добавлено"
+
+#: crm/models.py:55
+msgid "Client Comment"
+msgstr "Коментарий пользователя"
+
+#: crm/models.py:56
+msgid "Client Comments"
+msgstr "Коментарии пользователя"
+
+#: crm/models.py:63 crm/models.py:76 crm/models.py:88
+msgid "Name"
+msgstr "Название"
+
+#: crm/models.py:66 crm/models.py:75
+msgid "Place"
+msgstr "Место проведения"
+
+#: crm/models.py:67
+msgid "Places"
+msgstr "Места проведения"
+
+#: crm/models.py:79 crm/models.py:140
+msgid "Classroom"
+msgstr "Аудитория"
+
+#: crm/models.py:80
+msgid "Classrooms"
+msgstr "Аудитории"
+
+#: crm/models.py:91 crm/models.py:100
+msgid "Subject"
+msgstr "Название предмета"
+
+#: crm/models.py:92
+msgid "Subjects"
+msgstr "Дисцилины"
+
+#: crm/models.py:102 crm/models.py:123 crm/models.py:142
+msgid "Status"
+msgstr "Статус"
+
+#: crm/models.py:103
+msgid "Price"
+msgstr "Стоимость"
+
+#: crm/models.py:104
+msgid "Percentage"
+msgstr "%"
+
+#: crm/models.py:105
+msgid "Percentage if absent"
+msgstr "% сгорел"
+
+#: crm/models.py:106
+msgid "lessons_qty"
+msgstr "Колличество уроков в абонементе"
+
+#: crm/models.py:111 crm/models.py:120
+msgid "Subscription"
+msgstr "Абонемент"
+
+#: crm/models.py:112
+msgid "Subscriptions"
+msgstr "Абонементы"
+
+#: crm/models.py:122 crm/models.py:139 crm/templates/schedule.html:88
+msgid "Teacher"
+msgstr "Преподаватель"
+
+#: crm/models.py:125 crm/models.py:173
+msgid "Payment type"
+msgstr "Способ оплаты"
+
+#: crm/models.py:130 crm/models.py:138 crm/models.py:171
+msgid "User subscription"
+msgstr "Абонемент пользователя"
+
+#: crm/models.py:131
+msgid "Users subscriptions"
+msgstr "Абонементы пользователей"
+
+#: crm/models.py:141
+msgid "Time of the event"
+msgstr "Время проведения"
+
+#: crm/models.py:147 crm/models.py:155
+msgid "Lesson"
+msgstr "Урок"
+
+#: crm/models.py:148
+msgid "Lessons"
+msgstr "Уроки"
+
+#: crm/models.py:162
+msgid "Lesson comment"
+msgstr "Коментарий к уроку"
+
+#: crm/models.py:163
+msgid "Lesson comments"
+msgstr "Коментарии к уроку"
+
+#: crm/models.py:172
+msgid "Admin"
+msgstr "Администратор"
+
+#: crm/models.py:174
+msgid "Amount"
+msgstr "Коментарий к оплате"
+
+#: crm/models.py:180
+msgid "Payment"
+msgstr "Оплата"
+
+#: crm/models.py:181
+msgid "Payments"
+msgstr "Платежи"
+
+#: crm/templates/schedule.html:21
+msgid "Schedule"
+msgstr "Расписание занятий"
+
+#: crm/templates/schedule.html:27
+msgid "Month"
+msgstr "Месяц"
+
+#: crm/templates/schedule.html:36
+msgid "Year"
+msgstr "Год"
+
+#: crm/templates/schedule.html:44
+msgid "Go"
+msgstr ""
+
+#: crm/templates/schedule.html:50
+msgid "Time"
+msgstr "Время"
+
+#: crm/views.py:12
+msgid "Welcome to my CRM system."
+msgstr "Добро пожаловать на мой сайт)) перевод работает"
+
+#: crm/views.py:27
+msgid "Date"
+msgstr "Дата"
+
+#~ msgid "firstname"
+#~ msgstr "Имя"
+
+#~ msgid "lastname"
+#~ msgstr "Фамилия"
+
+#~ msgid "Number of lessons taught"
+#~ msgstr "Колличество проведенных уроков"
+
+#~ msgid "Pupil"
+#~ msgstr "Клиент"

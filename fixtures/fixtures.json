@@ -1,0 +1,983 @@
+[
+  {
+    "model": "crm.place",
+    "pk": 1,
+    "fields": {
+      "name": "Майдан"
+    }
+  },
+  {
+    "model": "crm.place",
+    "pk": 2,
+    "fields": {
+      "name": "Михайловская"
+    }
+  },
+  {
+    "model": "crm.place",
+    "pk": 3,
+    "fields": {
+      "name": "Онлайн"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 1,
+    "fields": {
+      "place": 1,
+      "name": "1-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 2,
+    "fields": {
+      "place": 1,
+      "name": "2-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 3,
+    "fields": {
+      "place": 1,
+      "name": "3-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 4,
+    "fields": {
+      "place": 1,
+      "name": "4-й класс Оранж"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 6,
+    "fields": {
+      "place": 2,
+      "name": "5-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 7,
+    "fields": {
+      "place": 2,
+      "name": "7-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 8,
+    "fields": {
+      "place": 2,
+      "name": "6-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 9,
+    "fields": {
+      "place": 3,
+      "name": "1-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 10,
+    "fields": {
+      "place": 3,
+      "name": "2-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 11,
+    "fields": {
+      "place": 3,
+      "name": "3-й класс"
+    }
+  },
+  {
+    "model": "crm.classroom",
+    "pk": 12,
+    "fields": {
+      "place": 2,
+      "name": "8-й класс"
+    }
+  },
+  {
+    "model": "crm.subject",
+    "pk": 2,
+    "fields": {
+      "name": "Фоно"
+    }
+  },
+  {
+    "model": "crm.subject",
+    "pk": 3,
+    "fields": {
+      "name": "Гитара"
+    }
+  },
+  {
+    "model": "crm.subject",
+    "pk": 5,
+    "fields": {
+      "name": "Духовые"
+    }
+  },
+  {
+    "model": "crm.subject",
+    "pk": 6,
+    "fields": {
+      "name": "Ударные"
+    }
+  },
+  {
+    "model": "crm.subject",
+    "pk": 7,
+    "fields": {
+      "name": "Аренда"
+    }
+  },
+  {
+    "model": "crm.subject",
+    "pk": 9,
+    "fields": {
+      "name": "Вокал"
+    }
+  },
+  {
+    "model": "crm.subject",
+    "pk": 10,
+    "fields": {
+      "name": "Сольфеджио"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 1,
+    "fields": {
+      "subject": 9,
+      "name": "пробный 2019",
+      "status": "ACTIVE",
+      "price": 150.0,
+      "percentage": 50.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.089Z",
+      "updated_at": "2021-08-30T06:53:59.089Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 2,
+    "fields": {
+      "subject": 7,
+      "name": "аренда утро",
+      "status": "ACTIVE",
+      "price": 100.0,
+      "percentage": 0.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 0.0,
+      "created_at": "2021-08-30T06:53:59.091Z",
+      "updated_at": "2021-08-30T06:55:11.568Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 3,
+    "fields": {
+      "subject": 7,
+      "name": "аренда вечер",
+      "status": "ACTIVE",
+      "price": 140.0,
+      "percentage": 0.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 0.0,
+      "created_at": "2021-08-30T06:53:59.092Z",
+      "updated_at": "2021-08-30T06:55:01.441Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 4,
+    "fields": {
+      "subject": 9,
+      "name": "Стандарт 2019 поур",
+      "status": "ACTIVE",
+      "price": 300.0,
+      "percentage": 42.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.094Z",
+      "updated_at": "2021-08-30T06:53:59.094Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 5,
+    "fields": {
+      "subject": 9,
+      "name": "ТОП 2019",
+      "status": "ACTIVE",
+      "price": 2400.0,
+      "percentage": 50.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.095Z",
+      "updated_at": "2021-08-30T06:53:59.095Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 6,
+    "fields": {
+      "subject": 9,
+      "name": "Топ 2019 mini",
+      "status": "ACTIVE",
+      "price": 1200.0,
+      "percentage": 50.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.096Z",
+      "updated_at": "2021-08-30T06:53:59.096Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 7,
+    "fields": {
+      "subject": 9,
+      "name": "Топ 2019 поур",
+      "status": "ACTIVE",
+      "price": 350.0,
+      "percentage": 42.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.097Z",
+      "updated_at": "2021-08-30T06:53:59.097Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 8,
+    "fields": {
+      "subject": 9,
+      "name": "Premium 2019",
+      "status": "ACTIVE",
+      "price": 3200.0,
+      "percentage": 60.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.098Z",
+      "updated_at": "2021-08-30T06:53:59.098Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 9,
+    "fields": {
+      "subject": 9,
+      "name": "Premium 2019 mini",
+      "status": "ACTIVE",
+      "price": 1600.0,
+      "percentage": 60.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.099Z",
+      "updated_at": "2021-08-30T06:53:59.099Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 10,
+    "fields": {
+      "subject": 9,
+      "name": "Premium 2019 поур",
+      "status": "ACTIVE",
+      "price": 450.0,
+      "percentage": 53.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.100Z",
+      "updated_at": "2021-08-30T06:53:59.100Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 11,
+    "fields": {
+      "subject": 9,
+      "name": "Gold Didenko",
+      "status": "ACTIVE",
+      "price": 4000.0,
+      "percentage": 64.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.101Z",
+      "updated_at": "2021-08-30T06:53:59.101Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 12,
+    "fields": {
+      "subject": 9,
+      "name": "mini Gold Didenko",
+      "status": "ACTIVE",
+      "price": 2000.0,
+      "percentage": 64.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.102Z",
+      "updated_at": "2021-08-30T06:53:59.102Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 13,
+    "fields": {
+      "subject": 9,
+      "name": "Gold Didenko поурочно",
+      "status": "ACTIVE",
+      "price": 550.0,
+      "percentage": 58.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.103Z",
+      "updated_at": "2021-08-30T06:53:59.103Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 14,
+    "fields": {
+      "subject": 9,
+      "name": "TOP 2020",
+      "status": "ACTIVE",
+      "price": 2800.0,
+      "percentage": 50.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.104Z",
+      "updated_at": "2021-08-30T06:53:59.104Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 15,
+    "fields": {
+      "subject": 9,
+      "name": "мини TOP 2020",
+      "status": "ACTIVE",
+      "price": 1400.0,
+      "percentage": 50.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.105Z",
+      "updated_at": "2021-08-30T06:53:59.105Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 16,
+    "fields": {
+      "subject": 9,
+      "name": "Топ 20 поурочно",
+      "status": "ACTIVE",
+      "price": 400.0,
+      "percentage": 44.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.106Z",
+      "updated_at": "2021-08-30T06:53:59.106Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 17,
+    "fields": {
+      "subject": 9,
+      "name": "Голд 2020",
+      "status": "ACTIVE",
+      "price": 4000.0,
+      "percentage": 60.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.106Z",
+      "updated_at": "2021-08-30T06:53:59.107Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 18,
+    "fields": {
+      "subject": 9,
+      "name": "Мини Голд 2020",
+      "status": "ACTIVE",
+      "price": 2000.0,
+      "percentage": 60.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.107Z",
+      "updated_at": "2021-08-30T06:53:59.107Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 19,
+    "fields": {
+      "subject": 9,
+      "name": "Голд поурочно 2020",
+      "status": "ACTIVE",
+      "price": 550.0,
+      "percentage": 54.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.108Z",
+      "updated_at": "2021-08-30T06:53:59.108Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 20,
+    "fields": {
+      "subject": 9,
+      "name": "TOP ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 2800.0,
+      "percentage": 80.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.110Z",
+      "updated_at": "2021-08-30T06:53:59.110Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 21,
+    "fields": {
+      "subject": 9,
+      "name": "мини за 1200 ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 1200.0,
+      "percentage": 80.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.112Z",
+      "updated_at": "2021-08-30T06:53:59.112Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 22,
+    "fields": {
+      "subject": 9,
+      "name": "TOP ОНЛАЙН на дому поур",
+      "status": "ACTIVE",
+      "price": 400.0,
+      "percentage": 80.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.113Z",
+      "updated_at": "2021-08-30T06:53:59.113Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 23,
+    "fields": {
+      "subject": 9,
+      "name": "TOP mini ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 1400.0,
+      "percentage": 80.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.114Z",
+      "updated_at": "2021-08-30T06:53:59.114Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 24,
+    "fields": {
+      "subject": 9,
+      "name": "Premium ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 3200.0,
+      "percentage": 80.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.115Z",
+      "updated_at": "2021-08-30T06:53:59.115Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 25,
+    "fields": {
+      "subject": 9,
+      "name": "Premium mini ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 1600.0,
+      "percentage": 80.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.116Z",
+      "updated_at": "2021-08-30T06:53:59.116Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 26,
+    "fields": {
+      "subject": 9,
+      "name": "Premium ОНЛАЙН на дому поурочно",
+      "status": "ACTIVE",
+      "price": 450.0,
+      "percentage": 80.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.117Z",
+      "updated_at": "2021-08-30T06:53:59.117Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 27,
+    "fields": {
+      "subject": 9,
+      "name": "Gold ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 4000.0,
+      "percentage": 80.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.118Z",
+      "updated_at": "2021-08-30T06:53:59.118Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 28,
+    "fields": {
+      "subject": 9,
+      "name": "Gold mini ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 2000.0,
+      "percentage": 80.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.119Z",
+      "updated_at": "2021-08-30T06:53:59.119Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 29,
+    "fields": {
+      "subject": 9,
+      "name": "Gold ОНЛАЙН на дому поурочно",
+      "status": "ACTIVE",
+      "price": 550.0,
+      "percentage": 80.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.119Z",
+      "updated_at": "2021-08-30T06:53:59.119Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 30,
+    "fields": {
+      "subject": 9,
+      "name": "Скидочный топ ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 2400.0,
+      "percentage": 80.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.120Z",
+      "updated_at": "2021-08-30T06:53:59.120Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 31,
+    "fields": {
+      "subject": 9,
+      "name": "Скидочный МИНИ топ ОНЛАЙН на дому",
+      "status": "ACTIVE",
+      "price": 1200.0,
+      "percentage": 80.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.121Z",
+      "updated_at": "2021-08-30T06:53:59.121Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 32,
+    "fields": {
+      "subject": 9,
+      "name": "Premium ОНЛАЙН на дому 450 на 8",
+      "status": "ACTIVE",
+      "price": 3600.0,
+      "percentage": 80.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.122Z",
+      "updated_at": "2021-08-30T06:53:59.122Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 33,
+    "fields": {
+      "subject": 9,
+      "name": "Premium mini ОНЛАЙН 450 на дому МИНИ",
+      "status": "ACTIVE",
+      "price": 1800.0,
+      "percentage": 80.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.123Z",
+      "updated_at": "2021-08-30T06:53:59.123Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 34,
+    "fields": {
+      "subject": 9,
+      "name": "Premium ОНЛАЙН 500 на дому поурочно",
+      "status": "ACTIVE",
+      "price": 500.0,
+      "percentage": 80.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.124Z",
+      "updated_at": "2021-08-30T06:53:59.124Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 35,
+    "fields": {
+      "subject": 9,
+      "name": "Gold ОНЛАЙН 600 на дому на 8",
+      "status": "ACTIVE",
+      "price": 4800.0,
+      "percentage": 80.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.125Z",
+      "updated_at": "2021-08-30T06:53:59.125Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 36,
+    "fields": {
+      "subject": 9,
+      "name": "Gold mini ОНЛАЙН 600 на дому",
+      "status": "ACTIVE",
+      "price": 2400.0,
+      "percentage": 80.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.127Z",
+      "updated_at": "2021-08-30T06:53:59.127Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 37,
+    "fields": {
+      "subject": 9,
+      "name": "Gold ОНЛАЙН 650 на дому поурочно",
+      "status": "ACTIVE",
+      "price": 650.0,
+      "percentage": 80.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.128Z",
+      "updated_at": "2021-08-30T06:53:59.128Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 38,
+    "fields": {
+      "subject": 9,
+      "name": "Премиум 450 на 8",
+      "status": "ACTIVE",
+      "price": 3600.0,
+      "percentage": 60.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.129Z",
+      "updated_at": "2021-08-30T06:53:59.129Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 39,
+    "fields": {
+      "subject": 9,
+      "name": "Премиум 450 мини",
+      "status": "ACTIVE",
+      "price": 1800.0,
+      "percentage": 60.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.130Z",
+      "updated_at": "2021-08-30T06:53:59.130Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 40,
+    "fields": {
+      "subject": 9,
+      "name": "Премиум 500 поурочно",
+      "status": "ACTIVE",
+      "price": 500.0,
+      "percentage": 54.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.131Z",
+      "updated_at": "2021-08-30T06:53:59.131Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 41,
+    "fields": {
+      "subject": 9,
+      "name": "Голд 600 на 8",
+      "status": "ACTIVE",
+      "price": 4800.0,
+      "percentage": 60.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.132Z",
+      "updated_at": "2021-08-30T06:53:59.132Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 42,
+    "fields": {
+      "subject": 9,
+      "name": "Мини Голд 600 на 4",
+      "status": "ACTIVE",
+      "price": 2400.0,
+      "percentage": 60.0,
+      "lessons_qty": 4,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.133Z",
+      "updated_at": "2021-08-30T06:53:59.133Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 43,
+    "fields": {
+      "subject": 9,
+      "name": "Голд поурочно 650",
+      "status": "ACTIVE",
+      "price": 650.0,
+      "percentage": 56.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.134Z",
+      "updated_at": "2021-08-30T06:53:59.134Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 44,
+    "fields": {
+      "subject": 9,
+      "name": "Стандарт на 8 уроков 275",
+      "status": "ACTIVE",
+      "price": 2200.0,
+      "percentage": 50.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.135Z",
+      "updated_at": "2021-08-30T06:53:59.135Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 45,
+    "fields": {
+      "subject": 9,
+      "name": "Стандарт 350 поур",
+      "status": "ACTIVE",
+      "price": 350.0,
+      "percentage": 40.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.136Z",
+      "updated_at": "2021-08-30T06:53:59.136Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 46,
+    "fields": {
+      "subject": 9,
+      "name": "Стандарт на 8 уроков 275 ОНЛАЙН",
+      "status": "ACTIVE",
+      "price": 2200.0,
+      "percentage": 80.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.137Z",
+      "updated_at": "2021-08-30T06:53:59.137Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 47,
+    "fields": {
+      "subject": 9,
+      "name": "Стандарт 350 поур ОНЛАЙН",
+      "status": "ACTIVE",
+      "price": 350.0,
+      "percentage": 80.0,
+      "lessons_qty": 1,
+      "percentage_if_absent": 80.0,
+      "created_at": "2021-08-30T06:53:59.138Z",
+      "updated_at": "2021-08-30T06:53:59.138Z"
+    }
+  },
+  {
+    "model": "crm.subscription",
+    "pk": 48,
+    "fields": {
+      "subject": 9,
+      "name": "Абонемент за 3200 по 50%",
+      "status": "ACTIVE",
+      "price": 3200.0,
+      "percentage": 50.0,
+      "lessons_qty": 8,
+      "percentage_if_absent": 30.0,
+      "created_at": "2021-08-30T06:53:59.139Z",
+      "updated_at": "2021-08-30T06:53:59.139Z"
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Admin",
+      "permissions": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        61,
+        62,
+        63,
+        64,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        33,
+        34,
+        35,
+        36
+      ]
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "Teacher",
+      "permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$ItnZ9x27xPBkmSx1FZKunm$xuLVwfkYsY5ruN06UNRa+emRXRAP8oVcVkcnC6erpCY=",
+      "last_login": "2021-08-30T06:52:02.184Z",
+      "is_superuser": true,
+      "username": "vocalkiev",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2021-08-10T11:50:26.123Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$R7rL3Jv5wwmmJZIuCvdmYO$10+H4XSMpUeWnY8JGjx1zlNhOhQ2+MHcc+qdqVd9O/g=",
+      "last_login": "2021-08-10T11:54:11.491Z",
+      "is_superuser": false,
+      "username": "admin",
+      "first_name": "Администратор",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2021-08-10T11:53:51Z",
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$MNuMUmGWWx5X8LxoMfhIMR$oS9+rEcfvAnlcr9Kg27UBoqew3xUU3IyzWZBtIZlsQM=",
+      "last_login": "2021-08-10T11:55:11.276Z",
+      "is_superuser": false,
+      "username": "teacher",
+      "first_name": "Преподаватель",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2021-08-10T11:54:43Z",
+      "groups": [
+        2
+      ],
+      "user_permissions": []
+    }
+  }
+]
