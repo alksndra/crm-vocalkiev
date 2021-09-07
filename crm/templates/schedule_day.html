@@ -80,11 +80,11 @@
     const $selectPlace = $form.find('[name="place"]').first();
 
     function cellStyleTeacher(value, row, index) {
-        return value ? {classes: 'bg-red'} : {}
+        return value ? {classes: 'bg-warning'} : {}
     }
 
     function cellStyleClient(value, row, index) {
-        return value ? {classes: 'bg-yellow'} : {}
+        return value ? {classes: 'bg-info'} : {}
     }
 
     $(function () {
