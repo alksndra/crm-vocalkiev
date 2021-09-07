@@ -23,5 +23,5 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('', include('crm.urls')),
-    path('/admin/', admin.site.urls),  # admin panel
+    path('admin', admin.site.urls),  # admin panel
 )
