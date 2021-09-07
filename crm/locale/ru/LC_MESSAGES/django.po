@@ -240,8 +240,8 @@ msgid "Time"
 msgstr "Время"
 
 #: crm/views.py:12
-msgid "Welcome to my CRM system."
-msgstr "Добро пожаловать на мой сайт)) перевод работает"
+msgid "Welcome!"
+msgstr "Добро пожаловать!"
 
 #: crm/views.py:27
 msgid "Date"

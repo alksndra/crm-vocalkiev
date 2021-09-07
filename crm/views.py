@@ -9,8 +9,9 @@ from crm.models import Place, Classroom, Lesson
 
 
 def index(request):
-    output = _("Welcome to my CRM system.")
-    return HttpResponse(output)
+    template = loader.get_template('index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 
 
 def schedule_day(request, year=2021, month=0, day=0, place_id=0):

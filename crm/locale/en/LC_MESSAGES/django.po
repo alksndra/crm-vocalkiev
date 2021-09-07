@@ -235,7 +235,7 @@ msgid "Time"
 msgstr ""
 
 #: crm/views.py:12
-msgid "Welcome to my CRM system."
+msgid "Welcome!"
 msgstr ""
 
 #: crm/views.py:27
