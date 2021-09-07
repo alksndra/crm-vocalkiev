@@ -139,6 +139,4 @@ cython_debug/
 
 .idea
 
-static
-
-vocalkiev_com
+/static
