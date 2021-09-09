@@ -80,6 +80,11 @@ class SubscriptionAdmin(ImportExportActionModelAdmin,  admin.ModelAdmin):
 
 
 class LessonAdmin(admin.ModelAdmin):
+    def get_field_queryset(self, db, db_field, request):
+        qs = super().get_field_queryset(db, db_field, request)
+        if db_field.name == 'teacher':
+            qs = UserFullName.objects.filter(groups__name='Teacher')
+        return qs
     list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
     search_fields = ('client_subscription', 'teacher')
 

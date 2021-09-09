@@ -140,7 +140,7 @@ class ClientSubscription(models.Model):
 
 class Lesson(models.Model):
     client_subscription = models.ForeignKey(ClientSubscription, on_delete=models.CASCADE, verbose_name=_('User subscription'))
-    teacher = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('Teacher'))
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Teacher'))
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name=_('Classroom'))
     datetime = models.DateTimeField(_('Time of the event'))
     status = CharField(_('Status'), max_length=10, choices=Status.choices, default=Status.ACTIVE)
@@ -183,7 +183,3 @@ class Payment(models.Model):
     class Meta:
         verbose_name = _('Payment')
         verbose_name_plural = _('Payments')
-
-
-
-
