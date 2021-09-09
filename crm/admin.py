@@ -85,6 +85,15 @@ class LessonAdmin(admin.ModelAdmin):
 
 
 class PaymentAdmin(admin.ModelAdmin):
+    def get_changeform_initial_data(self, request):
+        return {'admin': request.user.pk}
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.admin = request.user
+        super().save_model(request, obj, form, change)
+
+    readonly_fields = 'admin',
     list_display = ('client_subscription', 'admin', 'payment_type', 'amount', 'comment')
     search_fields = ('client_subscription', 'admin')
 

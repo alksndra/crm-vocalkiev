@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import CharField
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.utils.translation import gettext_lazy as _
 
 
@@ -173,7 +173,7 @@ class LessonComment(models.Model):
 
 class Payment(models.Model):
     client_subscription = models.ForeignKey(ClientSubscription, on_delete=models.CASCADE, verbose_name=_('User subscription'))
-    admin = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Admin'))
+    admin = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('Admin'))
     payment_type = CharField(_('Payment type'), max_length=10, choices=PaymentType.choices)
     amount = models.CharField(_('Amount'), max_length=200, blank=True)
     comment = models.TextField(_('Comment'), max_length=200, blank=True)
@@ -183,5 +183,7 @@ class Payment(models.Model):
     class Meta:
         verbose_name = _('Payment')
         verbose_name_plural = _('Payments')
+
+
 
 
