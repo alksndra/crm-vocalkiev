@@ -2,6 +2,21 @@
 
 {% load i18n %}
 
+{% block style %}
+<style>
+    #table .w50, #table .w100, #table td {
+        max-width: 50px;
+        white-space: nowrap;
+        text-overflow: clip;
+        overflow: hidden;
+    }
+
+    #table .w150 {
+        max-width: 150px;
+    }
+</style>
+{% endblock %}
+
 {% block title %}{{ place_name }} {{ day }} {% translate month_name %} {{ year }} {% translate "Schedule" %}{% endblock %}
 
 {% block content %}
@@ -53,15 +68,14 @@
     <thead>
     <tr>
         {% for cr in classrooms %}
-            <th>&nbsp;</th>
-            <th colspan="2">{{ cr.name }}</th>
+            <th colspan="3" class="w150">{{ cr.name }}</th>
         {% endfor %}
     </tr>
     <tr>
         {% for cr in classrooms %}
-            <th data-halign="center" data-field="time">{% translate "Time" %}</th>
-            <th data-field="dcr_{{ cr.id }}_t" data-cell-style="cellStyleTeacher">{% translate "Teacher" %}</th>
-            <th data-field="dcr_{{ cr.id }}_c" data-cell-style="cellStyleClient">{% translate "Client" %}</th>
+            <th data-halign="center" class="w50" data-field="time">{% translate "Time" %}</th>
+            <th data-field="dcr_{{ cr.id }}_t" class="w50" data-cell-style="cellStyleTeacher">{% translate "Teacher" %}</th>
+            <th data-field="dcr_{{ cr.id }}_c" class="w50" data-cell-style="cellStyleClient">{% translate "Client" %}</th>
         {% endfor %}
     </tr>
     </thead>
@@ -94,6 +108,11 @@
             $table.bootstrapTable({
                 data,
                 undefinedText: '',
+            })
+
+            $table.find('td').popover({
+                content: function() { return $(this).text() },
+                placement: 'top'
             })
         } else {
             $table.remove()
