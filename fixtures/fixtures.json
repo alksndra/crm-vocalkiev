@@ -919,7 +919,15 @@
     "pk": 2,
     "fields": {
       "name": "Teacher",
-      "permissions": []
+      "permissions": [
+        8,
+        12,
+        16,
+        37,
+        40,
+        32,
+        28
+      ]
     }
   },
   {
@@ -927,7 +935,7 @@
     "pk": 1,
     "fields": {
       "password": "pbkdf2_sha256$260000$ItnZ9x27xPBkmSx1FZKunm$xuLVwfkYsY5ruN06UNRa+emRXRAP8oVcVkcnC6erpCY=",
-      "last_login": "2021-08-30T06:52:02.184Z",
+      "last_login": "2021-09-10T12:26:49.322Z",
       "is_superuser": true,
       "username": "vocalkiev",
       "first_name": "Суперпользователь",
@@ -965,7 +973,7 @@
     "pk": 3,
     "fields": {
       "password": "pbkdf2_sha256$260000$MNuMUmGWWx5X8LxoMfhIMR$oS9+rEcfvAnlcr9Kg27UBoqew3xUU3IyzWZBtIZlsQM=",
-      "last_login": "2021-08-10T11:55:11.276Z",
+      "last_login": "2021-09-10T12:29:57.981Z",
       "is_superuser": false,
       "username": "teacher",
       "first_name": "Преподаватель",
