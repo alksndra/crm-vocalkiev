@@ -80,16 +80,24 @@ class SubscriptionAdmin(ImportExportActionModelAdmin,  admin.ModelAdmin):
 
 
 class LessonAdmin(admin.ModelAdmin):
+    list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
+    search_fields = ('client_subscription', 'teacher')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     def get_field_queryset(self, db, db_field, request):
         qs = super().get_field_queryset(db, db_field, request)
         if db_field.name == 'teacher':
             qs = UserFullName.objects.filter(groups__name='Teacher')
         return qs
-    list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
-    search_fields = ('client_subscription', 'teacher')
 
 
 class PaymentAdmin(admin.ModelAdmin):
+    readonly_fields = 'admin',
+    list_display = ('client_subscription', 'admin', 'payment_type', 'amount', 'comment')
+    search_fields = ('client_subscription', 'admin')
+
     def get_changeform_initial_data(self, request):
         return {'admin': request.user.pk}
 
@@ -97,10 +105,6 @@ class PaymentAdmin(admin.ModelAdmin):
         if not change:
             obj.admin = request.user
         super().save_model(request, obj, form, change)
-
-    readonly_fields = 'admin',
-    list_display = ('client_subscription', 'admin', 'payment_type', 'amount', 'comment')
-    search_fields = ('client_subscription', 'admin')
 
 
 admin.site.register(Place)
