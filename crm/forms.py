@@ -22,7 +22,7 @@ class LessonAdminForm(forms.ModelForm):
 class PaymentAdminForm(forms.ModelForm):
     class Meta:
         model = Payment
-        fields = '__all__'
+        exclude = 'admin',
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -33,6 +33,3 @@ class PaymentAdminForm(forms.ModelForm):
         if not data.get('amount'):
             data['amount'] = data['client_subscription'].subscription.price
         return data
-
-
-

@@ -105,7 +105,6 @@ class LessonAdmin(admin.ModelAdmin):
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    readonly_fields = 'admin',
     list_display = ('client_subscription', 'admin', 'payment_type', 'amount', 'comment')
     search_fields = ('client_subscription', 'admin')
     form = PaymentAdminForm
