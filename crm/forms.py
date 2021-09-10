@@ -28,4 +28,11 @@ class PaymentAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['amount'].help_text = 'Оплата за указанный абонемент'
 
+    def clean(self):
+        data = self.cleaned_data
+        if not data.get('amount'):
+            data['amount'] = data['client_subscription'].subscription.price
+        return data
+
+
 

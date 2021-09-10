@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import CharField
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 
