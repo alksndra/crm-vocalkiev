@@ -209,7 +209,7 @@ msgstr "Администратор"
 
 #: crm/models.py:174
 msgid "Amount"
-msgstr "Коментарий к оплате"
+msgstr "Сумма к оплате"
 
 #: crm/models.py:180
 msgid "Payment"
