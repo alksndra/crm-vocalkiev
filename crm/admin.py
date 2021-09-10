@@ -4,6 +4,7 @@ from import_export.admin import ImportExportActionModelAdmin
 from import_export import resources
 from import_export.results import RowResult
 from django.utils.translation import gettext_lazy as _
+from .forms import LessonAdminForm
 
 admin.site.site_header = _("vocalkiev.com")
 admin.site.site_title = _("Dashboard")
@@ -81,7 +82,8 @@ class SubscriptionAdmin(ImportExportActionModelAdmin,  admin.ModelAdmin):
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
-    search_fields = ('client_subscription', 'teacher')
+    search_fields = ('client_subscription', 'tform_class = LessonAdminFormeacher')
+    form = LessonAdminForm
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
