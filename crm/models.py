@@ -175,7 +175,7 @@ class Payment(models.Model):
     client_subscription = models.ForeignKey(ClientSubscription, on_delete=models.CASCADE, verbose_name=_('User subscription'))
     admin = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('Admin'))
     payment_type = CharField(_('Payment type'), max_length=10, choices=PaymentType.choices)
-    amount = models.CharField(_('Amount'), max_length=200, blank=True)
+    amount = models.FloatField(_('Amount'), blank=True, default=000)
     comment = models.TextField(_('Comment'), max_length=200, blank=True)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
