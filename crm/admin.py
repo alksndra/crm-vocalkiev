@@ -4,7 +4,7 @@ from import_export.admin import ImportExportActionModelAdmin
 from import_export import resources
 from import_export.results import RowResult
 from django.utils.translation import gettext_lazy as _
-from .forms import LessonAdminForm
+from .forms import LessonAdminForm, PaymentAdminForm
 
 admin.site.site_header = _("vocalkiev.com")
 admin.site.site_title = _("Dashboard")
@@ -73,6 +73,15 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
     list_display = ('subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', 'created_at', 'updated_at')
     search_fields = ('subscription', 'client', 'teacher', 'status',)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_field_queryset(self, db, db_field, request):
+        qs = super().get_field_queryset(db, db_field, request)
+        if db_field.name == 'teacher':
+            qs = UserFullName.objects.filter(groups__name='Teacher')
+        return qs
+
 
 class SubscriptionAdmin(ImportExportActionModelAdmin,  admin.ModelAdmin):
     resource_class = SubscriptionResource
@@ -99,6 +108,7 @@ class PaymentAdmin(admin.ModelAdmin):
     readonly_fields = 'admin',
     list_display = ('client_subscription', 'admin', 'payment_type', 'amount', 'comment')
     search_fields = ('client_subscription', 'admin')
+    form = PaymentAdminForm
 
     def get_changeform_initial_data(self, request):
         return {'admin': request.user.pk}
