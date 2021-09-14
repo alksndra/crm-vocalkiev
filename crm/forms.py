@@ -33,3 +33,14 @@ class PaymentAdminForm(forms.ModelForm):
         if not data.get('amount'):
             data['amount'] = data['client_subscription'].subscription.price
         return data
+
+
+class ClientCommentAdminForm(forms.ModelForm):
+    class Meta:
+        model = ClientComment
+        exclude = 'user',
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
