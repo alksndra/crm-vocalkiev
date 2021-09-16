@@ -19,6 +19,15 @@ class LessonAdminForm(forms.ModelForm):
         return data
 
 
+class PaymentAdminShortForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        fields = ('client_subscription',)
+        widgets = {
+            'client_subscription_id': forms.Select(attrs={'onchange': 'this.form.submit();'})
+        }
+
+
 class PaymentAdminForm(forms.ModelForm):
     class Meta:
         model = Payment
@@ -28,11 +37,11 @@ class PaymentAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['amount'].help_text = 'Оплата за указанный абонемент'
 
-    def clean(self):
+    """def clean(self):
         data = self.cleaned_data
         if not data.get('amount'):
             data['amount'] = data['client_subscription'].subscription.price
-        return data
+        return data"""
 
 
 class ClientCommentAdminForm(forms.ModelForm):
@@ -42,5 +51,7 @@ class ClientCommentAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
 
 
