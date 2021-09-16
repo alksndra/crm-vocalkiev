@@ -82,6 +82,12 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
     list_display = ('subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', 'created_at', 'updated_at')
     search_fields = ('subscription', 'client', 'teacher', 'status',)
 
+    def get_queryset(self, request):
+        qs = super(ClientSubscriptionAdmin, self).get_queryset(request)
+        if request.user.is_superuser or request.user.groups.filter(name='Admin').exists():
+            return qs
+        return qs.filter(teacher=request.user)
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
