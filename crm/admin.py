@@ -78,9 +78,21 @@ class ClassroomAdmin(admin.ModelAdmin):
     search_fields = ('place', 'name')
 
 
+class LessonInline(admin.TabularInline):
+    model = Lesson
+
+
+class PaymentInline(admin.TabularInline):
+    model = Payment
+
+
 class ClientSubscriptionAdmin(admin.ModelAdmin):
     list_display = ('subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', 'created_at', 'updated_at')
     search_fields = ('subscription', 'client', 'teacher', 'status',)
+    inlines = [
+        LessonInline,
+        PaymentInline,
+    ]
 
     def get_queryset(self, request):
         qs = super(ClientSubscriptionAdmin, self).get_queryset(request)
