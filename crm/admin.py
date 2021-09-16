@@ -4,7 +4,7 @@ from import_export.admin import ImportExportActionModelAdmin
 from import_export import resources
 from import_export.results import RowResult
 from django.utils.translation import gettext_lazy as _
-from .forms import LessonAdminForm, ClientCommentAdminForm, PaymentAdminForm
+from .forms import LessonAdminForm, LessonTeacherAdminForm, ClientCommentAdminForm, PaymentAdminForm
 
 admin.site.site_header = _("vocalkiev.com")
 admin.site.site_title = _("Dashboard")
@@ -102,14 +102,7 @@ class LessonAdmin(admin.ModelAdmin):
     list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
     search_fields = ('client_subscription', 'teacher')
     form = LessonAdminForm
-
-    def get_changeform_initial_data(self, request):
-        return {'teacher': request.user.pk}
-
-    def save_model(self, request, obj, form, change):
-        if not change:
-            obj.teacher = request.user
-        super().save_model(request, obj, form, change)
+    form_teacher = LessonTeacherAdminForm
 
     def get_queryset(self, request):
         qs = super(LessonAdmin, self).get_queryset(request)
@@ -124,6 +117,13 @@ class LessonAdmin(admin.ModelAdmin):
         elif db_field.name == 'client_subscription':
             qs = ClientSubscription.objects.filter(teacher=request.user)
         return qs
+
+    def get_form(self, request, obj=None, **kwargs):
+        defaults = {}
+        if request.user.groups.filter(name='Teacher').exists():
+            defaults['form'] = self.form_teacher
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)
 
 
 class PaymentAdmin(admin.ModelAdmin):
