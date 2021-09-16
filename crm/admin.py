@@ -100,16 +100,29 @@ class SubscriptionAdmin(ImportExportActionModelAdmin,  admin.ModelAdmin):
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
-    search_fields = ('client_subscription', 'tform_class = LessonAdminFormeacher')
+    search_fields = ('client_subscription', 'teacher')
     form = LessonAdminForm
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    def get_changeform_initial_data(self, request):
+        return {'teacher': request.user.pk}
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.teacher = request.user
+        super().save_model(request, obj, form, change)
+
+    def get_queryset(self, request):
+        qs = super(LessonAdmin, self).get_queryset(request)
+        if request.user.is_superuser or request.user.groups.filter(name='Admin').exists():
+            return qs
+        return qs.filter(teacher=request.user)
 
     def get_field_queryset(self, db, db_field, request):
         qs = super().get_field_queryset(db, db_field, request)
-        if db_field.name == 'teacher':
-            qs = UserFullName.objects.filter(groups__name='Teacher')
+        if request.user.is_superuser or request.user.groups.filter(name='Admin').exists():
+            return qs
+        elif db_field.name == 'client_subscription':
+            qs = ClientSubscription.objects.filter(teacher=request.user)
         return qs
 
 

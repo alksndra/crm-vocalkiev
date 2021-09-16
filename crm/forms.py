@@ -6,11 +6,10 @@ class LessonAdminForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = '__all__'
+        exclude = 'teacher',
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['teacher'].required = False
-        self.fields['teacher'].help_text = 'Если не ввести имя преподавателя, будет введен преподаватель указанного абонемента'
 
     def clean(self):
         data = self.cleaned_data
