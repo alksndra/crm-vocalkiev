@@ -11,6 +11,23 @@ admin.site.site_title = _("Dashboard")
 admin.site.index_title = _("CRM Dashboard")
 
 
+class ClientCommentInline(admin.StackedInline):
+    model = ClientComment
+
+
+class LessonCommentInline(admin.StackedInline):
+    model = LessonComment
+
+
+class LessonInline(admin.StackedInline):
+    model = Lesson
+
+
+class PaymentInline(admin.StackedInline):
+    model = Payment
+    form = PaymentInlineForm
+
+
 class ClientResource(resources.ModelResource):
     def import_row(self, row, instance_loader, **kwargs):
         import_result = super(ClientResource, self).import_row(row, instance_loader, **kwargs)
@@ -52,9 +69,6 @@ class SubscriptionResource(resources.ModelResource):
         import_id_fields = ['id']
         fields = ('id', 'name', 'price', 'percentage', 'lessons_qty', 'percentage_if_absent', 'created_at', 'updated_at')
 
-
-class ClientCommentInline(admin.StackedInline):
-    model = ClientComment
 
 
 class ClientAdmin(ImportExportActionModelAdmin):
@@ -107,19 +121,6 @@ class ClientCommentAdmin(admin.ModelAdmin):
 class ClassroomAdmin(admin.ModelAdmin):
     list_display = ('place', 'name')
     search_fields = ('place', 'name')
-
-
-class LessonCommentInline(admin.StackedInline):
-    model = LessonComment
-
-
-class LessonInline(admin.StackedInline):
-    model = Lesson
-
-
-class PaymentInline(admin.StackedInline):
-    model = Payment
-    form = PaymentInlineForm
 
 
 class ClientSubscriptionAdmin(admin.ModelAdmin):
