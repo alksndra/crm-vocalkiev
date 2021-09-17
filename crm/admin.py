@@ -4,7 +4,7 @@ from import_export.admin import ImportExportActionModelAdmin
 from import_export import resources
 from import_export.results import RowResult
 from django.utils.translation import gettext_lazy as _
-from .forms import LessonAdminForm, LessonTeacherAdminForm, ClientCommentAdminForm, PaymentAdminForm
+from .forms import *
 
 admin.site.site_header = _("vocalkiev.com")
 admin.site.site_title = _("Dashboard")
@@ -53,10 +53,36 @@ class SubscriptionResource(resources.ModelResource):
         fields = ('id', 'name', 'price', 'percentage', 'lessons_qty', 'percentage_if_absent', 'created_at', 'updated_at')
 
 
+class ClientCommentInline(admin.StackedInline):
+    model = ClientComment
+
+
 class ClientAdmin(ImportExportActionModelAdmin):
     resource_class = ClientResource
     list_display = ('firstname', 'lastname', 'email', 'phone', 'comment', 'updated_at')
     search_fields = ('firstname', 'lastname')
+    inlines = [
+        ClientCommentInline,
+    ]
+
+
+class LessonCommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'lesson', 'comment')
+    search_fields = ('lesson',)
+    form = LessonCommentAdminForm
+
+    def get_changeform_initial_data(self, request):
+        return {'user': request.user.pk}
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+    def has_module_permission(self, request):
+        if request.user.is_superuser:
+            return True
+        return False
 
 
 class ClientCommentAdmin(admin.ModelAdmin):
@@ -72,18 +98,28 @@ class ClientCommentAdmin(admin.ModelAdmin):
             obj.user = request.user
         super().save_model(request, obj, form, change)
 
+    def has_module_permission(self, request):
+        if request.user.is_superuser:
+            return True
+        return False
+
 
 class ClassroomAdmin(admin.ModelAdmin):
     list_display = ('place', 'name')
     search_fields = ('place', 'name')
 
 
-class LessonInline(admin.TabularInline):
+class LessonCommentInline(admin.StackedInline):
+    model = LessonComment
+
+
+class LessonInline(admin.StackedInline):
     model = Lesson
 
 
-class PaymentInline(admin.TabularInline):
+class PaymentInline(admin.StackedInline):
     model = Payment
+    form = PaymentInlineForm
 
 
 class ClientSubscriptionAdmin(admin.ModelAdmin):
@@ -121,6 +157,10 @@ class LessonAdmin(admin.ModelAdmin):
     search_fields = ('client_subscription', 'teacher')
     form = LessonAdminForm
     form_teacher = LessonTeacherAdminForm
+    inlines = [
+        LessonCommentInline,
+    ]
+
 
     def get_queryset(self, request):
         qs = super(LessonAdmin, self).get_queryset(request)
@@ -166,7 +206,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
 admin.site.register(Place)
 admin.site.register(Subject)
-admin.site.register(LessonComment)
+admin.site.register(LessonComment, LessonCommentAdmin)
 admin.site.register(ClientComment, ClientCommentAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Classroom, ClassroomAdmin)

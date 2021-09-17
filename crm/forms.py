@@ -34,6 +34,15 @@ class PaymentAdminForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
 
+class LessonCommentAdminForm(forms.ModelForm):
+    class Meta:
+        model = LessonComment
+        exclude = 'user',
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
 class ClientCommentAdminForm(forms.ModelForm):
     class Meta:
         model = ClientComment
@@ -41,3 +50,14 @@ class ClientCommentAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
+class PaymentInlineForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        exclude = 'admin',
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
