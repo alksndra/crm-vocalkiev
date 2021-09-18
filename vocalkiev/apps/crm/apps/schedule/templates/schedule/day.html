@@ -1,0 +1,173 @@
+{% extends "crm/base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-table.min.css' %}">
+<style>
+    #table .w50, #table .w100, #table td {
+        max-width: 50px;
+        white-space: nowrap;
+        text-overflow: clip;
+        overflow: hidden;
+    }
+
+    #table .w150 {
+        max-width: 150px;
+    }
+
+    #table td {
+        padding-top: 0.1em;
+        padding-bottom: 0.1em;
+    }
+</style>
+{% endblock %}
+
+{% block title %}{{ place_name }} {{ day }} {% translate month_name %} {{ year }} {% translate "Schedule" %}{% endblock %}
+
+{% block content %}
+<form id="form">
+    <label>
+        <select name="year">
+            <option value="0">--{% translate "Year" %}--</option>
+            {% for y in years %}
+                <option value="{{ y }}" {% if y == year %} selected {% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>
+        <select name="month">
+            <option value="0">--{% translate "Month" %}--</option>
+            {% for m in months %}
+                <!-- {% cycle 1 2 3 4 5 6 7 8 9 10 11 12 as mi %} -->
+                <option value="{{ mi }}" {% if mi == month %} selected {% endif %}>{% translate m %}</option>
+            {% endfor %}
+        </select>
+    </label>
+    {% if month %}
+        <label>
+            <select name="day">
+                <option value="0">--{% translate "Day" %}--</option>
+                {% for wd in weekdays %}
+                    <!-- {% cycle 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 as di %} -->
+                    <option value="{{ di }}" {% if di == day %} selected {% endif %}>{{ di }} {% translate wd %}</option>
+                    {% if wd == "Sunday" %}
+                        <option value="" disabled>---</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </label>
+    {% endif %}
+    {% if day %}
+        <label>
+            <select name="place">
+                <option value="0">--{% translate "Place" %}--</option>
+                {% for p in places %}
+                    <option value="{{ p.id }}" {% if p.id == place %} selected {% endif %}>{{ p.name }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    {% endif %}
+</form>
+
+<table id="table" class="table-sm">
+    <thead>
+    <tr>
+        {% for cr in classrooms %}
+            <th colspan="3" class="w150">{{ cr.name }}</th>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for cr in classrooms %}
+            <th data-halign="center" class="w50" data-field="time">{% translate "Time" %}</th>
+            <th data-field="dcr_{{ cr.id }}_t" class="w50" data-cell-style="cellStyleTeacher">{% translate "Teacher" %}</th>
+            <th data-field="dcr_{{ cr.id }}_c" class="w50" data-cell-style="cellStyleClient">{% translate "Client" %}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+</table>
+{% endblock %}
+
+{% block data %}{{ data|json_script:"data" }}{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/bootstrap-table.min.js' %}"></script>
+<script>
+    const $table = $('#table')
+    const $form = $('#form')
+    const $selectMonth = $form.find('[name="month"]').first();
+    const $selectYear = $form.find('[name="year"]').first();
+    const $selectDay = $form.find('[name="day"]').first();
+    const $selectPlace = $form.find('[name="place"]').first();
+
+    function cellStyleTeacher(value, row, index) {
+        return value ? {classes: 'bg-warning'} : {}
+    }
+
+    function cellStyleClient(value, row, index) {
+        return value ? {classes: 'bg-info'} : {}
+    }
+
+    $(function () {
+        const data = JSON.parse(document.getElementById('data').textContent)
+
+        if (data.length) {
+            $table.bootstrapTable({
+                data,
+                undefinedText: '',
+            })
+
+            $table.find('td').popover({
+                content: function() { return $(this).text() },
+                placement: 'top'
+            })
+        } else {
+            $table.remove()
+        }
+
+        $selectYear.change(function() {
+            $form.submit()
+        })
+
+        $selectMonth.change(function() {
+            $form.submit()
+        })
+
+        $selectDay.change(function() {
+            $form.submit()
+        })
+
+        $selectPlace.change(function() {
+            $form.submit()
+        })
+
+        $form.submit(function(e) {
+            e.preventDefault()
+            let url = '/ru/schedule/'
+            const y = $selectYear.val()
+            const m = $selectMonth.val()
+            const d = $selectDay.val()
+            const p = $selectPlace.val()
+
+            if (y > 0) {
+                url += y + '/'
+
+                if (m > 0) {
+                    url += m + '/'
+
+                    if (d > 0) {
+                        url += d + '/'
+
+                        if (p > 0) {
+                            url += p + '/'
+                        }
+                    }
+                }
+            }
+
+            location.href = url
+        })
+    })
+</script>
+{% endblock %}
