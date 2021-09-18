@@ -62,7 +62,7 @@ class LessonAdmin(admin.ModelAdmin):
         return qs
 
 
-teacher_admin_site = TeacherAdminSite()
+teacher_admin_site = TeacherAdminSite(name='teacher')
 
 teacher_admin_site.register(LessonComment, LessonCommentAdmin)
 teacher_admin_site.register(ClientSubscription, ClientSubscriptionAdmin)

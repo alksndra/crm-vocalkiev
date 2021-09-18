@@ -152,7 +152,7 @@ class PaymentAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-administrator_admin_site = AdministratorAdminSite()
+administrator_admin_site = AdministratorAdminSite(name='administrator')
 
 administrator_admin_site.register(Place)
 administrator_admin_site.register(Subject)

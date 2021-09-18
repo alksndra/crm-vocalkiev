@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'vocalkiev.apps.crm.apps.schedule.apps.ScheduleConfig',
     'vocalkiev.apps.crm.apps.administrator.apps.AdministratorConfig',
     'vocalkiev.apps.crm.apps.teacher.apps.TeacherConfig',
-    'vocalkiev.apps.crm.apps.owner.apps.OwnerConfig',
+    'vocalkiev.apps.owner.apps.OwnerConfig',
     'vocalkiev.apps.vocalkiev_com.apps.VocalkievComConfig',
     'django.contrib.admin',
     'django.contrib.auth',

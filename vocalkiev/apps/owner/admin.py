@@ -3,12 +3,15 @@ from import_export.admin import ImportExportActionModelAdmin
 from import_export import resources
 from import_export.results import RowResult
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User, Group
 
 from vocalkiev.apps.crm.models import *
 
-admin.site.site_header = _("CRM")
-admin.site.site_title = _("Owner Dashboard")
-admin.site.index_title = _("CRM Owner Dashboard")
+
+class OwnerAdminSite(admin.AdminSite):
+    site_header = _("CRM")
+    site_title = _("Owner Dashboard")
+    index_title = _("CRM Owner Dashboard")
 
 
 class ModelResource(resources.ModelResource):
@@ -52,13 +55,17 @@ class SubscriptionAdmin(ImportExportActionModelAdmin,  admin.ModelAdmin):
     resource_class = SubscriptionResource
 
 
-admin.site.register(Place)
-admin.site.register(Subject)
-admin.site.register(LessonComment)
-admin.site.register(ClientComment)
-admin.site.register(Client, ClientAdmin)
-admin.site.register(Classroom)
-admin.site.register(ClientSubscription)
-admin.site.register(Subscription, SubscriptionAdmin)
-admin.site.register(Lesson)
-admin.site.register(Payment)
+owner_admin_site = OwnerAdminSite(name='owner')
+
+owner_admin_site.register(Place)
+owner_admin_site.register(Subject)
+owner_admin_site.register(LessonComment)
+owner_admin_site.register(ClientComment)
+owner_admin_site.register(Client, ClientAdmin)
+owner_admin_site.register(Classroom)
+owner_admin_site.register(ClientSubscription)
+owner_admin_site.register(Subscription, SubscriptionAdmin)
+owner_admin_site.register(Lesson)
+owner_admin_site.register(Payment)
+owner_admin_site.register(User)
+owner_admin_site.register(Group)
