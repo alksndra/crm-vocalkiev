@@ -70,7 +70,6 @@ class SubscriptionResource(resources.ModelResource):
         fields = ('id', 'name', 'price', 'percentage', 'lessons_qty', 'percentage_if_absent', 'created_at', 'updated_at')
 
 
-
 class ClientAdmin(ImportExportActionModelAdmin):
     resource_class = ClientResource
     list_display = ('firstname', 'lastname', 'email', 'phone', 'comment', 'updated_at')
