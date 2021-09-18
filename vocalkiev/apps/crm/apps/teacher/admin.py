@@ -33,44 +33,12 @@ class LessonCommentAdmin(admin.ModelAdmin):
         return False
 
 
-class ClientCommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'client', 'comment')
-    search_fields = ('client',)
-    form = ClientCommentAdminForm
-
-    def get_changeform_initial_data(self, request):
-        return {'user': request.user.pk}
-
-    def save_model(self, request, obj, form, change):
-        if not change:
-            obj.user = request.user
-        super().save_model(request, obj, form, change)
-
-    def has_module_permission(self, request):
-        if request.user.is_superuser:
-            return True
-        return False
-
-
 class ClientSubscriptionAdmin(admin.ModelAdmin):
     list_display = ('subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', 'created_at', 'updated_at')
     search_fields = ('subscription', 'client', 'teacher', 'status',)
     inlines = [
         LessonInline,
     ]
-
-    def get_queryset(self, request):
-        qs = super(ClientSubscriptionAdmin, self).get_queryset(request)
-        return qs.filter(teacher=request.user)
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    def get_field_queryset(self, db, db_field, request):
-        qs = super().get_field_queryset(db, db_field, request)
-        if db_field.name == 'teacher':
-            qs = UserFullName.objects.filter(groups__name='Teacher')
-        return qs
 
 
 class LessonAdmin(admin.ModelAdmin):
@@ -93,6 +61,5 @@ class LessonAdmin(admin.ModelAdmin):
 
 
 admin.site.register(LessonComment, LessonCommentAdmin)
-admin.site.register(ClientComment, ClientCommentAdmin)
 admin.site.register(ClientSubscription, ClientSubscriptionAdmin)
 admin.site.register(Lesson, LessonAdmin)
