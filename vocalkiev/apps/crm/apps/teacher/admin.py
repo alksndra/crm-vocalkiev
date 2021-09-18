@@ -3,9 +3,11 @@ from vocalkiev.apps.crm.models import *
 from django.utils.translation import gettext_lazy as _
 from .forms import *
 
-admin.site.site_header = _("vocalkiev.com")
-admin.site.site_title = _("Dashboard")
-admin.site.index_title = _("CRM Dashboard")
+
+class TeacherAdminSite(admin.AdminSite):
+    site_header = _("CRM")
+    site_title = _("Teacher Dashboard")
+    index_title = _("CRM Teacher Dashboard")
 
 
 class LessonCommentInline(admin.StackedInline):
@@ -60,6 +62,8 @@ class LessonAdmin(admin.ModelAdmin):
         return qs
 
 
-admin.site.register(LessonComment, LessonCommentAdmin)
-admin.site.register(ClientSubscription, ClientSubscriptionAdmin)
-admin.site.register(Lesson, LessonAdmin)
+teacher_admin_site = TeacherAdminSite()
+
+teacher_admin_site.register(LessonComment, LessonCommentAdmin)
+teacher_admin_site.register(ClientSubscription, ClientSubscriptionAdmin)
+teacher_admin_site.register(Lesson, LessonAdmin)
