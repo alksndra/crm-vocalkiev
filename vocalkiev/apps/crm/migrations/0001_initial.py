@@ -143,7 +143,7 @@ class Migration(migrations.Migration):
                 ('comment', models.TextField(blank=True, max_length=200, verbose_name='Comment')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Created at')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Updated at')),
-                ('admin', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='crm.userfullname', verbose_name='Admin')),
+                ('administrator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='crm.userfullname', verbose_name='Admin')),
                 ('client_subscription', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='crm.clientsubscription', verbose_name='User subscription')),
             ],
             options={

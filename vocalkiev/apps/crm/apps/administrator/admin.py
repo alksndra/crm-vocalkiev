@@ -1,14 +1,13 @@
 from django.contrib import admin
-from vocalkiev.apps.crm.models import *
 from import_export.admin import ImportExportActionModelAdmin
-from import_export import resources
-from import_export.results import RowResult
 from django.utils.translation import gettext_lazy as _
 from .forms import *
 
-admin.site.site_header = _("vocalkiev.com")
-admin.site.site_title = _("Dashboard")
-admin.site.index_title = _("CRM Dashboard")
+
+class AdministratorAdminSite(admin.AdminSite):
+    site_header = _("CRM")
+    site_title = _("Administrator Dashboard")
+    index_title = _("CRM Administrator Dashboard")
 
 
 class ClientCommentInline(admin.StackedInline):
@@ -28,50 +27,7 @@ class PaymentInline(admin.StackedInline):
     form = PaymentInlineForm
 
 
-class ClientResource(resources.ModelResource):
-    def import_row(self, row, instance_loader, **kwargs):
-        import_result = super(ClientResource, self).import_row(row, instance_loader, **kwargs)
-
-        if import_result.import_type == RowResult.IMPORT_TYPE_ERROR:
-            import_result.diff = [row[val] for val in row]
-            import_result.diff.append('Errors: {}'.format([err.error for err in import_result.errors]))
-            import_result.errors = []
-            import_result.import_type = RowResult.IMPORT_TYPE_SKIP
-
-        return import_result
-
-    class Meta:
-        model = Client
-        skip_unchanged = True
-        report_skipped = True
-        raise_errors = False
-        import_id_fields = ['id']
-        fields = ('id', 'firstname', 'lastname', 'email', 'phone', ' created_at', 'updated_at')
-
-
-class SubscriptionResource(resources.ModelResource):
-    def import_row(self, row, instance_loader, **kwargs):
-        import_result = super(SubscriptionResource, self).import_row(row, instance_loader, **kwargs)
-
-        if import_result.import_type == RowResult.IMPORT_TYPE_ERROR:
-            import_result.diff = [row[val] for val in row]
-            import_result.diff.append('Errors: {}'.format([err.error for err in import_result.errors]))
-            import_result.errors = []
-            import_result.import_type = RowResult.IMPORT_TYPE_SKIP
-
-        return import_result
-
-    class Meta:
-        model = Subscription
-        skip_unchanged = True
-        report_skipped = True
-        raise_errors = False
-        import_id_fields = ['id']
-        fields = ('id', 'name', 'price', 'percentage', 'lessons_qty', 'percentage_if_absent', 'created_at', 'updated_at')
-
-
 class ClientAdmin(ImportExportActionModelAdmin):
-    resource_class = ClientResource
     list_display = ('firstname', 'lastname', 'email', 'phone', 'comment', 'updated_at')
     search_fields = ('firstname', 'lastname')
     inlines = [
@@ -147,7 +103,6 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
 
 
 class SubscriptionAdmin(ImportExportActionModelAdmin,  admin.ModelAdmin):
-    resource_class = SubscriptionResource
     list_display = ('name', 'subject', 'status', 'price', 'percentage', 'lessons_qty', 'percentage_if_absent', 'created_at', 'updated_at')
     search_fields = ('name', 'subject')
 
@@ -160,7 +115,6 @@ class LessonAdmin(admin.ModelAdmin):
     inlines = [
         LessonCommentInline,
     ]
-
 
     def get_queryset(self, request):
         qs = super(LessonAdmin, self).get_queryset(request)
@@ -190,7 +144,7 @@ class PaymentAdmin(admin.ModelAdmin):
     form = PaymentAdminForm
 
     def get_changeform_initial_data(self, request):
-        return {'admin': request.user.pk}
+        return {'administrator': request.user.pk}
 
     def save_model(self, request, obj, form, change):
         if not change:
@@ -198,13 +152,15 @@ class PaymentAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
-admin.site.register(Place)
-admin.site.register(Subject)
-admin.site.register(LessonComment, LessonCommentAdmin)
-admin.site.register(ClientComment, ClientCommentAdmin)
-admin.site.register(Client, ClientAdmin)
-admin.site.register(Classroom, ClassroomAdmin)
-admin.site.register(ClientSubscription, ClientSubscriptionAdmin)
-admin.site.register(Subscription, SubscriptionAdmin)
-admin.site.register(Lesson, LessonAdmin)
-admin.site.register(Payment, PaymentAdmin)
+administrator_admin_site = AdministratorAdminSite(name='administrator')
+
+administrator_admin_site.register(Place)
+administrator_admin_site.register(Subject)
+administrator_admin_site.register(LessonComment, LessonCommentAdmin)
+administrator_admin_site.register(ClientComment, ClientCommentAdmin)
+administrator_admin_site.register(Client, ClientAdmin)
+administrator_admin_site.register(Classroom, ClassroomAdmin)
+administrator_admin_site.register(ClientSubscription, ClientSubscriptionAdmin)
+administrator_admin_site.register(Subscription, SubscriptionAdmin)
+administrator_admin_site.register(Lesson, LessonAdmin)
+administrator_admin_site.register(Payment, PaymentAdmin)
