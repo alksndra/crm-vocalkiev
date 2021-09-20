@@ -19,10 +19,3 @@ class LessonAdminForm(forms.ModelForm):
         return data
 
 
-class LessonCommentAdminForm(forms.ModelForm):
-    class Meta:
-        model = LessonComment
-        exclude = 'user',
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)

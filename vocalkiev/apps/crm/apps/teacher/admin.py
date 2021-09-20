@@ -21,7 +21,6 @@ class LessonInline(admin.StackedInline):
 class LessonCommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'lesson', 'comment')
     search_fields = ('lesson',)
-    form = LessonCommentAdminForm
 
     def get_changeform_initial_data(self, request):
         return {'user': request.user.pk}
@@ -41,7 +40,15 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
     inlines = [
         LessonInline,
     ]
+    def get_queryset(self, request):
+        qs = super(ClientSubscriptionAdmin, self).get_queryset(request)
+        return qs.filter(teacher=request.user)
 
+    def get_field_queryset(self, db, db_field, request):
+        qs = super().get_field_queryset(db, db_field, request)
+        if db_field.name == 'teacher':
+            qs = ClientSubscription.objects.filter(teacher=request.user)
+        return qs
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
