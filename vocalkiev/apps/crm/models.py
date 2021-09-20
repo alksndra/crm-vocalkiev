@@ -168,7 +168,7 @@ class LessonComment(models.Model):
         ordering = ['lesson', 'user']
 
     def __str__(self):
-        return self.lesson
+        return str(self.lesson)
 
 
 class Payment(models.Model):

@@ -40,6 +40,7 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
     inlines = [
         LessonInline,
     ]
+
     def get_queryset(self, request):
         qs = super(ClientSubscriptionAdmin, self).get_queryset(request)
         return qs.filter(teacher=request.user)
@@ -49,6 +50,7 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
         if db_field.name == 'teacher':
             qs = ClientSubscription.objects.filter(teacher=request.user)
         return qs
+
 
 class LessonAdmin(admin.ModelAdmin):
     list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
