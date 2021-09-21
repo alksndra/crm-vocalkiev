@@ -881,7 +881,7 @@
     "model": "auth.group",
     "pk": 1,
     "fields": {
-      "name": "Admin",
+      "name": "Administrator",
       "permissions": [
         45,
         46,
@@ -962,7 +962,7 @@
       "password": "pbkdf2_sha256$260000$R7rL3Jv5wwmmJZIuCvdmYO$10+H4XSMpUeWnY8JGjx1zlNhOhQ2+MHcc+qdqVd9O/g=",
       "last_login": "2021-08-10T11:54:11.491Z",
       "is_superuser": false,
-      "username": "admin",
+      "username": "administrator",
       "first_name": "Администратор",
       "last_name": "",
       "email": "",
