@@ -18,4 +18,3 @@ class LessonAdminForm(forms.ModelForm):
             data['teacher'] = data['client_subscription'].teacher
         return data
 
-

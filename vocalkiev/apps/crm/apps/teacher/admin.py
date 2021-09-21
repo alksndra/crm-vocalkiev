@@ -16,6 +16,7 @@ class LessonCommentInline(admin.StackedInline):
 
 class LessonInline(admin.StackedInline):
     model = Lesson
+    exclude = ('teacher',)
 
 
 class LessonCommentAdmin(admin.ModelAdmin):
@@ -37,6 +38,7 @@ class LessonCommentAdmin(admin.ModelAdmin):
 class ClientSubscriptionAdmin(admin.ModelAdmin):
     list_display = ('subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', 'created_at', 'updated_at')
     search_fields = ('subscription', 'client', 'teacher', 'status',)
+    readonly_fields = ['subscription', 'client', 'teacher', 'status', 'comment', 'payment_type',]
     inlines = [
         LessonInline,
     ]
@@ -50,6 +52,14 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
         if db_field.name == 'teacher':
             qs = ClientSubscription.objects.filter(teacher=request.user)
         return qs
+
+    def save_formset(self, request, form, formset, change):
+        for form_ in formset.forms:
+            obj = form_.save(commit=False)
+            if not obj.pk:
+                obj.teacher = request.user
+            obj.save()
+        formset.save()
 
 
 class LessonAdmin(admin.ModelAdmin):

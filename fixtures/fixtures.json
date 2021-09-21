@@ -920,10 +920,8 @@
     "fields": {
       "name": "Teacher",
       "permissions": [
-        41,
-        42,
-        43,
-        44,
+        60,
+        10,
         12,
         13,
         14,
