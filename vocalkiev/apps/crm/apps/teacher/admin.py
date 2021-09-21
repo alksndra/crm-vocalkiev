@@ -12,11 +12,15 @@ class TeacherAdminSite(admin.AdminSite):
 
 class LessonCommentInline(admin.StackedInline):
     model = LessonComment
+    exclude = ('user',)
 
 
 class LessonInline(admin.StackedInline):
     model = Lesson
     exclude = ('teacher',)
+    initial_num = 1
+    extra = 0
+    min_num = 1
 
 
 class LessonCommentAdmin(admin.ModelAdmin):
@@ -38,7 +42,7 @@ class LessonCommentAdmin(admin.ModelAdmin):
 class ClientSubscriptionAdmin(admin.ModelAdmin):
     list_display = ('subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', 'created_at', 'updated_at')
     search_fields = ('subscription', 'client', 'teacher', 'status',)
-    readonly_fields = ['subscription', 'client', 'teacher', 'status', 'comment', 'payment_type',]
+    readonly_fields = ['subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', ]
     inlines = [
         LessonInline,
     ]
@@ -79,6 +83,14 @@ class LessonAdmin(admin.ModelAdmin):
         if db_field.name == 'client_subscription':
             qs = ClientSubscription.objects.filter(teacher=request.user)
         return qs
+
+    def save_formset(self, request, form, formset, change):
+        for form_ in formset.forms:
+            obj = form_.save(commit=False)
+            if not obj.pk:
+                obj.user = request.user
+            obj.save()
+        formset.save()
 
 
 teacher_admin_site = TeacherAdminSite(name='teacher')
