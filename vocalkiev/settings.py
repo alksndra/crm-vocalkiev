@@ -141,3 +141,5 @@ PROJECT_DIR = os.path.abspath(os.path.dirname('fixtures'))
 FIXTURE_DIRS = (
    os.path.join(PROJECT_DIR, 'fixtures'),
 )
+
+LOGIN_URL = 'ru/login/'

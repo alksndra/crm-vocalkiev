@@ -51,8 +51,7 @@ and reboot App
 python3 -m venv vocalkiev-crm-django-env
 cd vocalkiev-crm-django-env/
 source bin/activate
-python -m pip install Django
-python -m pip install django-import-export
+python -m pip install -r requirements.txt
 git clone git@github.com:lobanov-oleh/vocalkiev-crm-django.git
 cd vocalkiev-crm-django/
 ```
