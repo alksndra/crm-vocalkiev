@@ -68,7 +68,7 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
 
 
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('client_subscription', 'teacher', 'classroom', 'datetime', 'status')
+    list_display = ('client_subscription', 'teacher', 'classroom', 'datetime')
     search_fields = ('client_subscription', 'teacher')
     form = LessonAdminForm
     inlines = [
@@ -95,7 +95,7 @@ class LessonAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         if obj and obj.datetime < timezone.now():
-            return 'client_subscription', 'classroom', 'datetime', 'status'
+            return 'client_subscription', 'classroom', 'datetime'
         return super().get_readonly_fields(request, obj)
 
 

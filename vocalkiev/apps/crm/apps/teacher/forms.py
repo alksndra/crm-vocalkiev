@@ -6,6 +6,8 @@ class LessonAdminForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = '__all__'
+        exclude = ('status',)
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,4 +19,5 @@ class LessonAdminForm(forms.ModelForm):
         if not data.get('teacher'):
             data['teacher'] = data['client_subscription'].teacher
         return data
+
 
