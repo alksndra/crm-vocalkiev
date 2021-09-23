@@ -2,6 +2,7 @@ from django.contrib import admin
 from vocalkiev.apps.crm.models import *
 from django.utils.translation import gettext_lazy as _
 from .forms import *
+from django.utils import timezone
 
 
 class TeacherAdminSite(admin.AdminSite):
@@ -91,6 +92,11 @@ class LessonAdmin(admin.ModelAdmin):
                 obj.user = request.user
             obj.save()
         formset.save()
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj and obj.datetime < timezone.now():
+            return 'client_subscription', 'classroom', 'datetime', 'status'
+        return super().get_readonly_fields(request, obj)
 
 
 teacher_admin_site = TeacherAdminSite(name='teacher')

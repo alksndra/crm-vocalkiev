@@ -18,3 +18,9 @@ class LessonAdminForm(forms.ModelForm):
             data['teacher'] = data['client_subscription'].teacher
         return data
 
+
+class LessonAdminBaseForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        exclude = ('teacher',)
+

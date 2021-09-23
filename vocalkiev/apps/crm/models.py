@@ -150,6 +150,7 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = _('Lesson')
         verbose_name_plural = _('Lessons')
+        ordering = ['datetime']
 
     def __str__(self):
         return f"{self.client_subscription}, {self.teacher}, {self.classroom}"
