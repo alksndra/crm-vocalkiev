@@ -153,7 +153,7 @@ class Lesson(models.Model):
         ordering = ['datetime']
 
     def __str__(self):
-        return f"{self.client_subscription}, {self.teacher}, {self.classroom}"
+        return f"{self.client_subscription.client.get_full_name()}, {self.teacher}, {self.classroom}"
 
 
 class LessonComment(models.Model):

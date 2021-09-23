@@ -8,7 +8,6 @@ class LessonAdminForm(forms.ModelForm):
         fields = '__all__'
         exclude = ('status',)
 
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['teacher'].widget = forms.HiddenInput()
