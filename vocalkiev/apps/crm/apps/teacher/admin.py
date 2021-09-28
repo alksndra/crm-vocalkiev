@@ -1,8 +1,9 @@
 from django.contrib import admin
-from vocalkiev.apps.crm.models import *
 from django.utils.translation import gettext_lazy as _
-from .forms import *
-from django.utils import timezone
+import nested_admin
+from vocalkiev.apps.crm.models import LessonComment, Lesson, ClientSubscription
+from django.db import models
+from django.forms import Textarea, HiddenInput
 
 
 class TeacherAdminSite(admin.AdminSite):
@@ -11,36 +12,41 @@ class TeacherAdminSite(admin.AdminSite):
     index_title = _("CRM Teacher Dashboard")
 
 
-class LessonCommentInline(admin.StackedInline):
+class LessonCommentInline(nested_admin.NestedStackedInline):
     model = LessonComment
+    fk_name = 'lesson'
     exclude = ('user',)
-
-
-class LessonInline(admin.StackedInline):
-    model = Lesson
-    exclude = ('teacher',)
-    initial_num = 1
+    initial_num = 0
     extra = 0
-    min_num = 1
+    min_num = 0
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows': 2})},
+    }
 
+    def has_change_permission(self, request, obj=None):
+        return False
 
-class LessonCommentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'lesson', 'comment')
-    search_fields = ('lesson',)
-
-    def get_changeform_initial_data(self, request):
-        return {'user': request.user.pk}
-
-    def save_model(self, request, obj, form, change):
-        if not change:
-            obj.user = request.user
-        super().save_model(request, obj, form, change)
-
-    def has_module_permission(self, request):
+    def has_delete_permission(self, request, obj=None):
         return False
 
 
-class ClientSubscriptionAdmin(admin.ModelAdmin):
+class LessonInline(nested_admin.NestedStackedInline):
+    model = Lesson
+    fk_name = 'client_subscription'
+    exclude = ('teacher', 'status',)
+    initial_num = 1
+    extra = 0
+    min_num = 1
+    inlines = [LessonCommentInline]
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class ClientSubscriptionAdmin(nested_admin.NestedModelAdmin):
     list_display = ('subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', 'created_at', 'updated_at')
     search_fields = ('subscription', 'client', 'teacher', 'status',)
     readonly_fields = ['subscription', 'client', 'teacher', 'status', 'comment', 'payment_type', ]
@@ -52,55 +58,23 @@ class ClientSubscriptionAdmin(admin.ModelAdmin):
         qs = super(ClientSubscriptionAdmin, self).get_queryset(request)
         return qs.filter(teacher=request.user)
 
-    def get_field_queryset(self, db, db_field, request):
-        qs = super().get_field_queryset(db, db_field, request)
-        if db_field.name == 'teacher':
-            qs = ClientSubscription.objects.filter(teacher=request.user)
-        return qs
+    def save_related(self, request, form, formsets, change):
+        for formset in formsets:
+            if formset.model == Lesson:
+                lessons = formset.save(commit=False)
+                for lesson in lessons:
+                    if not lesson.pk:
+                        lesson.teacher = request.user
+                    lesson.save()
 
-    def save_formset(self, request, form, formset, change):
-        for form_ in formset.forms:
-            obj = form_.save(commit=False)
-            if not obj.pk:
-                obj.teacher = request.user
-            obj.save()
-        formset.save()
-
-
-class LessonAdmin(admin.ModelAdmin):
-    list_display = ('client_subscription', 'teacher', 'classroom', 'datetime')
-    search_fields = ('client_subscription', 'teacher')
-    form = LessonAdminForm
-    inlines = [
-        LessonCommentInline,
-    ]
-
-    def get_queryset(self, request):
-        qs = super(LessonAdmin, self).get_queryset(request)
-        return qs.filter(teacher=request.user)
-
-    def get_field_queryset(self, db, db_field, request):
-        qs = super().get_field_queryset(db, db_field, request)
-        if db_field.name == 'client_subscription':
-            qs = ClientSubscription.objects.filter(teacher=request.user)
-        return qs
-
-    def save_formset(self, request, form, formset, change):
-        for form_ in formset.forms:
-            obj = form_.save(commit=False)
-            if not obj.pk:
-                obj.user = request.user
-            obj.save()
-        formset.save()
-
-    def get_readonly_fields(self, request, obj=None):
-        if obj and obj.datetime < timezone.now():
-            return 'client_subscription', 'classroom', 'datetime'
-        return super().get_readonly_fields(request, obj)
+            if formset.model == LessonComment:
+                comments = formset.save(commit=False)
+                for comment in comments:
+                    if not comment.pk:
+                        comment.user = request.user
+                    comment.save()
 
 
 teacher_admin_site = TeacherAdminSite(name='teacher')
 
-teacher_admin_site.register(LessonComment, LessonCommentAdmin)
 teacher_admin_site.register(ClientSubscription, ClientSubscriptionAdmin)
-teacher_admin_site.register(Lesson, LessonAdmin)

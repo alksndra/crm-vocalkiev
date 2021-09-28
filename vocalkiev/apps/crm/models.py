@@ -85,7 +85,7 @@ class Classroom(models.Model):
         ordering = ['place', 'name']
 
     def __str__(self):
-        return f"{self.name}, {self.place}"
+        return f"{self.place} {self.name}"
 
 
 class Subject(models.Model):
@@ -153,7 +153,9 @@ class Lesson(models.Model):
         ordering = ['datetime']
 
     def __str__(self):
-        return f"{self.client_subscription.client.get_full_name()}, {self.teacher}, {self.classroom}"
+        client = self.client_subscription.client.get_full_name()
+        dt = self.datetime.strftime('%d.%m.%Y %H:%M')
+        return f"{client} - {self.teacher}, {self.classroom}, {dt}"
 
 
 class LessonComment(models.Model):
@@ -169,7 +171,9 @@ class LessonComment(models.Model):
         ordering = ['lesson', 'user']
 
     def __str__(self):
-        return str(self.lesson)
+        dt = self.lesson.datetime.strftime('%d.%m.%Y %H:%M')
+        classroom = self.lesson.classroom
+        return f"{classroom} {dt}, {self.user}: {self.comment}"
 
 
 class Payment(models.Model):
