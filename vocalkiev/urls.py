@@ -12,6 +12,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('', include('vocalkiev.apps.vocalkiev_com.urls')),
+    path('report_builder/', include('report_builder.urls')),
     path('owner/',
          decorator_include(user_passes_test(lambda u: u.is_superuser, login_url=f'/{LOGIN_URL}'),
                            owner_admin_site.urls)
