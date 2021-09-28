@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 import nested_admin
 from vocalkiev.apps.crm.models import LessonComment, Lesson, ClientSubscription
 from django.db import models
-from django.forms import Textarea, HiddenInput
+from django.forms import Textarea
 
 
 class TeacherAdminSite(admin.AdminSite):
