@@ -106,7 +106,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Kiev'
+
+LOCALE_PATHS = [
+    str(BASE_DIR / 'locale')
+]
 
 USE_I18N = True
 
