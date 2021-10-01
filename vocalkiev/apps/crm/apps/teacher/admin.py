@@ -23,6 +23,11 @@ class LessonInline(admin.StackedInline):
     extra = 0
     min_num = 1
 
+    def get_readonly_fields(self, request, obj=None):
+        if obj and obj.datetime < timezone.now():
+            return 'client_subscription', 'classroom', 'datetime'
+        return super().get_readonly_fields(request, obj)
+
 
 class LessonCommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'lesson', 'comment')
