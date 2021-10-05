@@ -45,8 +45,11 @@ class LessonCommentInline(EmptyInline):
 class LessonInline(EmptyInline):
     model = models.Lesson
     fk_name = 'client_subscription'
-    exclude = ('creator', 'status',)
+    exclude = ('creator', 'status', 'teacher', 'classroom', 'datetime',)
     inlines = [LessonCommentInline]
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 class ClientSubscriptionInline(EmptyInline):
@@ -58,7 +61,7 @@ class ClientSubscriptionInline(EmptyInline):
     exclude = ('creator', 'status',)
     inlines = [
         LessonInline,
-        PaymentInline,
+        # PaymentInline,
     ]
 
     def get_field_queryset(self, db, db_field, request):
@@ -73,6 +76,12 @@ class ClientAdmin(BaseForm, nested_admin.NestedModelAdmin):
         ClientCommentInline,
         ClientSubscriptionInline
     ]
+
+    class Media:
+        css = {
+            "all": ('crm/administrator/style.css',)
+        }
+        js = ('js/jquery-3.5.1.slim.min.js', 'crm/administrator/script.js',)
 
 
 administrator_admin_site = AdministratorAdminSite(name='administrator')

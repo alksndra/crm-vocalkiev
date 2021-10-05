@@ -155,7 +155,7 @@ class LessonComment(Model):
         verbose_name_plural = _('Lesson comments')
 
     def __str__(self):
-        dt = self.created_at.strftime('%d.%m.%Y %H:%M:%s')
+        dt = self.created_at.strftime('%d.%m.%Y %H:%M:%S')
         return f"{dt} {self.creator}: {self.comment}"
 
 
