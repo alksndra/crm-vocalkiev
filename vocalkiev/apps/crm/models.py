@@ -1,19 +1,16 @@
 from django.db import models
-from django.db.models import CharField
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as AuthUser
 from django.utils.translation import gettext_lazy as _
 
 
-class UserFullName(User):
+class User(AuthUser):
     class Meta:
         proxy = True
-
-    def get_full_name(self):
-        full_name = '%s %s' % (self.first_name, self.last_name)
-        return full_name.strip()
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
 
     def __str__(self):
-        return f"{self.get_full_name()}"
+        return ('%s %s' % (self.first_name, self.last_name)).strip()
 
 
 class Status(models.TextChoices):
@@ -26,159 +23,147 @@ class PaymentType(models.TextChoices):
     CARD = 'CARD', _('CARD')
 
 
-class Client(models.Model):
-    firstname = models.CharField(_('First name'), blank=True, max_length=64)
-    lastname = models.CharField(_('Last name'), blank=True, max_length=64, default='')
-    email = models.EmailField(_('Email'), blank=True, default='')
-    phone = models.CharField(_('Phone number'), blank=True, max_length=20, default='')
-    comment = models.TextField(_('Comment'), max_length=500, blank=True, default='')
-    created_at = models.DateTimeField(_('Created'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated'), auto_now=True)
+class Model(models.Model):
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.ACTIVE)
+    creator = models.ForeignKey(
+        User,
+        models.CASCADE,
+        related_name="%(app_label)s_%(class)s_related"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Client(Model):
+    first_name = models.CharField(blank=True, max_length=64)
+    last_name = models.CharField(blank=True, max_length=64, default='')
+    email = models.EmailField(blank=True)
+    phone = models.CharField(blank=True, max_length=20)
+    comment = models.TextField(blank=True)
 
     class Meta:
         verbose_name = _('Client')
         verbose_name_plural = _('Clients')
-        ordering = ['lastname', 'firstname']
-
-    def get_full_name(self):
-        full_name = '%s %s' % (self.firstname, self.lastname)
-        return full_name.strip()
 
     def __str__(self):
-        return f"{self.get_full_name()}"
+        return ('%s %s' % (self.first_name, self.last_name)).strip()
 
 
-class ClientComment(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name=_('Client'))
-    user = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('User'))
-    comment = models.TextField(_('Comment'), max_length=200, blank=True, default='')
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+class ClientComment(Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    comment = models.TextField(max_length=200, blank=True, default='')
 
     class Meta:
         verbose_name = _('Client Comment')
         verbose_name_plural = _('Client Comments')
 
     def __str__(self):
-        return f"{self.client}, {self.user}, {self.comment}"
+        dt = self.created_at.strftime('%d.%m.%Y %H:%M')
+        return f"{dt} {self.creator}: {self.comment}"
 
 
-class Place(models.Model):
-    name = models.CharField(_('Name'), max_length=64)
+class Place(Model):
+    name = models.CharField(max_length=64)
 
     class Meta:
         verbose_name = _('Place')
         verbose_name_plural = _('Places')
-        ordering = ['name']
 
     def __str__(self):
         return self.name
 
 
-class Classroom(models.Model):
-    place = models.ForeignKey(Place, on_delete=models.CASCADE, verbose_name=_('Place'))
-    name = models.CharField(_('Name'), max_length=64)
+class Classroom(Model):
+    place = models.ForeignKey(Place, models.CASCADE)
+    name = models.CharField(max_length=64)
 
     class Meta:
         verbose_name = _('Classroom')
         verbose_name_plural = _('Classrooms')
-        ordering = ['place', 'name']
 
     def __str__(self):
-        return f"{self.name}, {self.place}"
+        return f"{self.place} {self.name}"
 
 
-class Subject(models.Model):
-    name = models.CharField(_('Name'), max_length=64)
+class Subject(Model):
+    name = models.CharField(max_length=64)
 
     class Meta:
         verbose_name = _('Subject')
         verbose_name_plural = _('Subjects')
-        ordering = ['name']
 
     def __str__(self):
         return self.name
 
 
-class Subscription(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, primary_key=False, verbose_name=_('Subject'), default=9, related_name='subjects')
-    name = models.CharField(_('First name'), max_length=64)
-    status = CharField(_('Status'), max_length=10, choices=Status.choices, default=Status.ACTIVE)
-    price = models.FloatField(_('Price'), blank=True, default=000)
-    percentage = models.FloatField(_('Percentage'), blank=True, default=000)
-    lessons_qty = models.IntegerField(_('lessons_qty'), default=0)  # number of lessons per subscription
-    percentage_if_absent = models.FloatField(_('Percentage if absent'), blank=True, default=000)  # percentage when the student does not appear
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+class Subscription(Model):
+    subject = models.ForeignKey(Subject, models.CASCADE)
+    name = models.CharField(max_length=64)
+    price = models.FloatField(default=0)
+    percentage = models.FloatField(default=0)
+    lessons_qty = models.IntegerField(default=0)
+    percentage_if_absent = models.FloatField(default=0)
 
     class Meta:
         verbose_name = _('Subscription')
         verbose_name_plural = _('Subscriptions')
-        ordering = ['name']
 
     def __str__(self):
-        return str(self.price) + '-' + str(self.name)
+        return f"{self.subject} {self.name} ({self.price}{_('uah')})"
 
 
-class ClientSubscription(models.Model):
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, verbose_name=_('Subscription'))
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, verbose_name=_('Client'))
-    teacher = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('Teacher'))
-    status = CharField(_('Status'), max_length=10, choices=Status.choices, default=Status.ACTIVE)
-    comment = models.TextField(_('Comment'), max_length=500, blank=True)
-    payment_type = CharField(_('Payment type'), max_length=10, choices=PaymentType.choices)
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+class ClientSubscription(Model):
+    subscription = models.ForeignKey(Subscription, models.CASCADE)
+    client = models.ForeignKey(Client, models.CASCADE)
+    teacher = models.ForeignKey(User, models.CASCADE, related_name='subscription_teacher')
+    comment = models.TextField(max_length=500, blank=True)
+    payment_type = models.CharField(max_length=10, choices=PaymentType.choices)
 
     class Meta:
-        verbose_name = _('User subscription')
-        verbose_name_plural = _('Users subscriptions')
+        verbose_name = _('Client Subscription')
+        verbose_name_plural = _('Client Subscriptions')
 
     def __str__(self):
-        return str(self.client) + ' - ' + str(self.subscription)
+        return f"{self.client}, {self.subscription}"
 
 
-class Lesson(models.Model):
-    client_subscription = models.ForeignKey(ClientSubscription, on_delete=models.CASCADE, verbose_name=_('User subscription'))
-    teacher = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('Teacher'))
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, verbose_name=_('Classroom'))
+class Lesson(Model):
+    client_subscription = models.ForeignKey(ClientSubscription, models.CASCADE)
+    teacher = models.ForeignKey(User, models.CASCADE, related_name='lesson_teacher')
+    classroom = models.ForeignKey(Classroom, models.CASCADE)
     datetime = models.DateTimeField(_('Time of the event'))
-    status = CharField(_('Status'), max_length=10, choices=Status.choices, default=Status.ACTIVE)
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
 
     class Meta:
         verbose_name = _('Lesson')
         verbose_name_plural = _('Lessons')
 
     def __str__(self):
-        return f"{self.client_subscription}, {self.teacher}, {self.classroom}"
+        client = self.client_subscription.client
+        dt = self.datetime.strftime('%d.%m.%Y %H:%M')
+        return f"{client} / {self.teacher}, {self.classroom}, {dt}"
 
 
-class LessonComment(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name=_('Lesson'))
-    user = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('User'))
-    comment = models.TextField(_('Comment'), max_length=500, blank=True)
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+class LessonComment(Model):
+    lesson = models.ForeignKey(Lesson, models.CASCADE)
+    comment = models.TextField(max_length=500, blank=True)
 
     class Meta:
         verbose_name = _('Lesson comment')
         verbose_name_plural = _('Lesson comments')
-        ordering = ['lesson', 'user']
 
     def __str__(self):
-        return self.lesson
+        dt = self.created_at.strftime('%d.%m.%Y %H:%M:%S')
+        return f"{dt} {self.creator}: {self.comment}"
 
 
-class Payment(models.Model):
-    client_subscription = models.ForeignKey(ClientSubscription, on_delete=models.CASCADE, verbose_name=_('User subscription'))
-    admin = models.ForeignKey(UserFullName, on_delete=models.CASCADE, verbose_name=_('Admin'))
-    payment_type = CharField(_('Payment type'), max_length=10, choices=PaymentType.choices)
-    amount = models.FloatField(_('Amount'), blank=True, default=000)
-    comment = models.TextField(_('Comment'), max_length=200, blank=True)
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('Updated at'), auto_now=True)
+class Payment(Model):
+    client_subscription = models.ForeignKey(ClientSubscription, models.CASCADE)
+    payment_type = models.CharField(max_length=10, choices=PaymentType.choices)
+    amount = models.FloatField(blank=True, default=000)
+    comment = models.TextField(max_length=200, blank=True)
 
     class Meta:
         verbose_name = _('Payment')
