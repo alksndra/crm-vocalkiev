@@ -1,0 +1,5 @@
+.has_original > h3> b,
+.has_original > fieldset
+{
+  display: none;
+}
