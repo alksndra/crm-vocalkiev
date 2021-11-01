@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models import CharField
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-from datetime import datetime
 
 
 class UserFullName(User):
@@ -151,10 +150,9 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = _('Lesson')
         verbose_name_plural = _('Lessons')
-        ordering = ['datetime']
 
     def __str__(self):
-        return f"{self.client_subscription.client.get_full_name()}, {self.teacher}, {self.classroom}, {self.datetime.strftime('%Y-%m-%d %H:%M')}"
+        return f"{self.client_subscription}, {self.teacher}, {self.classroom}"
 
 
 class LessonComment(models.Model):
@@ -170,7 +168,7 @@ class LessonComment(models.Model):
         ordering = ['lesson', 'user']
 
     def __str__(self):
-        return str(self.lesson)
+        return self.lesson
 
 
 class Payment(models.Model):
