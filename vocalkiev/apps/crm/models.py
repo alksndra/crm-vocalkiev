@@ -135,6 +135,7 @@ class Lesson(Model):
     teacher = models.ForeignKey(User, models.CASCADE, related_name='lesson_teacher')
     classroom = models.ForeignKey(Classroom, models.CASCADE)
     datetime = models.DateTimeField(_('Time of the event'))
+    is_passed = models.BooleanField(_('Is passed'), default=False)
 
     class Meta:
         verbose_name = _('Lesson')
