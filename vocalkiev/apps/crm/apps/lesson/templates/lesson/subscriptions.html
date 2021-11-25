@@ -7,10 +7,14 @@
 
 {% block content %}
 <div class="container">
-    <h2>{% translate "Client Subscriptions" %}</h2>
+    <h1>{% translate "Client Subscriptions" %}</h1>
     <ul>
         {% for cs in client_subscriptions %}
-        <li><a href="{% url 'crm-lesson' %}{{ cs.id }}">{{ cs }}</a></li>
+        <li>
+            {{ cs.created_at }}: <a href="{% url 'crm-subscription-lessons' cs.id %}">{{ cs }}</a>
+            <br>
+            {% translate "Lessons" %}: {{ cs.lesson_set.count }} / {{ cs.subscription.lessons_qty }}
+        </li>
         {% endfor %}
     </ul>
 </div>
