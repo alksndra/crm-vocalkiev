@@ -1,0 +1,14 @@
+{% load add_classes %}
+
+<div class="form-group">
+    {% if field.errors %}
+        <div class="alert alert-danger">{{ field.errors }}</div>
+    {% endif %}
+    <!-- {{ field.label_tag }} -->
+    <div class="form-row">
+        {{ field|add_classes:'form-control col' }}
+    </div>
+    {% if field.help_text %}
+    <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+    {% endif %}
+</div>

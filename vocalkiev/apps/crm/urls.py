@@ -17,6 +17,7 @@ def only_in_group(group_name):
 urlpatterns = [
     path('', views.index),
     path('schedule/', include('vocalkiev.apps.crm.apps.schedule.urls')),
+    path('lesson/', include('vocalkiev.apps.crm.apps.lesson.urls')),
     path('administrator/',
          decorator_include(only_in_group('Administrator'),
                            administrator_admin_site.urls)

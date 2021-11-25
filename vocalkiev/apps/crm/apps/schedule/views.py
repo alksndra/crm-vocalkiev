@@ -42,7 +42,7 @@ def schedule_day(request, year=2021, month=0, day=0, place_id=0):
             row = {'time': str(t) + ':00'}
             for lesson in lessons.filter(datetime__hour=t):
                 row['dcr_' + str(lesson.classroom.id) + '_t'] = lesson.teacher.get_full_name()
-                row['dcr_' + str(lesson.classroom.id) + '_c'] = lesson.client_subscription.client.get_full_name()
+                row['dcr_' + str(lesson.classroom.id) + '_c'] = lesson.client_subscription.client.__str__()
             data.append(row)
 
     template = loader.get_template('schedule/day.html')
