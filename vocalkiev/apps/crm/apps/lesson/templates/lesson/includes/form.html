@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col">
-        <form action="{% url 'crm-lesson' %}{{ client_subscription.id }}/" method="post">
+        <form action="{% url 'crm-create-lesson' client_subscription.id %}" method="post">
             {% csrf_token %}
 
             {% for hidden in form.hidden_fields %}

@@ -50,6 +50,7 @@ def create_lesson(request, client_subscription_id):
                     if classroom_form.is_valid():
                         date_hour = classroom_form.cleaned_data['date_hour']
                         classroom_id = classroom_form.cleaned_data['classroom']
+                        teacher = classroom_form.cleaned_data['teacher']
 
                         if classroom_id:
                             classroom = get_object_or_404(Classroom, pk=classroom_id)
@@ -63,6 +64,10 @@ def create_lesson(request, client_subscription_id):
                                 teacher=request.user,
                                 datetime=dt,
                             )
+
+                            if teacher:
+                                new_lesson.teacher = teacher
+
                             new_lesson.save()
 
                             return redirect('crm-schedule-day',
@@ -98,7 +103,10 @@ def pass_lesson(request, lesson_id):
     if request.method == 'POST':
         pass_lesson_form = PassLessonForm(request.POST)
         if pass_lesson_form.is_valid():
+            was_absent = pass_lesson_form.cleaned_data['was_absent']
+
             lesson.is_passed = True
+            lesson.was_absent = was_absent
             lesson.save()
 
             new_comment = LessonComment.objects.create(

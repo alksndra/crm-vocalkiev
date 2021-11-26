@@ -4,7 +4,10 @@ from datetime import datetime
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from vocalkiev.apps.crm.models import Place, Lesson, Classroom
+from vocalkiev.apps.crm.models import Place, Lesson, Classroom, User
+
+
+teachers = User.objects.filter(groups__name='Teacher')
 
 
 class PlaceDateForm(forms.Form):
@@ -46,6 +49,7 @@ class ClassroomForm(forms.Form):
     date_year = forms.IntegerField(widget=forms.HiddenInput())
     date_hour = forms.IntegerField(widget=forms.HiddenInput())
     classroom = forms.ChoiceField(label=_('Classroom'), required=False)
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers, required=False)
 
     def __init__(self, data=None, *args, **kwargs):
         super(ClassroomForm, self).__init__(data, *args, **kwargs)
@@ -69,6 +73,7 @@ class ClassroomForm(forms.Form):
 
 class PassLessonForm(forms.Form):
     comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}))
+    was_absent = forms.BooleanField(label=_('Was absent'), initial=False)
 
 
 class LessonReportsForm(forms.Form):

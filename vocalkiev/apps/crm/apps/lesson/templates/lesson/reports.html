@@ -24,6 +24,7 @@
     <tr>
         <th scope="col">#</th>
         <th scope="col">{% translate "Lesson" %}</th>
+        <th scope="col">{% translate "Was absent" %}</th>
         <th scope="col">{% translate "Amount" %}</th>
     </tr>
     </thead>
@@ -33,6 +34,7 @@
     <tr>
         <th scope="row">{{ l.id }}</th>
         <td>{{ l }}</td>
+        <td>{% if l.was_absent %}+{% endif %}</td>
         <td>{{ l.teacher_amount }}</td>
     </tr>
     {% endfor %}
