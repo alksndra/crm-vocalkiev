@@ -24,27 +24,19 @@
 </style>
 {% endblock %}
 
-{% block title %}{{ place_name }} {{ day }} {% translate month_name %} {{ year }} {% translate "Schedule" %}{% endblock %}
+{% block title %}
+{% translate "Schedule" %}
+{{ place_name }}
+{% if day %}{{ day }}{% endif %}
+{% translate month_name %}
+{{ year }}
+{% endblock %}
+
+
+{% block h1 %}{% translate "Schedule" %}{% endblock %}
 
 {% block content %}
 <form id="form">
-    <label>
-        <select name="year">
-            <option value="0">--{% translate "Year" %}--</option>
-            {% for y in years %}
-                <option value="{{ y }}" {% if y == year %} selected {% endif %}>{{ y }}</option>
-            {% endfor %}
-        </select>
-    </label>
-    <label>
-        <select name="month">
-            <option value="0">--{% translate "Month" %}--</option>
-            {% for m in months %}
-                <!-- {% cycle 1 2 3 4 5 6 7 8 9 10 11 12 as mi %} -->
-                <option value="{{ mi }}" {% if mi == month %} selected {% endif %}>{% translate m %}</option>
-            {% endfor %}
-        </select>
-    </label>
     {% if month %}
         <label>
             <select name="day">
@@ -59,6 +51,23 @@
             </select>
         </label>
     {% endif %}
+    <label>
+        <select name="month">
+            <option value="0">--{% translate "Month" %}--</option>
+            {% for m in months %}
+            <!-- {% cycle 1 2 3 4 5 6 7 8 9 10 11 12 as mi %} -->
+            <option value="{{ mi }}" {% if mi == month %} selected {% endif %}>{% translate m %}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>
+        <select name="year">
+            <option value="0">--{% translate "Year" %}--</option>
+            {% for y in years %}
+            <option value="{{ y }}" {% if y == year %} selected {% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+    </label>
     {% if day %}
         <label>
             <select name="place">
@@ -144,7 +153,7 @@
 
         $form.submit(function(e) {
             e.preventDefault()
-            let url = '/ru/schedule/'
+            let url = '{% url 'crm-schedule' %}'
             const y = $selectYear.val()
             const m = $selectMonth.val()
             const d = $selectDay.val()

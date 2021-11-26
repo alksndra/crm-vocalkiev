@@ -88,5 +88,5 @@ class LessonReportsForm(forms.Form):
         months = []
         for mi, m in enumerate(calendar.month_name):
             if m:
-                months.append((mi, m))
+                months.append((mi, _(m)))
         self.fields['month'].choices = months

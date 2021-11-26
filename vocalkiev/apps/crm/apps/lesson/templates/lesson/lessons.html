@@ -5,28 +5,30 @@
 
 {% block title %}{% translate "Lessons" %}{% endblock %}
 
+{% block h1 %}{% translate "Lessons" %} {{ client_subscription }}{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h1>{% translate "Lessons" %}</h1>
-    <h2>{{ client_subscription }}</h2>
-    <ul>
-        {% for l in lessons %}
-        <li>
-            {{ l }}
-            {% if l.is_passed %}
-                <ul>
-                    {% for lc in l.lessoncomment_set.all %}
-                    <li>{{ lc }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <a href="{% url 'crm-pass-lesson' l.id %}">{% translate "Pass" %}</a>
-            {% endif %}
-        </li>
-        {% endfor %}
-        {% if client_subscription.can_create_lesson %}
-            <li><a href="{% url 'crm-create-lesson' client_subscription.id %}">{% translate "Create" %}</a></li>
+{% if lessons %}
+<ul>
+    {% for l in lessons %}
+    <li>
+        {{ l }}
+        {% if l.is_passed %}
+        <ul>
+            {% for lc in l.lessoncomment_set.all %}
+            <li>{{ lc }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <a href="{% url 'crm-pass-lesson' l.id %}">{% translate "Pass" %}</a>
         {% endif %}
-    </ul>
-</div>
+    </li>
+    {% endfor %}
+    {% if client_subscription.can_create_lesson %}
+    <li><a href="{% url 'crm-create-lesson' client_subscription.id %}">{% translate "Create" %}</a></li>
+    {% endif %}
+</ul>
+{% else %}
+<h5 class="text-center">{% translate 'No lessons' %}</h5>
+{% endif %}
 {% endblock %}

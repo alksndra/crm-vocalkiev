@@ -11,8 +11,38 @@
     {% load i18n %}
     <title>{% block title %}{% endblock %}</title>
 </head>
+
 <body>
-{% block content %}{% endblock %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Vocalkiev</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'crm-index' %}">{% translate 'Home' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'crm-lesson' %}">{% translate 'Lessons' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'crm-schedule' %}">{% translate 'Schedule' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'crm-lesson-reports' %}">{% translate 'Lesson reports' %}</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <h1 class="h5 mt-3 p-3 text-center">{% block h1 %}{% endblock %}</h1>
+    <div class="container mt-3">
+        {% block content %}{% endblock %}
+    </div>
+</main>
 
 {% block data %}{% endblock %}
 
