@@ -11,7 +11,7 @@
 <ul>
     {% for cs in client_subscriptions %}
     <li>
-        {{ cs.created_at }}: <a href="{% url 'crm-subscription-lessons' cs.id %}">{{ cs }}</a>
+        {{ cs.created_at }}: <a href="{% url 'crm-teacher-subscription-lessons' cs.id %}">{{ cs }}</a>
         <br>
         {% translate "Lessons" %}: {{ cs.lesson_set.count }} / {{ cs.subscription.lessons_qty }}
     </li>

@@ -270,12 +270,10 @@ msgid "Administrator"
 msgstr "Администратор"
 
 #: vocalkiev/apps/owner/admin.py:14
-#, fuzzy
 msgid "Owner Dashboard"
 msgstr "Панель владельца"
 
 #: vocalkiev/apps/owner/admin.py:15
-#, fuzzy
 msgid "CRM Owner Dashboard"
 msgstr "Панель владельца CRM"
 

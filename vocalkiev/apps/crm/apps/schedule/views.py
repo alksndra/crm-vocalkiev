@@ -2,10 +2,16 @@ import calendar
 from datetime import datetime
 
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.template import loader
 
 from vocalkiev.apps.crm.models import Place, Classroom, Lesson
+
+
+def index(request):
+    today = datetime.today()
+    return redirect('crm-schedule-day', year=today.year, month=today.month, day=today.day)
 
 
 def schedule_day(request, year=2021, month=0, day=0, place_id=0):

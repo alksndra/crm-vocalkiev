@@ -1,14 +1,15 @@
 <!doctype html>
 <html lang="en">
+{% load static %}
+{% load i18n %}
+{% load has_group %}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     {% block style %}{% endblock %}
 
-    {% load i18n %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -21,18 +22,34 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'crm-index' %}">{% translate 'Home' %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'crm-lesson' %}">{% translate 'Lessons' %}</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'crm-schedule' %}">{% translate 'Schedule' %}</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'crm-lesson-reports' %}">{% translate 'Lesson reports' %}</a>
+            {% if request.user|has_group:"Teacher" %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarTeacherDropdown" role="button"
+                   data-toggle="dropdown">{% translate 'Teacher' %}</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'crm-teacher-lessons' %}">{% translate 'Lessons' %}</a>
+                    <a class="dropdown-item" href="{% url 'crm-teacher-reports' %}">{% translate 'Lesson reports' %}</a>
+                    <a class="dropdown-item" href="{% url 'crm-index' %}teacher/admin/">{% translate 'Teacher Dashboard' %}</a>
+                </div>
             </li>
+            {% endif %}
+            {% if request.user|has_group:"Administrator" %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarAdministratorDropdown" role="button"
+                   data-toggle="dropdown">{% translate 'Administrator' %}</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'crm-index' %}administrator/admin/">{% translate 'Administrator Dashboard' %}</a>
+                </div>
+            </li>
+            {% endif %}
+            {% if request.user.is_superuser %}
+            <li class="nav-item">
+                <a class="nav-link" href="/ru/owner/">{% translate 'Owner Dashboard' %}</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

@@ -23,12 +23,11 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "crm.settings")
 INSTALLED_APPS = [
     'vocalkiev.apps.crm.apps.CrmConfig',
     'vocalkiev.apps.crm.apps.schedule.apps.ScheduleConfig',
-    'vocalkiev.apps.crm.apps.lesson.apps.LessonConfig',
     'vocalkiev.apps.crm.apps.administrator.apps.AdministratorConfig',
     'vocalkiev.apps.crm.apps.teacher.apps.TeacherConfig',
+    'vocalkiev.apps.crm.apps.teacher.apps.lessons.apps.TeacherLessonsConfig',
     'vocalkiev.apps.owner.apps.OwnerConfig',
     'vocalkiev.apps.vocalkiev_com.apps.VocalkievComConfig',
-    'report_builder',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

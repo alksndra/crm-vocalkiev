@@ -2,31 +2,35 @@ import datetime
 
 from django.shortcuts import render, get_object_or_404, redirect
 
-from vocalkiev.apps.crm.apps.lesson.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
+from vocalkiev.apps.crm.apps.teacher.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
     LessonReportsForm
 from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment
 
 
 def index(request):
-    return redirect('crm-subscriptions')
+    return redirect('crm-teacher-subscriptions')
 
 
 def show_subscriptions(request):
     client_subscriptions = ClientSubscription.objects.filter(teacher_id=request.user.id)
-    return render(request, 'lesson/subscriptions.html', {'client_subscriptions': client_subscriptions})
+    return render(request, 'teacher/lessons/subscriptions.html', {'client_subscriptions': client_subscriptions})
 
 
 def show_lessons(request, client_subscription_id):
     client_subscription = ClientSubscription.objects.get(pk=client_subscription_id)
     lessons = Lesson.objects.filter(client_subscription__id=client_subscription.id)
-    return render(request, 'lesson/lessons.html', {'client_subscription': client_subscription, 'lessons': lessons})
+    return render(
+        request,
+        'teacher/lessons/lessons.html',
+        {'client_subscription': client_subscription, 'lessons': lessons}
+    )
 
 
 def create_lesson(request, client_subscription_id):
     client_subscription = get_object_or_404(ClientSubscription, pk=client_subscription_id)
 
     if not client_subscription.can_create_lesson():
-        return redirect('crm-subscription-lessons', client_subscription_id=client_subscription.id)
+        return redirect('crm-teacher-subscription-lessons', client_subscription_id=client_subscription.id)
 
     place = None
     date = None
@@ -70,7 +74,7 @@ def create_lesson(request, client_subscription_id):
 
                             new_lesson.save()
 
-                            return redirect('crm-schedule-day',
+                            return redirect('crm-schedule-day-place',
                                             year=date.year,
                                             month=date.month,
                                             day=date.day,
@@ -81,7 +85,7 @@ def create_lesson(request, client_subscription_id):
 
     return render(
         request,
-        'lesson/create-lesson.html',
+        'teacher/lessons/create-lesson.html',
         {
             'client_subscription': client_subscription,
             'place': place,
@@ -98,7 +102,7 @@ def pass_lesson(request, lesson_id):
     lesson = get_object_or_404(Lesson, pk=lesson_id)
 
     if lesson.is_passed:
-        return redirect('crm-subscription-lessons', client_subscription_id=lesson.client_subscription.id)
+        return redirect('crm-teacher-subscription-lessons', client_subscription_id=lesson.client_subscription.id)
 
     if request.method == 'POST':
         pass_lesson_form = PassLessonForm(request.POST)
@@ -116,13 +120,13 @@ def pass_lesson(request, lesson_id):
             )
             new_comment.save()
 
-            return redirect('crm-subscription-lessons', client_subscription_id=lesson.client_subscription.id)
+            return redirect('crm-teacher-subscription-lessons', client_subscription_id=lesson.client_subscription.id)
     else:
         pass_lesson_form = PassLessonForm()
 
     return render(
         request,
-        'lesson/pass-lesson.html',
+        'teacher/lessons/pass-lesson.html',
         {
             'lesson': lesson,
             'form': pass_lesson_form
@@ -157,7 +161,7 @@ def reports(request):
 
     return render(
         request,
-        'lesson/reports.html',
+        'teacher/lessons/reports.html',
         {
             'lessons': lessons,
             'form': lesson_reports_form,

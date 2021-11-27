@@ -8,11 +8,11 @@
 {% block h1 %}{% translate "Lesson reports" %}{% endblock %}
 
 {% block content %}
-<form action="{% url 'crm-lesson-reports' %}" method="post">
+<form action="{% url 'crm-teacher-reports' %}" method="post">
     {% csrf_token %}
 
     {% for field in form.visible_fields %}
-    {% include "lesson/includes/field.html" with field=field %}
+    {% include "teacher/lessons/includes/field.html" with field=field %}
     {% endfor %}
     <input type="submit" value="{% translate 'Go' %}">
 </form>
@@ -39,10 +39,10 @@
     </tr>
     {% endfor %}
     {% else %}
-    <tr colspan="3">{% translate "No lessons" %}</tr>
+    <tr colspan="4">{% translate "No lessons" %}</tr>
     {% endif %}
     <tr>
-        <th scope="row" colspan="2">{% translate "Total" %}</th>
+        <th scope="row" colspan="3">{% translate "Total" %}</th>
         <td>{{ total }}</td>
     </tr>
     </tbody>

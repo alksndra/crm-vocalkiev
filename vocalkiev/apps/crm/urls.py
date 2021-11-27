@@ -18,13 +18,24 @@ def only_in_group(group_name):
 urlpatterns = [
     path('', views.index, name='crm-index'),
     path('schedule/', include('vocalkiev.apps.crm.apps.schedule.urls')),
-    path('lesson/', include('vocalkiev.apps.crm.apps.lesson.urls')),
     path(
-        'administrator/',
-        decorator_include(only_in_group('Administrator'), administrator_admin_site.urls),
+        'administrator/admin/',
+        decorator_include(
+            only_in_group('Administrator'),
+            administrator_admin_site.urls,
+            # namespace='administrator-admin'
+        ),
     ),
     path(
-        'teacher/',
-        decorator_include(only_in_group('Teacher'), teacher_admin_site.urls),
+        'teacher/admin/',
+        decorator_include(
+            only_in_group('Teacher'),
+            teacher_admin_site.urls,
+            # namespace='teacher-admin'
+        ),
+    ),
+    path(
+         'teacher/lessons/',
+         decorator_include(only_in_group('Teacher'), 'vocalkiev.apps.crm.apps.teacher.apps.lessons.urls'),
     ),
 ]
