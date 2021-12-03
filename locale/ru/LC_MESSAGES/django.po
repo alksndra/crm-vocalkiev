@@ -27,7 +27,6 @@ msgid "Administrator Dashboard"
 msgstr "Панель администратора"
 
 #: vocalkiev/apps/crm/apps/administrator/admin.py:12
-#, fuzzy
 msgid "CRM Administrator Dashboard"
 msgstr "Панель администратора CRM"
 
@@ -110,12 +109,10 @@ msgstr "Проведен"
 
 #: vocalkiev/apps/crm/apps/lesson/templates/lesson/lessons.html:29
 #: vocalkiev/apps/crm/apps/lesson/templates/lesson/reports.html:42
-#, fuzzy
 msgid "No lessons"
 msgstr "Уроков нет"
 
 #: vocalkiev/apps/crm/apps/lesson/templates/lesson/lessons.html:34
-#, fuzzy
 msgid "Create"
 msgstr "Создать"
 
@@ -161,7 +158,6 @@ msgid "Client"
 msgstr "Клиент"
 
 #: vocalkiev/apps/crm/apps/teacher/admin.py:11
-#, fuzzy
 msgid "Dashboard"
 msgstr "Панель управления"
 
@@ -169,7 +165,6 @@ msgid "Teacher Dashboard"
 msgstr "Панель учителя"
 
 #: vocalkiev/apps/crm/apps/teacher/admin.py:12
-#, fuzzy
 msgid "CRM Teacher Dashboard"
 msgstr "Панель учителя CRM"
 
