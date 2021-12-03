@@ -154,6 +154,19 @@ class Lesson(Model):
         percentage = s.percentage if not self.was_absent else s.percentage_if_absent
         return lesson_price * percentage / 100
 
+    @staticmethod
+    def can_create(classroom: Classroom, datetime, teacher: User, client: Client):
+        if Lesson.objects.filter(classroom=classroom, datetime=datetime).count():
+            return False
+
+        if Lesson.objects.filter(teacher=teacher, datetime=datetime).count():
+            return False
+
+        if Lesson.objects.filter(client_subscription__client=client, datetime=datetime).count():
+            return False
+
+        return True
+
     def __str__(self):
         client = self.client_subscription.client
         dt = self.datetime.strftime('%d.%m.%Y %H:%M')

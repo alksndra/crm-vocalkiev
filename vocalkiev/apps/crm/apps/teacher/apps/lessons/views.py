@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from vocalkiev.apps.crm.apps.teacher.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
     LessonReportsForm
-from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment
+from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User
 
 
 def index(request):
@@ -39,22 +39,22 @@ def create_lesson(request, client_subscription_id):
     classroom_form = None
 
     if request.method == 'POST':
-        place_date_form = PlaceDateForm(request.POST)
+        place_date_form = PlaceDateForm(client_subscription, data=request.POST)
         if place_date_form.is_valid():
+            teacher = place_date_form.cleaned_data['teacher']
             place = place_date_form.cleaned_data['place']
             date = place_date_form.cleaned_data['date']
 
-            time_form = TimeForm(request.POST)
+            time_form = TimeForm(client_subscription, teacher, request.POST)
             if time_form.is_valid():
                 date_hour = time_form.cleaned_data['date_hour']
 
                 if date_hour:
-                    classroom_form = ClassroomForm(request.POST)
+                    classroom_form = ClassroomForm(client_subscription, teacher, request.POST)
 
                     if classroom_form.is_valid():
                         date_hour = classroom_form.cleaned_data['date_hour']
                         classroom_id = classroom_form.cleaned_data['classroom']
-                        teacher = classroom_form.cleaned_data['teacher']
 
                         if classroom_id:
                             classroom = get_object_or_404(Classroom, pk=classroom_id)
@@ -65,12 +65,9 @@ def create_lesson(request, client_subscription_id):
                                 creator=request.user,
                                 client_subscription=client_subscription,
                                 classroom=classroom,
-                                teacher=request.user,
+                                teacher=teacher,
                                 datetime=dt,
                             )
-
-                            if teacher:
-                                new_lesson.teacher = teacher
 
                             new_lesson.save()
 
@@ -81,7 +78,7 @@ def create_lesson(request, client_subscription_id):
                                             place_id=classroom.place.id
                                             )
     else:
-        place_date_form = PlaceDateForm()
+        place_date_form = PlaceDateForm(client_subscription)
 
     return render(
         request,

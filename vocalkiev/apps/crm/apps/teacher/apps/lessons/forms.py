@@ -1,73 +1,78 @@
 import calendar
-from datetime import datetime
+import datetime
 
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from vocalkiev.apps.crm.models import Place, Lesson, Classroom, User
-
+from vocalkiev.apps.crm.models import Place, Lesson, Classroom, User, ClientSubscription
 
 teachers = User.objects.filter(groups__name='Teacher')
 
 
 class PlaceDateForm(forms.Form):
+    client_subscription = forms.IntegerField(widget=forms.HiddenInput())
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers)
     place = forms.ModelChoiceField(label=_('Place'), queryset=Place.objects.all())
     date = forms.DateField(label=_('Date'), widget=forms.SelectDateWidget())
 
+    def __init__(self, client_subscription: ClientSubscription, data=None, *args, **kwargs):
+        super(PlaceDateForm, self).__init__(data, *args, **kwargs)
+
+        self.fields['client_subscription'].initial = client_subscription.id
+        self.fields['date'].initial = datetime.datetime.today().date()
+        self.fields['teacher'].initial = client_subscription.teacher
+
 
 class TimeForm(forms.Form):
+    client_subscription = forms.IntegerField(widget=forms.HiddenInput())
+    teacher = forms.IntegerField(widget=forms.HiddenInput())
     place = forms.IntegerField(widget=forms.HiddenInput())
     date_day = forms.IntegerField(widget=forms.HiddenInput())
     date_month = forms.IntegerField(widget=forms.HiddenInput())
     date_year = forms.IntegerField(widget=forms.HiddenInput())
     date_hour = forms.ChoiceField(label=_('Time'), required=False)
 
-    def __init__(self, data=None, *args, **kwargs):
+    def __init__(self, client_subscription: ClientSubscription, teacher: User, data=None, *args, **kwargs):
         super(TimeForm, self).__init__(data, *args, **kwargs)
 
-        classrooms_qty = Classroom.objects.filter(place_id=int(data['place'])).count()
+        self.fields['client_subscription'].initial = client_subscription.id
+        self.fields['teacher'].initial = teacher.id
+
+        classrooms = Classroom.objects.filter(place_id=int(data['place']))
 
         choices = []
         for hour in range(9, 22):
-            lessons_qty = Lesson.objects.filter(
-                classroom__place_id=int(data['place']),
-                datetime__year=int(data['date_year']),
-                datetime__month=int(data['date_month']),
-                datetime__day=int(data['date_day']),
-                datetime__hour=hour,
-            ).count()
-
-            if lessons_qty < classrooms_qty:
-                choices.append((hour, f"{hour}:00"))
+            for classroom in classrooms:
+                dt = datetime.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), hour)
+                if Lesson.can_create(classroom, dt, teacher, client_subscription.client):
+                    choices.append((hour, f"{hour}:00"))
+                    break
         self.fields['date_hour'].choices = choices
 
 
 class ClassroomForm(forms.Form):
+    client_subscription = forms.IntegerField(widget=forms.HiddenInput())
+    teacher = forms.IntegerField(widget=forms.HiddenInput())
     place = forms.IntegerField(widget=forms.HiddenInput())
     date_day = forms.IntegerField(widget=forms.HiddenInput())
     date_month = forms.IntegerField(widget=forms.HiddenInput())
     date_year = forms.IntegerField(widget=forms.HiddenInput())
     date_hour = forms.IntegerField(widget=forms.HiddenInput())
     classroom = forms.ChoiceField(label=_('Classroom'), required=False)
-    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers, required=False)
 
-    def __init__(self, data=None, *args, **kwargs):
+    def __init__(self, client_subscription: ClientSubscription, teacher: User, data=None, *args, **kwargs):
         super(ClassroomForm, self).__init__(data, *args, **kwargs)
+
+        self.fields['client_subscription'].initial = client_subscription.id
+        self.fields['teacher'].initial = teacher.id
 
         classrooms = Classroom.objects.filter(place_id=int(data['place']))
 
         choices = []
-        for cr in classrooms:
-            lessons_qty = Lesson.objects.filter(
-                classroom_id=cr.id,
-                datetime__year=int(data['date_year']),
-                datetime__month=int(data['date_month']),
-                datetime__day=int(data['date_day']),
-                datetime__hour=int(data['date_hour']),
-            ).count()
-
-            if lessons_qty == 0:
-                choices.append((cr.id, str(cr)))
+        for classroom in classrooms:
+            dt = datetime.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), int(data['date_hour']))
+            if Lesson.can_create(classroom, dt, teacher, client_subscription.client):
+                choices.append((classroom.id, str(classroom)))
         self.fields['classroom'].choices = choices
 
 
@@ -77,21 +82,23 @@ class PassLessonForm(forms.Form):
 
 
 class LessonReportsForm(forms.Form):
-    month = forms.ChoiceField(label=_('Month'), initial=datetime.today().month)
-    year = forms.ChoiceField(label=_('Year'), initial=datetime.today().year)
+    month = forms.ChoiceField(label=_('Month'), initial=datetime.datetime.today().month)
+    year = forms.ChoiceField(label=_('Year'), initial=datetime.datetime.today().year)
 
     def __init__(self, data=None, *args, **kwargs):
         super(LessonReportsForm, self).__init__(data, *args, **kwargs)
 
-        today = datetime.today()
+        today = datetime.datetime.today()
 
         years = []
         for y in range(today.year - 1, today.year + 2):
             years.append((y, y,))
         self.fields['year'].choices = years
+        self.fields['year'].initial = today.year
 
         months = []
         for mi, m in enumerate(calendar.month_name):
             if m:
                 months.append((mi, _(m)))
         self.fields['month'].choices = months
+        self.fields['month'].initial = today.month
