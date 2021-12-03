@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.db import models
 from django.contrib.auth.models import User as AuthUser
 from django.utils.translation import gettext_lazy as _
@@ -153,6 +155,9 @@ class Lesson(Model):
         lesson_price = s.price / s.lessons_qty
         percentage = s.percentage if not self.was_absent else s.percentage_if_absent
         return lesson_price * percentage / 100
+
+    def can_pass(self):
+        return not self.is_passed and timezone.now() > self.datetime
 
     @staticmethod
     def can_create(classroom: Classroom, datetime, teacher: User, client: Client):

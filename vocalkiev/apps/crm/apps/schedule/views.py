@@ -1,5 +1,5 @@
 import calendar
-from datetime import datetime
+from django.utils import timezone
 
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -10,7 +10,7 @@ from vocalkiev.apps.crm.models import Place, Classroom, Lesson
 
 
 def index(request):
-    today = datetime.today()
+    today = timezone.now()
     return redirect('crm-schedule-day', year=today.year, month=today.month, day=today.day)
 
 
@@ -23,7 +23,7 @@ def schedule_day(request, year=2021, month=0, day=0, place_id=0):
         monthdays = []
 
     years = []
-    for y in range(datetime.today().year, datetime.today().year + 3):
+    for y in range(timezone.now().year, timezone.now().today().year + 3):
         years.append(y)
 
     months = []
@@ -109,7 +109,7 @@ def schedule(request, year=2021, month=1):
             months.append(m)
 
     years = []
-    for y in range(datetime.today().year, datetime.today().year + 3):
+    for y in range(timezone.now().today().year, timezone.now().today().year + 3):
         years.append(y)
 
     template = loader.get_template('schedule/index.html')

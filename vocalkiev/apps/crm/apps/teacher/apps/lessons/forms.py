@@ -1,5 +1,5 @@
 import calendar
-import datetime
+from django.utils import timezone
 
 from django import forms
 from django.utils.translation import gettext_lazy as _
@@ -19,7 +19,7 @@ class PlaceDateForm(forms.Form):
         super(PlaceDateForm, self).__init__(data, *args, **kwargs)
 
         self.fields['client_subscription'].initial = client_subscription.id
-        self.fields['date'].initial = datetime.datetime.today().date()
+        self.fields['date'].initial = timezone.now().date()
         self.fields['teacher'].initial = client_subscription.teacher
 
 
@@ -43,7 +43,7 @@ class TimeForm(forms.Form):
         choices = []
         for hour in range(9, 22):
             for classroom in classrooms:
-                dt = datetime.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), hour)
+                dt = timezone.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), hour)
                 if Lesson.can_create(classroom, dt, teacher, client_subscription.client):
                     choices.append((hour, f"{hour}:00"))
                     break
@@ -70,7 +70,7 @@ class ClassroomForm(forms.Form):
 
         choices = []
         for classroom in classrooms:
-            dt = datetime.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), int(data['date_hour']))
+            dt = timezone.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), int(data['date_hour']))
             if Lesson.can_create(classroom, dt, teacher, client_subscription.client):
                 choices.append((classroom.id, str(classroom)))
         self.fields['classroom'].choices = choices
@@ -82,13 +82,13 @@ class PassLessonForm(forms.Form):
 
 
 class LessonReportsForm(forms.Form):
-    month = forms.ChoiceField(label=_('Month'), initial=datetime.datetime.today().month)
-    year = forms.ChoiceField(label=_('Year'), initial=datetime.datetime.today().year)
+    month = forms.ChoiceField(label=_('Month'), initial=timezone.now().month)
+    year = forms.ChoiceField(label=_('Year'), initial=timezone.now().year)
 
     def __init__(self, data=None, *args, **kwargs):
         super(LessonReportsForm, self).__init__(data, *args, **kwargs)
 
-        today = datetime.datetime.today()
+        today = timezone.now().today()
 
         years = []
         for y in range(today.year - 1, today.year + 2):

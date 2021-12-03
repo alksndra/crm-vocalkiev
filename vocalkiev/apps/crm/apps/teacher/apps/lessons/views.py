@@ -98,7 +98,7 @@ def create_lesson(request, client_subscription_id):
 def pass_lesson(request, lesson_id):
     lesson = get_object_or_404(Lesson, pk=lesson_id)
 
-    if lesson.is_passed:
+    if not lesson.can_pass():
         return redirect('crm-teacher-subscription-lessons', client_subscription_id=lesson.client_subscription.id)
 
     if request.method == 'POST':

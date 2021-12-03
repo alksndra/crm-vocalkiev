@@ -13,14 +13,17 @@
     {% for l in lessons %}
     <li>
         {{ l }}
-        {% if l.is_passed %}
+
+        {% if l.can_pass %}
+        <a href="{% url 'crm-teacher-pass-lesson' l.id %}">{% translate "Pass" %}</a>
+        {% endif %}
+
+        {% if l.lessoncomment_set.count %}
         <ul>
             {% for lc in l.lessoncomment_set.all %}
             <li>{{ lc }}</li>
             {% endfor %}
         </ul>
-        {% else %}
-        <a href="{% url 'crm-teacher-pass-lesson' l.id %}">{% translate "Pass" %}</a>
         {% endif %}
     </li>
     {% endfor %}
