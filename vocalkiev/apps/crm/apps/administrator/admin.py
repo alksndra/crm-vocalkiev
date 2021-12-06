@@ -38,7 +38,7 @@ class PaymentInline(EmptyInline):
 
 class LessonCommentInline(EmptyInline):
     model = models.LessonComment
-    fk_name = 'lesson'
+    fk_name = 'lessons'
     exclude = ('creator', 'status',)
 
 

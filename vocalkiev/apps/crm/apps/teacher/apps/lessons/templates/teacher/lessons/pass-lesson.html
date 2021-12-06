@@ -1,0 +1,22 @@
+{% extends "crm/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Lesson" %}: {{ lesson }}{% endblock %}
+
+{% block h1 %}{% translate "Lesson" %}: {{ lesson }}{% endblock %}
+
+{% block content %}
+<form action="{% url 'crm-teacher-pass-lesson' lesson.id %}" method="post">
+    {% csrf_token %}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    {% for field in form.visible_fields %}
+    {% include "teacher/lessons/includes/field.html" with field=field show_label=True %}
+    {% endfor %}
+    <input type="submit" value="{% translate 'Go' %}">
+</form>
+{% endblock %}

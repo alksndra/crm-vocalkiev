@@ -1,0 +1,51 @@
+{% extends "crm/base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Lesson reports" %}{% endblock %}
+
+{% block h1 %}{% translate "Lesson reports" %}{% endblock %}
+
+{% block content %}
+<form action="{% url 'crm-teacher-reports' %}" method="post">
+    {% csrf_token %}
+
+    {% for field in form.visible_fields %}
+    {% include "teacher/lessons/includes/field.html" with field=field %}
+    {% endfor %}
+    <input type="submit" value="{% translate 'Go' %}">
+</form>
+
+{% if year and month %}
+<h3 class="mt-5">{{ month }}.{{ year }}</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">{% translate "Lesson" %}</th>
+        <th scope="col">{% translate "Was absent" %}</th>
+        <th scope="col">{% translate "Amount" %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if lessons %}
+    {% for l in lessons %}
+    <tr>
+        <th scope="row">{{ l.id }}</th>
+        <td>{{ l }}</td>
+        <td>{% if l.was_absent %}+{% endif %}</td>
+        <td>{{ l.teacher_amount }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr colspan="4">{% translate "No lessons" %}</tr>
+    {% endif %}
+    <tr>
+        <th scope="row" colspan="3">{% translate "Total" %}</th>
+        <td>{{ total }}</td>
+    </tr>
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

@@ -11,19 +11,31 @@ from . import views
 def only_in_group(group_name):
     def check(user: User):
         return user.is_authenticated and user.groups.filter(name=group_name).exists()
+
     return user_passes_test(check, login_url=f'/{LOGIN_URL}')
 
 
 urlpatterns = [
-    path('', views.index),
+    path('', views.index, name='crm-index'),
     path('schedule/', include('vocalkiev.apps.crm.apps.schedule.urls')),
-    path('lesson/', include('vocalkiev.apps.crm.apps.lesson.urls')),
-    path('administrator/',
-         decorator_include(only_in_group('Administrator'),
-                           administrator_admin_site.urls)
-         ),
-    path('teacher/',
-         decorator_include(only_in_group('Teacher'),
-                           teacher_admin_site.urls)
-         ),
+    path(
+        'administrator/admin/',
+        decorator_include(
+            only_in_group('Administrator'),
+            administrator_admin_site.urls,
+            # namespace='administrator-admin'
+        ),
+    ),
+    path(
+        'teacher/admin/',
+        decorator_include(
+            only_in_group('Teacher'),
+            teacher_admin_site.urls,
+            # namespace='teacher-admin'
+        ),
+    ),
+    path(
+         'teacher/lessons/',
+         decorator_include(only_in_group('Teacher'), 'vocalkiev.apps.crm.apps.teacher.apps.lessons.urls'),
+    ),
 ]

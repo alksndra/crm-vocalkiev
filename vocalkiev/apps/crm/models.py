@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.db import models
 from django.contrib.auth.models import User as AuthUser
 from django.utils.translation import gettext_lazy as _
@@ -126,6 +128,9 @@ class ClientSubscription(Model):
         verbose_name = _('Client Subscription')
         verbose_name_plural = _('Client Subscriptions')
 
+    def can_create_lesson(self):
+        return self.subscription.lessons_qty > self.lesson_set.count()
+
     def __str__(self):
         return f"{self.client}, {self.subscription}"
 
@@ -135,10 +140,37 @@ class Lesson(Model):
     teacher = models.ForeignKey(User, models.CASCADE, related_name='lesson_teacher')
     classroom = models.ForeignKey(Classroom, models.CASCADE)
     datetime = models.DateTimeField(_('Time of the event'))
+    is_passed = models.BooleanField(_('Is passed'), default=False)
+    was_absent = models.BooleanField(_('Was absent'), default=False)
 
     class Meta:
         verbose_name = _('Lesson')
         verbose_name_plural = _('Lessons')
+
+    def teacher_amount(self):
+        if not self.is_passed:
+            return 0
+
+        s = self.client_subscription.subscription
+        lesson_price = s.price / s.lessons_qty
+        percentage = s.percentage if not self.was_absent else s.percentage_if_absent
+        return lesson_price * percentage / 100
+
+    def can_pass(self):
+        return not self.is_passed and timezone.now() > self.datetime
+
+    @staticmethod
+    def can_create(classroom: Classroom, datetime, teacher: User, client: Client):
+        if Lesson.objects.filter(classroom=classroom, datetime=datetime).count():
+            return False
+
+        if Lesson.objects.filter(teacher=teacher, datetime=datetime).count():
+            return False
+
+        if Lesson.objects.filter(client_subscription__client=client, datetime=datetime).count():
+            return False
+
+        return True
 
     def __str__(self):
         client = self.client_subscription.client
