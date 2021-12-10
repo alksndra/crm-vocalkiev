@@ -110,12 +110,13 @@ def pass_lesson(request, lesson_id):
             lesson.was_absent = was_absent
             lesson.save()
 
-            new_comment = LessonComment.objects.create(
-                creator=request.user,
-                lesson=lesson,
-                comment=pass_lesson_form.cleaned_data['comment']
-            )
-            new_comment.save()
+            if pass_lesson_form.cleaned_data.get('comment'):
+                new_comment = LessonComment.objects.create(
+                    creator=request.user,
+                    lesson=lesson,
+                    comment=pass_lesson_form.cleaned_data['comment']
+                )
+                new_comment.save()
 
             return redirect('crm-teacher-subscription-lessons', client_subscription_id=lesson.client_subscription.id)
     else:
