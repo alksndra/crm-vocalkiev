@@ -82,6 +82,7 @@ class PassLessonForm(forms.Form):
 
 
 class LessonReportsForm(forms.Form):
+    month_half = forms.ChoiceField(label=_('Month half'), initial=1)
     month = forms.ChoiceField(label=_('Month'), initial=timezone.now().month)
     year = forms.ChoiceField(label=_('Year'), initial=timezone.now().year)
 
@@ -102,3 +103,10 @@ class LessonReportsForm(forms.Form):
                 months.append((mi, _(m)))
         self.fields['month'].choices = months
         self.fields['month'].initial = today.month
+
+        month_halves = [
+            (1, _('First half (1-15)')),
+            (2, _('Second half (16-end)'))
+        ]
+        self.fields['month_half'].choices = month_halves
+        self.fields['month_half'].initial = 1
