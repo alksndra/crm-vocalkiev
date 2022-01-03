@@ -77,8 +77,8 @@ class ClassroomForm(forms.Form):
 
 
 class PassLessonForm(forms.Form):
-    comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}))
-    was_absent = forms.BooleanField(label=_('Was absent'), initial=False)
+    comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}), required=False)
+    was_absent = forms.BooleanField(label=_('Was absent'), initial=False, required=False)
 
 
 class LessonReportsForm(forms.Form):

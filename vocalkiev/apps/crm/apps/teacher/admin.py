@@ -14,7 +14,7 @@ class TeacherAdminSite(admin.AdminSite):
 
 class LessonCommentInline(nested_admin.NestedStackedInline):
     model = LessonComment
-    fk_name = 'lessons'
+    fk_name = 'lesson'
     exclude = ('user',)
     initial_num = 0
     extra = 0
