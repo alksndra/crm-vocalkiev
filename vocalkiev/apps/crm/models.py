@@ -159,6 +159,10 @@ class Lesson(Model):
     def can_pass(self):
         return not self.is_passed and timezone.now() > self.datetime
 
+    def can_update_by_teacher(self):
+        diff_in_hours = (self.datetime - timezone.now()).total_seconds() / 60 / 60
+        return diff_in_hours > 18
+
     @staticmethod
     def can_create(classroom: Classroom, datetime, teacher: User, client: Client):
         if Lesson.objects.filter(classroom=classroom, datetime=datetime).count():

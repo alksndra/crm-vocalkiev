@@ -17,4 +17,5 @@ urlpatterns = [
         name='crm-teacher-create-lesson'
     ),
     path('<int:lesson_id>/pass/', views.pass_lesson, name='crm-teacher-pass-lesson'),
+    path('<int:lesson_id>/update/', views.update_lesson, name='crm-teacher-update-lesson'),
 ]

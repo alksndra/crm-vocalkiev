@@ -1,6 +1,6 @@
 import datetime
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 
 from vocalkiev.apps.crm.apps.teacher.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
     LessonReportsForm
@@ -84,6 +84,78 @@ def create_lesson(request, client_subscription_id):
         request,
         'teacher/lessons/create-lesson.html',
         {
+            'form_action': resolve_url('crm-teacher-create-lesson', client_subscription_id=client_subscription_id),
+            'client_subscription': client_subscription,
+            'place': place,
+            'date': date,
+            'date_hour': date_hour,
+            'place_date_form': place_date_form,
+            'time_form': time_form,
+            'classroom_form': classroom_form,
+        }
+    )
+
+
+def update_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, pk=lesson_id)
+    client_subscription = lesson.client_subscription
+
+    if lesson.teacher != request.user:
+        return redirect('crm-teacher-subscription-lessons', client_subscription_id=client_subscription.id)
+
+    if not lesson.can_update_by_teacher():
+        return redirect('crm-teacher-subscription-lessons', client_subscription_id=client_subscription.id)
+
+    place = lesson.classroom.place
+    date = lesson.datetime
+    date_hour = lesson.datetime.hour
+    time_form = None
+    classroom_form = None
+
+    if request.method == 'POST':
+        place_date_form = PlaceDateForm(client_subscription, data=request.POST)
+        if place_date_form.is_valid():
+            teacher = place_date_form.cleaned_data['teacher']
+            place = place_date_form.cleaned_data['place']
+            date = place_date_form.cleaned_data['date']
+
+            time_form = TimeForm(client_subscription, teacher, request.POST)
+            if time_form.is_valid():
+                date_hour = time_form.cleaned_data['date_hour']
+
+                if date_hour:
+                    classroom_form = ClassroomForm(client_subscription, teacher, request.POST)
+
+                    if classroom_form.is_valid():
+                        date_hour = classroom_form.cleaned_data['date_hour']
+                        classroom_id = classroom_form.cleaned_data['classroom']
+
+                        if classroom_id:
+                            classroom = get_object_or_404(Classroom, pk=classroom_id)
+
+                            dt = datetime.datetime(date.year, date.month, date.day, date_hour)
+
+                            lesson.classroom = classroom
+                            lesson.teacher = teacher
+                            lesson.datetime = dt
+
+                            lesson.save()
+
+                            return redirect('crm-schedule-day-place',
+                                            year=date.year,
+                                            month=date.month,
+                                            day=date.day,
+                                            place_id=classroom.place.id
+                                            )
+    else:
+        place_date_form = PlaceDateForm(client_subscription)
+
+    return render(
+        request,
+        'teacher/lessons/update-lesson.html',
+        {
+            'form_action': resolve_url('crm-teacher-update-lesson', lesson_id=lesson_id),
+            'lesson': lesson,
             'client_subscription': client_subscription,
             'place': place,
             'date': date,

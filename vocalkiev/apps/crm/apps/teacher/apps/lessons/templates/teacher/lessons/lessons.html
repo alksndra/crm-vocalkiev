@@ -18,6 +18,10 @@
         <a href="{% url 'crm-teacher-pass-lesson' l.id %}">{% translate "Pass" %}</a>
         {% endif %}
 
+        {% if l.can_update_by_teacher and l.teacher == request.user %}
+        <a href="{% url 'crm-teacher-update-lesson' l.id %}">{% translate "Change" %}</a>
+        {% endif %}
+
         {% if l.lessoncomment_set.count %}
         <ul>
             {% for lc in l.lessoncomment_set.all %}
