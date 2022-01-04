@@ -4,6 +4,7 @@ from import_export import resources
 from import_export.results import RowResult
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import Group
+from django.contrib.auth.admin import UserAdmin
 
 from vocalkiev.apps.crm.models import *
 from vocalkiev.forms import BaseForm
@@ -54,5 +55,5 @@ owner_admin_site.register(ClientSubscription)
 owner_admin_site.register(Subscription)
 owner_admin_site.register(Lesson)
 owner_admin_site.register(Payment)
-owner_admin_site.register(User)
+owner_admin_site.register(User, UserAdmin)
 owner_admin_site.register(Group)
