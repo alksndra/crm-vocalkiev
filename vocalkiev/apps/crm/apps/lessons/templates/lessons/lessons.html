@@ -15,11 +15,11 @@
         {{ l }}
 
         {% if l.can_pass %}
-        <a href="{% url 'crm-teacher-pass-lesson' l.id %}">{% translate "Pass" %}</a>
+        <a href="{% url 'crm-pass-lesson' l.id %}">{% translate "Pass" %}</a>
         {% endif %}
 
         {% if l.can_update_by_teacher and l.teacher == request.user %}
-        <a href="{% url 'crm-teacher-update-lesson' l.id %}">{% translate "Change" %}</a>
+        <a href="{% url 'crm-update-lesson' l.id %}">{% translate "Change" %}</a>
         {% endif %}
 
         {% if l.lessoncomment_set.count %}
@@ -38,7 +38,7 @@
 
 {% if client_subscription.can_create_lesson %}
 <p class="text-center">
-    <a href="{% url 'crm-teacher-create-lesson' client_subscription.id %}">{% translate "Create" %}</a>
+    <a href="{% url 'crm-create-lesson' client_subscription.id %}">{% translate "Create" %}</a>
 </p>
 {% endif %}
 {% endblock %}

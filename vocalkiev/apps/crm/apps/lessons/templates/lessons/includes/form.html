@@ -10,7 +10,7 @@
             {% endfor %}
 
             {% for field in form.visible_fields %}
-                {% include "teacher/lessons/includes/field.html" with field=field %}
+                {% include "lessons/includes/field.html" with field=field %}
             {% endfor %}
             <input type="submit" value="{% translate 'Go' %}">
         </form>

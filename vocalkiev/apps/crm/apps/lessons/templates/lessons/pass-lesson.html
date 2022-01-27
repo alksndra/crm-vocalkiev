@@ -7,7 +7,7 @@
 {% block h1 %}{% translate "Lesson" %}: {{ lesson }}{% endblock %}
 
 {% block content %}
-<form action="{% url 'crm-teacher-pass-lesson' lesson.id %}" method="post">
+<form action="{% url 'crm-pass-lesson' lesson.id %}" method="post">
     {% csrf_token %}
 
     {% for hidden in form.hidden_fields %}
@@ -15,7 +15,7 @@
     {% endfor %}
 
     {% for field in form.visible_fields %}
-    {% include "teacher/lessons/includes/field.html" with field=field show_label=True %}
+    {% include "lessons/includes/field.html" with field=field show_label=True %}
     {% endfor %}
     <input type="submit" value="{% translate 'Go' %}">
 </form>
