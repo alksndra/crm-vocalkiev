@@ -59,7 +59,6 @@ cd vocalkiev-crm-django/
 ```shell
 python manage.py migrate
 python manage.py loaddata fixtures/fixtures.json
-python manage.py loaddata fixtures/test_fixtures.json
 django-admin compilemessages
 python manage.py collectstatic
 python manage.py runserver
