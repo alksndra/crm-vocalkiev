@@ -18,7 +18,7 @@ class PlaceDateForm(forms.Form):
     def __init__(self, client_subscription: ClientSubscription, data=None, *args, **kwargs):
         super(PlaceDateForm, self).__init__(data, *args, **kwargs)
 
-        self.fields['client_subscription'].initial = client_subscription.id
+        self.fields['client_subscription'].initial = client_subscription.pk
         self.fields['date'].initial = timezone.now().date()
         self.fields['teacher'].initial = client_subscription.teacher
 
@@ -35,8 +35,8 @@ class TimeForm(forms.Form):
     def __init__(self, client_subscription: ClientSubscription, teacher: User, data=None, *args, **kwargs):
         super(TimeForm, self).__init__(data, *args, **kwargs)
 
-        self.fields['client_subscription'].initial = client_subscription.id
-        self.fields['teacher'].initial = teacher.id
+        self.fields['client_subscription'].initial = client_subscription.pk
+        self.fields['teacher'].initial = teacher.pk
 
         classrooms = Classroom.objects.filter(place_id=int(data['place']))
 
@@ -63,21 +63,23 @@ class ClassroomForm(forms.Form):
     def __init__(self, client_subscription: ClientSubscription, teacher: User, data=None, *args, **kwargs):
         super(ClassroomForm, self).__init__(data, *args, **kwargs)
 
-        self.fields['client_subscription'].initial = client_subscription.id
-        self.fields['teacher'].initial = teacher.id
+        self.fields['client_subscription'].initial = client_subscription.pk
+        self.fields['teacher'].initial = teacher.pk
 
         classrooms = Classroom.objects.filter(place_id=int(data['place']))
 
         choices = []
         for classroom in classrooms:
-            dt = timezone.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), int(data['date_hour']))
+            dt = timezone.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']),
+                                   int(data['date_hour']))
             if Lesson.can_create(classroom, dt, teacher, client_subscription.client):
                 choices.append((classroom.id, str(classroom)))
         self.fields['classroom'].choices = choices
 
 
 class PassLessonForm(forms.Form):
-    comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}), required=False)
+    comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
+                              required=False)
     was_absent = forms.BooleanField(label=_('Was absent'), initial=False, required=False)
 
 
@@ -110,3 +112,7 @@ class LessonReportsForm(forms.Form):
         ]
         self.fields['month_half'].choices = month_halves
         self.fields['month_half'].initial = 1
+
+
+class SubscriptionForm(forms.Form):
+    pass
