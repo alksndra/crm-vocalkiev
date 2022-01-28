@@ -2,7 +2,8 @@ import datetime
 
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 
-from vocalkiev.apps.crm.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, LessonReportsForm
+from vocalkiev.apps.crm.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
+    LessonReportsForm, SubscriptionForm
 from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User
 
 
@@ -241,5 +242,20 @@ def reports(request):
             'year': year,
             'month': month,
             'total': total,
+        }
+    )
+
+
+def create_subscription(request):
+    if request.method == 'POST':
+        subscription_form = SubscriptionForm(request.POST)
+    else:
+        subscription_form = SubscriptionForm()
+
+    return render(
+        request,
+        'lessons/create-subscription.html',
+        {
+            'form': subscription_form,
         }
     )

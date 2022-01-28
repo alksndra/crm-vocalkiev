@@ -1,0 +1,11 @@
+{% extends "crm/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Subscription" %}{% endblock %}
+
+{% block h1 %}{% translate "Subscription" %}{% endblock %}
+
+{% block content %}
+{% include "lessons/includes/form.html" with form=subscription_form %}
+{% endblock %}

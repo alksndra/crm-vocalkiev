@@ -7,6 +7,11 @@ urlpatterns = [
     path('reports', views.reports, name='crm-reports'),
     path('subscriptions/', views.show_subscriptions, name='crm-subscriptions'),
     path(
+        'subscriptions/create/',
+        views.create_subscription,
+        name='crm-create-subscription'
+    ),
+    path(
         'subscriptions/<int:client_subscription_id>/lessons/',
         views.show_lessons,
         name='crm-subscription-lessons'
