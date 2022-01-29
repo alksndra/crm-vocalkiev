@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-03 16:33+0200\n"
+"POT-Creation-Date: 2022-01-29 17:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,269 +14,204 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: vocalkiev/apps/crm/apps/administrator/admin.py:10
-#: vocalkiev/apps/crm/apps/teacher/admin.py:10 vocalkiev/apps/owner/admin.py:13
 msgid "CRM"
 msgstr "CRM"
 
-#: vocalkiev/apps/crm/apps/administrator/admin.py:11
-#: vocalkiev/apps/crm/templates/crm/base.html:44
 msgid "Administrator Dashboard"
 msgstr "Панель администратора"
 
-#: vocalkiev/apps/crm/apps/administrator/admin.py:12
 msgid "CRM Administrator Dashboard"
 msgstr "Панель администратора CRM"
 
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:28
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:36
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:10
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:12
-#: vocalkiev/apps/crm/templates/crm/base.html:26
-msgid "Schedule"
-msgstr "Расписание занятий"
-
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:43
-msgid "Day"
-msgstr "День"
-
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:56
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:16
-#: vocalkiev/apps/crm/apps/lessons/forms.py:86
-msgid "Month"
-msgstr "Месяц"
-
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:65
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:25
-#: vocalkiev/apps/crm/apps/lessons/forms.py:87
-msgid "Year"
-msgstr "Год"
-
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:74
-#: vocalkiev/apps/crm/apps/lessons/forms.py:15
-#: vocalkiev/apps/crm/models.py:74
-msgid "Place"
-msgstr "Место проведения"
-
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:92
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:39
-#: vocalkiev/apps/crm/apps/lessons/forms.py:33
-msgid "Time"
-msgstr "Время"
-
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:93
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:77
-#: vocalkiev/apps/crm/apps/lessons/forms.py:14
-#: vocalkiev/apps/crm/templates/crm/base.html:31
 msgid "Teacher"
 msgstr "Преподаватель"
 
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/day.html:94
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:80
-#: vocalkiev/apps/crm/models.py:50
+msgid "Place"
+msgstr "Место проведения"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Classroom"
+msgstr "Аудитория"
+
+msgid "Comment"
+msgstr "Коментарий"
+
+msgid "Was absent"
+msgstr "Клиент отсутствовал"
+
+msgid "Month half"
+msgstr "Половина месяца"
+
+msgid "Month"
+msgstr "Месяц"
+
+msgid "Year"
+msgstr "Год"
+
+msgid "First half (1-15)"
+msgstr "Первая половина (1-15)"
+
+msgid "Second half (16-end)"
+msgstr "Вторая половина (16-конец)"
+
+msgid "Subscription"
+msgstr "Абонемент"
+
 msgid "Client"
 msgstr "Клиент"
 
-#: vocalkiev/apps/crm/apps/schedule/templates/schedule/index.html:33
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/includes/form.html:15
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/pass-lesson.html:20
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:17
+msgid "Payment type"
+msgstr "Способ оплаты"
+
+msgid "First name"
+msgstr "Имя"
+
+msgid "Last name"
+msgstr "Фамилия"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Phone"
+msgstr "Номер телефона"
+
+msgid "Client Comment"
+msgstr "Коментарий об ученика"
+
+msgid "Lesson"
+msgstr "Урок"
+
+msgid "Create for existing client"
+msgstr "Создать для существующего ученика"
+
+#: vocalkiev/apps/crm/apps/lessons/templates/lessons/create-subscription.html:14
+msgid "Create for new client"
+msgstr "Создать для нового ученика"
+
 msgid "Go"
 msgstr "Выполнить"
 
-#: vocalkiev/apps/crm/apps/schedule/views.py:85
-#: vocalkiev/apps/crm/apps/lessons/forms.py:16
-msgid "Date"
-msgstr "Дата"
+msgid "Lessons"
+msgstr "Уроки"
+
+msgid "Pass"
+msgstr "Проведен"
+
+msgid "Change"
+msgstr "Изменить"
+
+msgid "No lessons"
+msgstr "Уроков нет"
+
+msgid "Create"
+msgstr "Создать"
+
+msgid "Lesson reports"
+msgstr "Выписки по урокам"
 
 msgid "Datetime"
 msgstr "Дата и время"
 
-#: vocalkiev/apps/crm/apps/teacher/admin.py:11
-#: vocalkiev/apps/crm/templates/crm/base.html:35
-msgid "Teacher Dashboard"
-msgstr "Панель учителя"
-
-#: vocalkiev/apps/crm/apps/teacher/admin.py:12
-msgid "CRM Teacher Dashboard"
-msgstr "Панель учителя CRM"
-
-#: vocalkiev/apps/crm/apps/lessons/forms.py:61
-#: vocalkiev/apps/crm/models.py:86
-msgid "Classroom"
-msgstr "Аудитория"
-
-#: vocalkiev/apps/crm/apps/lessons/forms.py:80
-msgid "Comment"
-msgstr "Коментарий"
-
-#: vocalkiev/apps/crm/apps/lessons/forms.py:81
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:27
-#: vocalkiev/apps/crm/models.py:144
-msgid "Was absent"
-msgstr "Клиент отсутствовал"
-
-#: vocalkiev/apps/crm/apps/lessons/forms.py:85
-msgid "Month half"
-msgstr "Половина месяца"
-
-#: vocalkiev/apps/crm/apps/lessons/forms.py:108
-msgid "First half (1-15)"
-msgstr "Первая половина (1-15)"
-
-#: vocalkiev/apps/crm/apps/lessons/forms.py:109
-msgid "Second half (16-end)"
-msgstr "Вторая половина (16-конец)"
-
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/create-lesson.html:5
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/pass-lesson.html:5
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/pass-lesson.html:7
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:26
-#: vocalkiev/apps/crm/models.py:147
-msgid "Lesson"
-msgstr "Урок"
-
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/lessons.html:6
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/lessons.html:8
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/subscriptions.html:16
-#: vocalkiev/apps/crm/models.py:148
-#: vocalkiev/apps/crm/templates/crm/base.html:33
-msgid "Lessons"
-msgstr "Уроки"
-
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/lessons.html:18
-msgid "Pass"
-msgstr "Проведен"
-
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/lessons.html:32
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:42
-msgid "No lessons"
-msgstr "Уроков нет"
-
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/lessons.html:37
-msgid "Create"
-msgstr "Создать"
-
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:6
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:8
-#: vocalkiev/apps/crm/templates/crm/base.html:34
-msgid "Lesson reports"
-msgstr "Выписки по урокам"
-
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:28
 msgid "Amount"
 msgstr "Сумма к оплате"
 
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/reports.html:45
 msgid "Total"
 msgstr "Итого"
 
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/subscriptions.html:6
-#: vocalkiev/apps/crm/apps/lessons/templates/lessons/subscriptions.html:8
-#: vocalkiev/apps/crm/models.py:129
 msgid "Client Subscriptions"
 msgstr "Абонементы клиентов"
 
-#: vocalkiev/apps/crm/models.py:11
-msgid "User"
-msgstr "Пользователь"
-
-#: vocalkiev/apps/crm/models.py:12
-msgid "Users"
-msgstr "Пользователи"
-
-#: vocalkiev/apps/crm/models.py:19
-msgid "ACTIVE"
-msgstr "Активен"
-
-#: vocalkiev/apps/crm/models.py:20
-msgid "INACTIVE"
-msgstr "Неактивен"
-
-#: vocalkiev/apps/crm/models.py:24
-msgid "CASH"
-msgstr "Наличный расчет"
-
-#: vocalkiev/apps/crm/models.py:25
-msgid "CARD"
-msgstr "Безналичный расчет"
-
-#: vocalkiev/apps/crm/models.py:51
-msgid "Clients"
-msgstr "Клиенты"
-
-#: vocalkiev/apps/crm/models.py:62
-msgid "Client Comment"
-msgstr "Коментарий ученика"
-
-#: vocalkiev/apps/crm/models.py:63
-msgid "Client Comments"
-msgstr "Коментарии учеников"
-
-#: vocalkiev/apps/crm/models.py:75
-msgid "Places"
-msgstr "Места проведения"
-
-#: vocalkiev/apps/crm/models.py:87
-msgid "Classrooms"
-msgstr "Аудитории"
-
-#: vocalkiev/apps/crm/models.py:97
-msgid "Subject"
-msgstr "Дисциплина"
-
-#: vocalkiev/apps/crm/models.py:98
-msgid "Subjects"
-msgstr "Дисцилины"
-
-#: vocalkiev/apps/crm/models.py:113
-msgid "Subscription"
-msgstr "Абонемент"
-
-#: vocalkiev/apps/crm/models.py:114
 msgid "Subscriptions"
 msgstr "Абонементы"
 
-#: vocalkiev/apps/crm/models.py:128
+msgid "No subscriptions"
+msgstr "Абонементов нет"
+
+msgid "Schedule"
+msgstr "Расписание занятий"
+
+msgid "Day"
+msgstr "День"
+
+msgid "Teacher Dashboard"
+msgstr "Панель учителя"
+
+msgid "CRM Teacher Dashboard"
+msgstr "Панель учителя CRM"
+
+msgid "User"
+msgstr "Пользователь"
+
+msgid "Users"
+msgstr "Пользователи"
+
+msgid "ACTIVE"
+msgstr "Активен"
+
+msgid "INACTIVE"
+msgstr "Неактивен"
+
+msgid "CASH"
+msgstr "Наличный расчет"
+
+msgid "CARD"
+msgstr "Безналичный расчет"
+
+msgid "Clients"
+msgstr "Клиенты"
+
+msgid "Client Comments"
+msgstr "Коментарии учеников"
+
+msgid "Places"
+msgstr "Места проведения"
+
+msgid "Classrooms"
+msgstr "Аудитории"
+
+msgid "Subject"
+msgstr "Дисциплина"
+
+msgid "Subjects"
+msgstr "Дисцилины"
+
+msgid "Subscriptions"
+msgstr "Абонементы"
+
 msgid "Client Subscription"
 msgstr "Абонемент клиента"
 
-#: vocalkiev/apps/crm/models.py:142
 msgid "Time of the event"
 msgstr "Время проведения"
 
-#: vocalkiev/apps/crm/models.py:143
 msgid "Is passed"
 msgstr "Проведен"
 
-#: vocalkiev/apps/crm/models.py:186
 msgid "Lesson comment"
 msgstr "Коментарий к уроку"
 
-#: vocalkiev/apps/crm/models.py:187
 msgid "Lesson comments"
 msgstr "Коментарии к уроку"
 
-#: vocalkiev/apps/crm/models.py:201
 msgid "Payment"
 msgstr "Платеж"
 
-#: vocalkiev/apps/crm/models.py:202
 msgid "Payments"
 msgstr "Платежи"
 
-#: vocalkiev/apps/crm/templates/crm/base.html:42
-msgid "Administrator"
-msgstr "Администратор"
-
-#: vocalkiev/apps/crm/templates/crm/base.html:50
-#: vocalkiev/apps/owner/admin.py:14
 msgid "Owner Dashboard"
 msgstr "Панель владельца"
 
-#: vocalkiev/apps/owner/admin.py:15
 msgid "CRM Owner Dashboard"
 msgstr "Панель владельца CRM"
+
+msgid "Administrator"
+msgstr "Администратор"
 
 msgid "CRM Dashboard"
 msgstr "Панель управления CRM"
@@ -306,10 +241,10 @@ msgid "Creator"
 msgstr "Создал"
 
 msgid "Created at"
-msgstr "Создано"
+msgstr "Создано в"
 
 msgid "Updated at"
-msgstr "Изменено"
+msgstr "Изменено в"
 
 msgid "Name"
 msgstr "Наименование"
