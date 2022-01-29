@@ -43,6 +43,12 @@ django-admin compilemessages
 python manage.py collectstatic
 ```
 
+```shell
+wget https://github.com/lobanov-oleh/vocalkiev-crm-django/archive/refs/heads/dev.zip
+unzip dev.zip
+rm dev.zip
+```
+
 and reboot App
 
 ### localhost
