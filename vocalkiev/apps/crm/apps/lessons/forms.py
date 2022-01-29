@@ -4,18 +4,19 @@ from django.utils import timezone
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from vocalkiev.apps.crm.models import Place, Lesson, Classroom, User, ClientSubscription
+import vocalkiev.apps.crm.models as models
 
-teachers = User.objects.filter(groups__name='Teacher')
+users = models.User.objects.all()
+teachers = users.filter(groups__name='Teacher')
 
 
 class PlaceDateForm(forms.Form):
     client_subscription = forms.IntegerField(widget=forms.HiddenInput())
     teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers)
-    place = forms.ModelChoiceField(label=_('Place'), queryset=Place.objects.all())
+    place = forms.ModelChoiceField(label=_('Place'), queryset=models.Place.objects.all())
     date = forms.DateField(label=_('Date'), widget=forms.SelectDateWidget())
 
-    def __init__(self, client_subscription: ClientSubscription, data=None, *args, **kwargs):
+    def __init__(self, client_subscription: models.ClientSubscription, data=None, *args, **kwargs):
         super(PlaceDateForm, self).__init__(data, *args, **kwargs)
 
         self.fields['client_subscription'].initial = client_subscription.pk
@@ -32,19 +33,21 @@ class TimeForm(forms.Form):
     date_year = forms.IntegerField(widget=forms.HiddenInput())
     date_hour = forms.ChoiceField(label=_('Time'), required=False)
 
-    def __init__(self, client_subscription: ClientSubscription, teacher: User, data=None, *args, **kwargs):
+    def __init__(self,
+                 client_subscription: models.ClientSubscription, teacher: models.User,
+                 data=None, *args, **kwargs):
         super(TimeForm, self).__init__(data, *args, **kwargs)
 
         self.fields['client_subscription'].initial = client_subscription.pk
         self.fields['teacher'].initial = teacher.pk
 
-        classrooms = Classroom.objects.filter(place_id=int(data['place']))
+        classrooms = models.Classroom.objects.filter(place_id=int(data['place']))
 
         choices = []
         for hour in range(9, 22):
             for classroom in classrooms:
                 dt = timezone.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']), hour)
-                if Lesson.can_create(classroom, dt, teacher, client_subscription.client):
+                if models.Lesson.can_create(classroom, dt, teacher, client_subscription.client):
                     choices.append((hour, f"{hour}:00"))
                     break
         self.fields['date_hour'].choices = choices
@@ -60,19 +63,21 @@ class ClassroomForm(forms.Form):
     date_hour = forms.IntegerField(widget=forms.HiddenInput())
     classroom = forms.ChoiceField(label=_('Classroom'), required=False)
 
-    def __init__(self, client_subscription: ClientSubscription, teacher: User, data=None, *args, **kwargs):
+    def __init__(self,
+                 client_subscription: models.ClientSubscription, teacher: models.User,
+                 data=None, *args, **kwargs):
         super(ClassroomForm, self).__init__(data, *args, **kwargs)
 
         self.fields['client_subscription'].initial = client_subscription.pk
         self.fields['teacher'].initial = teacher.pk
 
-        classrooms = Classroom.objects.filter(place_id=int(data['place']))
+        classrooms = models.Classroom.objects.filter(place_id=int(data['place']))
 
         choices = []
         for classroom in classrooms:
             dt = timezone.datetime(int(data['date_year']), int(data['date_month']), int(data['date_day']),
                                    int(data['date_hour']))
-            if Lesson.can_create(classroom, dt, teacher, client_subscription.client):
+            if models.Lesson.can_create(classroom, dt, teacher, client_subscription.client):
                 choices.append((classroom.id, str(classroom)))
         self.fields['classroom'].choices = choices
 
@@ -114,5 +119,30 @@ class LessonReportsForm(forms.Form):
         self.fields['month_half'].initial = 1
 
 
-class SubscriptionForm(forms.Form):
-    pass
+class ClientSubscriptionForm(forms.Form):
+    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.all())
+    client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all(), required=False)
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=models.User.objects.all())
+    payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
+    comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
+                              required=False)
+
+    def __init__(self, data=None, *args, **kwargs):
+        super(ClientSubscriptionForm, self).__init__(data, *args, **kwargs)
+
+        self.fields['payment_type'].initial = models.PaymentType.CASH
+
+
+class NewClientSubscriptionForm(ClientSubscriptionForm):
+    first_name = forms.CharField(label=_('First name'), max_length=64)
+    last_name = forms.CharField(label=_('Last name'), required=False, max_length=64)
+    email = forms.CharField(label=_('Email'), required=False)
+    phone = forms.CharField(label=_('Phone'), required=False, max_length=20)
+    client_comment = forms.CharField(label=_('Client Comment'), required=False)
+
+    field_order = ['first_name', 'last_name', 'email', 'phone', 'client_comment']
+
+    def __init__(self, data=None, *args, **kwargs):
+        super(NewClientSubscriptionForm, self).__init__(data, *args, **kwargs)
+
+        self.fields['client'].widget = forms.HiddenInput()

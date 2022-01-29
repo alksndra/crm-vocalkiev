@@ -3,8 +3,8 @@ import datetime
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 
 from vocalkiev.apps.crm.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
-    LessonReportsForm, SubscriptionForm
-from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User
+    LessonReportsForm, ClientSubscriptionForm, NewClientSubscriptionForm
+from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User, Client
 
 
 def index(request):
@@ -12,8 +12,18 @@ def index(request):
 
 
 def show_subscriptions(request):
-    client_subscriptions = ClientSubscription.objects.filter(teacher_id=request.user.id)
-    return render(request, 'lessons/subscriptions.html', {'client_subscriptions': client_subscriptions})
+    if request.user.groups.filter(name='Administrator').exists():
+        client_subscriptions = ClientSubscription.objects.all()
+    else:
+        client_subscriptions = ClientSubscription.objects.filter(teacher_id=request.user.id)
+
+    return render(
+        request,
+        'lessons/subscriptions.html',
+        {
+            'client_subscriptions': client_subscriptions
+        }
+    )
 
 
 def show_lessons(request, client_subscription_id):
@@ -103,7 +113,8 @@ def update_lesson(request, lesson_id):
     if lesson.teacher != request.user:
         return redirect('crm-subscription-lessons', client_subscription_id=client_subscription.id)
 
-    if not lesson.can_update_by_teacher():
+    if (request.user.groups.filter(name='Administrator').exists() and lesson.can_update_by_administrator())\
+            or not lesson.can_update_by_teacher():
         return redirect('crm-subscription-lessons', client_subscription_id=client_subscription.id)
 
     place = lesson.classroom.place
@@ -208,7 +219,6 @@ def reports(request):
     lessons = None
     year = None
     month = None
-    month_half = None
     total = 0
 
     if request.method == 'POST':
@@ -246,16 +256,70 @@ def reports(request):
     )
 
 
-def create_subscription(request):
+def create_client_subscription(request, client=None):
     if request.method == 'POST':
-        subscription_form = SubscriptionForm(request.POST)
+        form = ClientSubscriptionForm(request.POST)
+
+        if form.is_valid():
+            subscription = form.cleaned_data['subscription']
+            client = client if client else form.cleaned_data['client']
+            teacher = form.cleaned_data['teacher']
+            comment = form.cleaned_data['comment']
+
+            if client:
+                new_client_subscription = ClientSubscription.objects.create(
+                    creator=request.user,
+                    subscription=subscription,
+                    client=client,
+                    teacher=teacher,
+                    comment=comment,
+                )
+
+                return redirect('crm-subscription-lessons', client_subscription_id=new_client_subscription.pk)
+            else:
+                form.add_error('client', 'required field')
     else:
-        subscription_form = SubscriptionForm()
+        form = ClientSubscriptionForm()
 
     return render(
         request,
         'lessons/create-subscription.html',
         {
-            'form': subscription_form,
+            'form': form,
+        }
+    )
+
+
+def create_new_client_subscription(request):
+    if request.method == 'POST':
+        form = NewClientSubscriptionForm(request.POST)
+
+        if form.is_valid():
+            print('isvalid')
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            phone = form.cleaned_data['phone']
+            comment = form.cleaned_data['client_comment']
+
+            new_client = Client.objects.create(
+                creator=request.user,
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone=phone,
+                comment=comment
+            )
+
+            return create_client_subscription(request, new_client)
+    else:
+        form = NewClientSubscriptionForm()
+
+    return render(
+        request,
+        'lessons/create-subscription.html',
+        {
+            'is_for_new_client': True,
+            'form': form,
         }
     )

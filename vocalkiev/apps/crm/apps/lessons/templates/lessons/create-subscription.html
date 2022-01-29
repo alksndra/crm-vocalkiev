@@ -7,5 +7,12 @@
 {% block h1 %}{% translate "Subscription" %}{% endblock %}
 
 {% block content %}
-{% include "lessons/includes/form.html" with form=subscription_form %}
+<p class="text-center">
+{% if is_for_new_client %}
+    <a href="{% url 'crm-create-subscription' %}">{% translate "Create for existing client" %}</a>
+{% else %}
+    <a href="{% url 'crm-create-subscription-new-client' %}">{% translate "Create for new client" %}</a>
+{% endif %}
+</p>
+{% include "lessons/includes/form.html" with form=form show_label=True %}
 {% endblock %}
