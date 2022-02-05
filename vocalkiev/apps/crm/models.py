@@ -133,6 +133,11 @@ class ClientSubscription(Model):
     def can_create_lesson(self):
         return self.subscription.lessons_qty > self.lesson_set.count()
 
+    def can_archive(self):
+        passed_qty = self.lesson_set.filter(is_passed=True).count()
+
+        return self.subscription.lessons_qty == passed_qty
+
     def __str__(self):
         return f"{self.client}, {self.subscription}"
 

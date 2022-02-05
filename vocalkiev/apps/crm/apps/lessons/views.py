@@ -3,8 +3,9 @@ import datetime
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 
 from vocalkiev.apps.crm.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
-    LessonReportsForm, ClientSubscriptionForm, ClientForm
-from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User, Client
+    LessonReportsForm, ClientSubscriptionForm, ClientForm, ClientCommentForm
+from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User, Client, Status, \
+    ClientComment
 
 
 def index(request):
@@ -13,9 +14,9 @@ def index(request):
 
 def show_subscriptions(request):
     if request.user.groups.filter(name='Administrator').exists():
-        client_subscriptions = ClientSubscription.objects.all()
+        client_subscriptions = ClientSubscription.objects.filter(status=Status.ACTIVE)
     else:
-        client_subscriptions = ClientSubscription.objects.filter(teacher_id=request.user.id)
+        client_subscriptions = ClientSubscription.objects.filter(status=Status.ACTIVE, teacher_id=request.user.id)
 
     return render(
         request,
@@ -29,10 +30,31 @@ def show_subscriptions(request):
 def show_lessons(request, client_subscription_id):
     client_subscription = ClientSubscription.objects.get(pk=client_subscription_id)
     lessons = Lesson.objects.filter(client_subscription__id=client_subscription.id)
+
+    if request.method == 'POST':
+        client_comment_form = ClientCommentForm(request.POST)
+
+        if client_comment_form.is_valid():
+            comment = client_comment_form.cleaned_data['comment']
+
+            new_client_comment = ClientComment.objects.create(
+                creator=request.user,
+                client=client_subscription.client,
+                comment=comment,
+            )
+
+            return redirect('crm-subscription-lessons', client_subscription_id=client_subscription.id)
+    else:
+        client_comment_form = ClientCommentForm()
+
     return render(
         request,
         'lessons/lessons.html',
-        {'client_subscription': client_subscription, 'lessons': lessons}
+        {
+            'client_subscription': client_subscription,
+            'lessons': lessons,
+            'client_comment_form': client_comment_form,
+        }
     )
 
 
@@ -318,3 +340,13 @@ def create_client_subscription(request):
             'form': form,
         }
     )
+
+
+def archive_client_subscription(request, client_subscription_id):
+    client_subscription = get_object_or_404(ClientSubscription, pk=client_subscription_id)
+
+    if request.user.groups.filter(name='Administrator').exists() and client_subscription.can_archive():
+        client_subscription.status = Status.INACTIVE
+        client_subscription.save()
+
+    return redirect('crm-subscriptions')

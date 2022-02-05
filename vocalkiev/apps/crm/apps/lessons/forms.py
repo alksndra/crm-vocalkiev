@@ -129,6 +129,10 @@ class ClientForm(forms.Form):
     field_order = ['first_name', 'last_name', 'email', 'phone', 'client_comment']
 
 
+class ClientCommentForm(forms.Form):
+    comment = forms.CharField(label=_('Client Comment'))
+
+
 class ClientSubscriptionForm(forms.Form):
     subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.all())
     client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
