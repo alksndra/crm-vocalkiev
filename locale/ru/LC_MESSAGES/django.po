@@ -81,7 +81,7 @@ msgid "Phone"
 msgstr "Номер телефона"
 
 msgid "Client Comment"
-msgstr "Коментарий об ученика"
+msgstr "Коментарий об ученике"
 
 msgid "Lesson"
 msgstr "Урок"
@@ -90,8 +90,8 @@ msgid "Create for existing client"
 msgstr "Создать для существующего ученика"
 
 #: vocalkiev/apps/crm/apps/lessons/templates/lessons/create-subscription.html:14
-msgid "Create for new client"
-msgstr "Создать для нового ученика"
+msgid "Create a new client"
+msgstr "Создать нового ученика"
 
 msgid "Go"
 msgstr "Выполнить"

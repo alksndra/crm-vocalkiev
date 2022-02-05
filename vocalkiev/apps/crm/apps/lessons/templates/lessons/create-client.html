@@ -1,0 +1,14 @@
+{% extends "crm/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Client" %}{% endblock %}
+
+{% block h1 %}{% translate "Client" %}{% endblock %}
+
+{% block content %}
+<p class="text-center">
+    <a href="{% url 'crm-create-subscription' %}">{% translate "Create for existing client" %}</a>
+</p>
+{% include "lessons/includes/form.html" with form=form show_label=True %}
+{% endblock %}

@@ -119,9 +119,19 @@ class LessonReportsForm(forms.Form):
         self.fields['month_half'].initial = 1
 
 
+class ClientForm(forms.Form):
+    first_name = forms.CharField(label=_('First name'), max_length=64)
+    last_name = forms.CharField(label=_('Last name'), required=False, max_length=64)
+    email = forms.CharField(label=_('Email'), required=False)
+    phone = forms.CharField(label=_('Phone'), required=False, max_length=20)
+    client_comment = forms.CharField(label=_('Client Comment'), required=False)
+
+    field_order = ['first_name', 'last_name', 'email', 'phone', 'client_comment']
+
+
 class ClientSubscriptionForm(forms.Form):
     subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.all())
-    client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all(), required=False)
+    client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
     teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=models.User.objects.all())
     payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
     comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
@@ -131,18 +141,3 @@ class ClientSubscriptionForm(forms.Form):
         super(ClientSubscriptionForm, self).__init__(data, *args, **kwargs)
 
         self.fields['payment_type'].initial = models.PaymentType.CASH
-
-
-class NewClientSubscriptionForm(ClientSubscriptionForm):
-    first_name = forms.CharField(label=_('First name'), max_length=64)
-    last_name = forms.CharField(label=_('Last name'), required=False, max_length=64)
-    email = forms.CharField(label=_('Email'), required=False)
-    phone = forms.CharField(label=_('Phone'), required=False, max_length=20)
-    client_comment = forms.CharField(label=_('Client Comment'), required=False)
-
-    field_order = ['first_name', 'last_name', 'email', 'phone', 'client_comment']
-
-    def __init__(self, data=None, *args, **kwargs):
-        super(NewClientSubscriptionForm, self).__init__(data, *args, **kwargs)
-
-        self.fields['client'].widget = forms.HiddenInput()

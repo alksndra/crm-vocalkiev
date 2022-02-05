@@ -5,16 +5,12 @@ from . import views
 urlpatterns = [
     path('', views.index, name='crm-lessons'),
     path('reports', views.reports, name='crm-reports'),
-    path('subscriptions/', views.show_subscriptions, name='crm-subscriptions'),
+    path('clients/create', views.create_client, name='crm-create-client'),
+    path('subscriptions', views.show_subscriptions, name='crm-subscriptions'),
     path(
         'subscriptions/create/',
         views.create_client_subscription,
         name='crm-create-subscription'
-    ),
-    path(
-        'subscriptions/create/new-client',
-        views.create_new_client_subscription,
-        name='crm-create-subscription-new-client'
     ),
     path(
         'subscriptions/<int:client_subscription_id>/lessons/',

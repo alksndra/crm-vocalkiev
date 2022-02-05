@@ -3,7 +3,7 @@ import datetime
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 
 from vocalkiev.apps.crm.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
-    LessonReportsForm, ClientSubscriptionForm, NewClientSubscriptionForm
+    LessonReportsForm, ClientSubscriptionForm, ClientForm
 from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User, Client
 
 
@@ -256,46 +256,11 @@ def reports(request):
     )
 
 
-def create_client_subscription(request, client=None):
+def create_client(request):
     if request.method == 'POST':
-        form = ClientSubscriptionForm(request.POST)
+        form = ClientForm(request.POST)
 
         if form.is_valid():
-            subscription = form.cleaned_data['subscription']
-            client = client if client else form.cleaned_data['client']
-            teacher = form.cleaned_data['teacher']
-            comment = form.cleaned_data['comment']
-
-            if client:
-                new_client_subscription = ClientSubscription.objects.create(
-                    creator=request.user,
-                    subscription=subscription,
-                    client=client,
-                    teacher=teacher,
-                    comment=comment,
-                )
-
-                return redirect('crm-subscription-lessons', client_subscription_id=new_client_subscription.pk)
-            else:
-                form.add_error('client', 'required field')
-    else:
-        form = ClientSubscriptionForm()
-
-    return render(
-        request,
-        'lessons/create-subscription.html',
-        {
-            'form': form,
-        }
-    )
-
-
-def create_new_client_subscription(request):
-    if request.method == 'POST':
-        form = NewClientSubscriptionForm(request.POST)
-
-        if form.is_valid():
-            print('isvalid')
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
@@ -311,15 +276,45 @@ def create_new_client_subscription(request):
                 comment=comment
             )
 
-            return create_client_subscription(request, new_client)
+            return redirect('crm-create-subscription')
     else:
-        form = NewClientSubscriptionForm()
+        form = ClientForm()
+
+    return render(
+        request,
+        'lessons/create-client.html',
+        {
+            'form': form,
+        }
+    )
+
+
+def create_client_subscription(request):
+    if request.method == 'POST':
+        form = ClientSubscriptionForm(request.POST)
+
+        if form.is_valid():
+            subscription = form.cleaned_data['subscription']
+            client = form.cleaned_data['client']
+            teacher = form.cleaned_data['teacher']
+            comment = form.cleaned_data['comment']
+
+            new_client_subscription = ClientSubscription.objects.create(
+                creator=request.user,
+                subscription=subscription,
+                client=client,
+                teacher=teacher,
+                comment=comment,
+            )
+
+            return redirect('crm-subscription-lessons', client_subscription_id=new_client_subscription.pk)
+    else:
+        form = ClientSubscriptionForm()
 
     return render(
         request,
         'lessons/create-subscription.html',
         {
-            'is_for_new_client': True,
             'form': form,
         }
     )
