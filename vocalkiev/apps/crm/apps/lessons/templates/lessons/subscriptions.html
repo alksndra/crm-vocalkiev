@@ -9,6 +9,12 @@
 {% block h1 %}{% translate "Client Subscriptions" %}{% endblock %}
 
 {% block content %}
+{% if request.user|has_group:"Administrator" %}
+<p class="text-center">
+    <a href="{% url 'crm-create-subscription' %}">{% translate "Create" %}</a>
+</p>
+{% endif %}
+
 {% if client_subscriptions %}
 <ul class="list-group list-group-flush">
     {% for cs in client_subscriptions %}
@@ -21,11 +27,5 @@
 </ul>
 {% else %}
 <h5 class="text-center">{% translate 'No subscriptions' %}</h5>
-{% endif %}
-
-{% if request.user|has_group:"Administrator" %}
-<p class="text-center">
-    <a href="{% url 'crm-create-subscription' %}">{% translate "Create" %}</a>
-</p>
 {% endif %}
 {% endblock %}
