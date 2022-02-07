@@ -4,7 +4,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -25,7 +24,7 @@ INSTALLED_APPS = [
     'vocalkiev.apps.crm.apps.schedule.apps.ScheduleConfig',
     'vocalkiev.apps.crm.apps.administrator.apps.AdministratorConfig',
     'vocalkiev.apps.crm.apps.teacher.apps.TeacherConfig',
-    'vocalkiev.apps.crm.apps.teacher.apps.lessons.apps.TeacherLessonsConfig',
+    'vocalkiev.apps.crm.apps.lessons.apps.LessonsConfig',
     'vocalkiev.apps.owner.apps.OwnerConfig',
     'vocalkiev.apps.vocalkiev_com.apps.VocalkievComConfig',
     'django.contrib.admin',
@@ -70,7 +69,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'vocalkiev.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -81,7 +79,6 @@ DATABASES = {
         'TIME_ZONE': 'Europe/Kiev',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -101,11 +98,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'ru'
+
+LANGUAGES = [
+    ('ru', 'Русский'),
+    # ('en', 'English'),
+]
 
 TIME_ZONE = 'Europe/Kiev'
 
@@ -121,7 +129,6 @@ USE_TZ = True
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -135,7 +142,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PROJECT_DIR = os.path.abspath(os.path.dirname('fixtures'))
 FIXTURE_DIRS = (
-   os.path.join(PROJECT_DIR, 'fixtures'),
+    os.path.join(PROJECT_DIR, 'fixtures'),
 )
 
 LOGIN_URL = 'ru/login/'

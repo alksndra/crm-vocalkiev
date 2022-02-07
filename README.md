@@ -43,6 +43,12 @@ django-admin compilemessages
 python manage.py collectstatic
 ```
 
+```shell
+wget https://github.com/lobanov-oleh/vocalkiev-crm-django/archive/refs/heads/dev.zip
+unzip dev.zip
+rm dev.zip
+```
+
 and reboot App
 
 ### localhost
@@ -59,7 +65,6 @@ cd vocalkiev-crm-django/
 ```shell
 python manage.py migrate
 python manage.py loaddata fixtures/fixtures.json
-python manage.py loaddata fixtures/test_fixtures.json
 django-admin compilemessages
 python manage.py collectstatic
 python manage.py runserver

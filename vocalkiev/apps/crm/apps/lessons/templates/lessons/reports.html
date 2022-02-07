@@ -8,11 +8,11 @@
 {% block h1 %}{% translate "Lesson reports" %}{% endblock %}
 
 {% block content %}
-<form action="{% url 'crm-teacher-reports' %}" method="post">
+<form action="{% url 'crm-reports' %}" method="post">
     {% csrf_token %}
 
     {% for field in form.visible_fields %}
-    {% include "teacher/lessons/includes/field.html" with field=field %}
+    {% include "lessons/includes/field.html" with field=field %}
     {% endfor %}
     <input type="submit" value="{% translate 'Go' %}">
 </form>
@@ -23,7 +23,9 @@
     <thead>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">{% translate "Lesson" %}</th>
+        <th scope="col">{% translate "Client" %}</th>
+        <th scope="col">{% translate "Classroom" %}</th>
+        <th scope="col">{% translate "Datetime" %}</th>
         <th scope="col">{% translate "Was absent" %}</th>
         <th scope="col">{% translate "Amount" %}</th>
     </tr>
@@ -33,16 +35,18 @@
     {% for l in lessons %}
     <tr>
         <th scope="row">{{ l.id }}</th>
-        <td>{{ l }}</td>
+        <td>{{ l.client_subscription.client }}</td>
+        <td>{{ l.classroom }}</td>
+        <td>{{ l.datetime }}</td>
         <td>{% if l.was_absent %}+{% endif %}</td>
         <td>{{ l.teacher_amount }}</td>
     </tr>
     {% endfor %}
     {% else %}
-    <tr colspan="4">{% translate "No lessons" %}</tr>
+    <tr colspan="6">{% translate "No lessons" %}</tr>
     {% endif %}
     <tr>
-        <th scope="row" colspan="3">{% translate "Total" %}</th>
+        <th scope="row" colspan="5">{% translate "Total" %}</th>
         <td>{{ total }}</td>
     </tr>
     </tbody>

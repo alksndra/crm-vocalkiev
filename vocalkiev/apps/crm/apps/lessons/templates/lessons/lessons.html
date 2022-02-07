@@ -1,0 +1,69 @@
+{% extends "crm/base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% translate "Lessons" %} {{ client_subscription }}{% endblock %}
+
+{% block h1 %}{% translate "Lessons" %} {{ client_subscription }}{% endblock %}
+
+{% block content %}
+<div id="client" class="accordion mb-3">
+    <div class="card">
+        <div id="clientHeader" class="text-center pt-2 pb-2">
+            <a href="#" data-toggle="collapse" data-target="#clientBlock">{% translate "Client" %}: {{ client_subscription.client }}</a>
+        </div>
+
+        <div id="clientBlock" class="collapse" data-parent="#client">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for cc in client_subscription.client.clientcomment_set.all %}
+                        <li class="list-group-item">{{ cc }}</li>
+                    {% endfor %}
+                </ul>
+                {% include "lessons/includes/form.html" with form=client_comment_form show_label=True %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if client_subscription.can_create_lesson %}
+<p class="text-center">
+    <a href="{% url 'crm-create-lesson' client_subscription.id %}">{% translate "Create" %}</a>
+</p>
+{% endif %}
+
+{% if lessons %}
+<ul class="list-group list-group-flush">
+    {% for l in lessons %}
+    <li class="list-group-item">
+        {{ l }}
+
+        {% if l.can_pass %}
+        <a href="{% url 'crm-pass-lesson' l.id %}">{% translate "Pass" %}</a>
+        {% endif %}
+
+        {% if l.can_update_by_teacher and l.teacher == request.user %}
+        <a href="{% url 'crm-update-lesson' l.id %}">{% translate "Change" %}</a>
+        {% endif %}
+
+        {% if l.lessoncomment_set.count %}
+        <ul>
+            {% for lc in l.lessoncomment_set.all %}
+            <li>{{ lc }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<h5 class="text-center">{% translate 'No lessons' %}</h5>
+{% endif %}
+
+{% if client_subscription.can_archive %}
+<p class="text-center">
+    <a href="{% url 'crm-archive-subscription' client_subscription.id %}">{% translate "Archive" %}</a>
+</p>
+{% endif %}
+{% endblock %}

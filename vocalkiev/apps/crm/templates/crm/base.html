@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 {% load static %}
 {% load i18n %}
 {% load has_group %}
@@ -25,30 +25,26 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'crm-schedule' %}">{% translate 'Schedule' %}</a>
             </li>
-            {% if request.user|has_group:"Teacher" %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarTeacherDropdown" role="button"
-                   data-toggle="dropdown">{% translate 'Teacher' %}</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'crm-teacher-lessons' %}">{% translate 'Lessons' %}</a>
-                    <a class="dropdown-item" href="{% url 'crm-teacher-reports' %}">{% translate 'Lesson reports' %}</a>
-                    <a class="dropdown-item" href="{% url 'crm-index' %}teacher/admin/">{% translate 'Teacher Dashboard' %}</a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'crm-lessons' %}">{% translate 'Lessons' %}</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'crm-reports' %}">{% translate 'Lesson reports' %}</a>
+            </li>
+            {% if request.user|has_group:"Teacher" %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crm-index' %}teacher/admin/">{% translate 'Teacher Dashboard' %}</a>
+                </li>
             {% endif %}
             {% if request.user|has_group:"Administrator" %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarAdministratorDropdown" role="button"
-                   data-toggle="dropdown">{% translate 'Administrator' %}</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'crm-index' %}administrator/admin/">{% translate 'Administrator Dashboard' %}</a>
-                </div>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'crm-index' %}administrator/admin/">{% translate 'Administrator Dashboard' %}</a>
+                </li>
             {% endif %}
             {% if request.user.is_superuser %}
-            <li class="nav-item">
-                <a class="nav-link" href="/ru/owner/">{% translate 'Owner Dashboard' %}</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ru/owner/">{% translate 'Owner Dashboard' %}</a>
+                </li>
             {% endif %}
         </ul>
     </div>

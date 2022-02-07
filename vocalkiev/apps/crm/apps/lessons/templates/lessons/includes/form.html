@@ -2,7 +2,7 @@
 
 <div class="row">
     <div class="col">
-        <form action="{% url 'crm-teacher-create-lesson' client_subscription.id %}" method="post">
+        <form action="{{ form_action }}" method="post">
             {% csrf_token %}
 
             {% for hidden in form.hidden_fields %}
@@ -10,7 +10,7 @@
             {% endfor %}
 
             {% for field in form.visible_fields %}
-                {% include "teacher/lessons/includes/field.html" with field=field %}
+                {% include "lessons/includes/field.html" with field=field %}
             {% endfor %}
             <input type="submit" value="{% translate 'Go' %}">
         </form>

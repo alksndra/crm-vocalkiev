@@ -47,8 +47,16 @@ def schedule_day(request, year=2021, month=0, day=0, place_id=0):
         for t in range(9, 22):
             row = {'time': str(t) + ':00'}
             for lesson in lessons.filter(datetime__hour=t):
-                row['dcr_' + str(lesson.classroom.id) + '_t'] = lesson.teacher.get_full_name()
-                row['dcr_' + str(lesson.classroom.id) + '_c'] = lesson.client_subscription.client.__str__()
+                value_teacher = lesson.teacher.get_full_name()
+                value_client = lesson.client_subscription.client.__str__()
+
+                subject = lesson.client_subscription.subscription.subject
+                if subject.__str__() != 'Вокал':
+                    value_teacher += ' | ' + subject.__str__()
+                    value_client += ' | ' + subject.__str__()
+
+                row['dcr_' + str(lesson.classroom.id) + '_t'] = value_teacher
+                row['dcr_' + str(lesson.classroom.id) + '_c'] = value_client
             data.append(row)
 
     template = loader.get_template('schedule/day.html')

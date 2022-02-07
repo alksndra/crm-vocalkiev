@@ -35,6 +35,8 @@ class Model(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    objects = models.Manager()
+
     class Meta:
         abstract = True
 
@@ -131,6 +133,11 @@ class ClientSubscription(Model):
     def can_create_lesson(self):
         return self.subscription.lessons_qty > self.lesson_set.count()
 
+    def can_archive(self):
+        passed_qty = self.lesson_set.filter(is_passed=True).count()
+
+        return self.subscription.lessons_qty == passed_qty
+
     def __str__(self):
         return f"{self.client}, {self.subscription}"
 
@@ -158,6 +165,15 @@ class Lesson(Model):
 
     def can_pass(self):
         return not self.is_passed and timezone.now() > self.datetime
+
+    def diff_in_hours_for_now(self):
+        return (self.datetime - timezone.now()).total_seconds() / 60 / 60
+
+    def can_update_by_teacher(self):
+        return self.diff_in_hours_for_now() > 18  # Eighteen
+
+    def can_update_by_administrator(self):
+        return self.diff_in_hours_for_now() > 10  # Ten
 
     @staticmethod
     def can_create(classroom: Classroom, datetime, teacher: User, client: Client):

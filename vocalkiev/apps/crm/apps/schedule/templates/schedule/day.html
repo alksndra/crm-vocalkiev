@@ -105,17 +105,28 @@
 <script>
     const $table = $('#table')
     const $form = $('#form')
-    const $selectMonth = $form.find('[name="month"]').first();
-    const $selectYear = $form.find('[name="year"]').first();
-    const $selectDay = $form.find('[name="day"]').first();
-    const $selectPlace = $form.find('[name="place"]').first();
+    const $selectMonth = $form.find('[name="month"]').first()
+    const $selectYear = $form.find('[name="year"]').first()
+    const $selectDay = $form.find('[name="day"]').first()
+    const $selectPlace = $form.find('[name="place"]').first()
+    const RENT_TEXT = '| Аренда'
 
     function cellStyleTeacher(value, row, index) {
-        return value ? {classes: 'bg-warning'} : {}
+        let r = {}
+
+        if (value) {
+            r = {classes: 'bg-warning'}
+
+            if (value.indexOf(RENT_TEXT) !== -1) {
+                r.classes = 'bg-primary'
+            }
+        }
+
+        return r
     }
 
     function cellStyleClient(value, row, index) {
-        return value ? {classes: 'bg-info'} : {}
+        return cellStyleTeacher(value, row, index)
     }
 
     $(function () {
