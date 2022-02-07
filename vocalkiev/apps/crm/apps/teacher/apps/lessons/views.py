@@ -136,6 +136,7 @@ def reports(request):
     lessons = None
     year = None
     month = None
+    half_month = None
     total = 0
 
     if request.method == 'POST':
@@ -144,13 +145,24 @@ def reports(request):
         if lesson_reports_form.is_valid():
             year = int(lesson_reports_form.cleaned_data['year'])
             month = int(lesson_reports_form.cleaned_data['month'])
+            half_month = int(lesson_reports_form.cleaned_data['half_month'])
 
-            lessons = Lesson.objects.filter(
-                teacher_id=request.user.id,
-                is_passed=True,
-                datetime__year=year,
-                datetime__month=month
-            )
+            if half_month == 1:
+                lessons = Lesson.objects.filter(
+                    teacher_id=request.user.id,
+                    is_passed=True,
+                    datetime__year=year,
+                    datetime__month=month,
+                    datetime__day__lte=15
+                )
+            else:
+                lessons = Lesson.objects.filter(
+                    teacher_id=request.user.id,
+                    is_passed=True,
+                    datetime__year=year,
+                    datetime__month=month,
+                    datetime__day__gte=16
+                )
 
             for lesson in lessons:
                 total += lesson.teacher_amount()

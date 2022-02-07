@@ -82,8 +82,10 @@ class PassLessonForm(forms.Form):
 
 
 class LessonReportsForm(forms.Form):
+    half_month = forms.ChoiceField(label=_('Half month'))
     month = forms.ChoiceField(label=_('Month'), initial=timezone.now().month)
     year = forms.ChoiceField(label=_('Year'), initial=timezone.now().year)
+
 
     def __init__(self, data=None, *args, **kwargs):
         super(LessonReportsForm, self).__init__(data, *args, **kwargs)
@@ -102,3 +104,15 @@ class LessonReportsForm(forms.Form):
                 months.append((mi, _(m)))
         self.fields['month'].choices = months
         self.fields['month'].initial = today.month
+
+        halves_month = [
+            (1, _('First half (1 - 15)')),
+            (2, _('Last half  (16 - end)'))
+        ]
+        self.fields['half_month'].choices = halves_month
+        self.fields['half_month'].initial = 1
+        if today.day > 15:
+            self.fields['half_month'].initial = 2
+
+
+
