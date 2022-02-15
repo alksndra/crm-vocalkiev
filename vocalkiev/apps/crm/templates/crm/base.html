@@ -31,16 +31,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'crm-reports' %}">{% translate 'Lesson reports' %}</a>
             </li>
-            {% if request.user|has_group:"Teacher" %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crm-index' %}teacher/admin/">{% translate 'Teacher Dashboard' %}</a>
-                </li>
-            {% endif %}
-            {% if request.user|has_group:"Administrator" %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'crm-index' %}administrator/admin/">{% translate 'Administrator Dashboard' %}</a>
-                </li>
-            {% endif %}
             {% if request.user.is_superuser %}
                 <li class="nav-item">
                     <a class="nav-link" href="/ru/owner/">{% translate 'Owner Dashboard' %}</a>
