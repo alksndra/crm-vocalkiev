@@ -139,7 +139,7 @@ class ClientSubscription(Model):
         return self.subscription.lessons_qty == passed_qty
 
     def __str__(self):
-        return f"{self.client}, {self.subscription}"
+        return f"{self.client}, {self.teacher.last_name}, {self.subscription}"
 
 
 class Lesson(Model):
