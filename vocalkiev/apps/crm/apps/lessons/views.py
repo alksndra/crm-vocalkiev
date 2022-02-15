@@ -6,6 +6,7 @@ from vocalkiev.apps.crm.apps.lessons.forms import PlaceDateForm, TimeForm, Class
     LessonReportsForm, ClientSubscriptionForm, ClientForm, ClientCommentForm
 from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User, Client, Status, \
     ClientComment
+from vocalkiev.apps.crm.apps.lessons.helpers import is_before_today
 
 
 def index(request):
@@ -76,6 +77,9 @@ def create_lesson(request, client_subscription_id):
             teacher = place_date_form.cleaned_data['teacher']
             place = place_date_form.cleaned_data['place']
             date = place_date_form.cleaned_data['date']
+
+            if is_before_today(date.year, date.month, date.day):
+                return redirect('crm-create-lesson', client_subscription_id=client_subscription.id)
 
             time_form = TimeForm(client_subscription, teacher, request.POST)
             if time_form.is_valid():
