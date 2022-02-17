@@ -251,3 +251,12 @@ msgstr "% за отсутствующего"
 
 msgid "lessons_qty"
 msgstr "Колличество уроков в абонементе"
+
+msgid "is passed"
+msgstr "проведено"
+
+msgid "declared"
+msgstr "назначено"
+
+msgid "in all"
+msgstr "всего"
