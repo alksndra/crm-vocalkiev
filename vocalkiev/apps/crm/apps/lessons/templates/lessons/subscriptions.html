@@ -21,7 +21,7 @@
     <li class="list-group-item">
         {{ cs.created_at }}: <a href="{% url 'crm-subscription-lessons' cs.id %}">{{ cs }}</a>
         <br>
-        {% translate "Lessons" %}: {{ cs.lesson_set.count }} / {{ cs.subscription.lessons_qty }}
+        {% translate "Lessons" %} ({% translate "is passed" %} / {% translate "declared" %} / {% translate "in all" %}): {{ cs.get_passed_lessons_count }} / {{ cs.lesson_set.count }} / {{ cs.subscription.lessons_qty }}
     </li>
     {% endfor %}
 </ul>
