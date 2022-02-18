@@ -77,6 +77,26 @@
     }
   },
   {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$ZOM3w2NV92Z2i2DQiQOrmc$LwheL2+bFAKyn0hqdzzhz7UMA4ag5H502kMH1u+zTaY=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "rent",
+      "first_name": "Аренда",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2022-02-18T12:36:45+02:00",
+      "groups": [
+        2
+      ],
+      "user_permissions": []
+    }
+  },
+  {
     "model": "crm.place",
     "pk": 1,
     "fields": {
