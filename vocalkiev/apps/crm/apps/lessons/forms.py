@@ -136,7 +136,7 @@ class ClientCommentForm(forms.Form):
 class ClientSubscriptionForm(forms.Form):
     subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.all())
     client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
-    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=models.User.objects.all())
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers)
     payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
     comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
                               required=False)
