@@ -134,14 +134,28 @@ class ClientCommentForm(forms.Form):
 
 
 class ClientSubscriptionForm(forms.Form):
-    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.all())
+    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.exclude(pk__in=[2, 3]))
     client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
-    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers)
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers.exclude(username = 'rent'))
     payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
     comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
                               required=False)
 
     def __init__(self, data=None, *args, **kwargs):
         super(ClientSubscriptionForm, self).__init__(data, *args, **kwargs)
+
+        self.fields['payment_type'].initial = models.PaymentType.CASH
+
+
+class RentSubscriptionForm(forms.Form):
+    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.filter(pk__in=[2, 3]))
+    client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers.filter(username='rent'), empty_label=None)
+    payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
+    comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
+                              required=False)
+
+    def __init__(self, data=None, *args, **kwargs):
+        super(RentSubscriptionForm, self).__init__(data, *args, **kwargs)
 
         self.fields['payment_type'].initial = models.PaymentType.CASH

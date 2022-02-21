@@ -11,7 +11,8 @@
 {% block content %}
 {% if request.user|has_group:"Administrator" %}
 <p class="text-center">
-    <a href="{% url 'crm-create-subscription' %}">{% translate "Create" %}</a>
+    <a href="{% url 'crm-create-subscription' %}">{% translate "Create subscription" %}</a><br>
+    <a href="{% url 'crm-create-rent' %}">{% translate "Rent" %}</a>
 </p>
 {% endif %}
 

@@ -3,7 +3,7 @@ import datetime
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 
 from vocalkiev.apps.crm.apps.lessons.forms import PlaceDateForm, TimeForm, ClassroomForm, PassLessonForm, \
-    LessonReportsForm, ClientSubscriptionForm, ClientForm, ClientCommentForm
+    LessonReportsForm, ClientSubscriptionForm, RentSubscriptionForm, ClientForm, ClientCommentForm
 from vocalkiev.apps.crm.models import ClientSubscription, Lesson, Classroom, LessonComment, User, Client, Status, \
     ClientComment
 from vocalkiev.apps.crm.apps.lessons.helpers import is_before_today
@@ -340,6 +340,37 @@ def create_client_subscription(request):
     return render(
         request,
         'lessons/create-subscription.html',
+        {
+            'form': form,
+        }
+    )
+
+
+def create_rent_subscription(request):
+    if request.method == 'POST':
+        form = RentSubscriptionForm(request.POST)
+
+        if form.is_valid():
+            subscription = form.cleaned_data['subscription']
+            client = form.cleaned_data['client']
+            teacher = form.cleaned_data['teacher']
+            comment = form.cleaned_data['comment']
+
+            new_client_subscription = ClientSubscription.objects.create(
+                creator=request.user,
+                subscription=subscription,
+                client=client,
+                teacher=teacher,
+                comment=comment,
+            )
+
+            return redirect('crm-subscription-lessons', client_subscription_id=new_client_subscription.pk)
+    else:
+        form = RentSubscriptionForm()
+
+    return render(
+        request,
+        'lessons/create-rent.html',
         {
             'form': form,
         }
