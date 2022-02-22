@@ -7,8 +7,11 @@ from django.utils.translation import gettext_lazy as _
 import vocalkiev.apps.crm.models as models
 
 users = models.User.objects.all()
-teachers = users.filter(groups__name='Teacher')
-
+teachers = users.filter(groups__name='Teacher').exclude(username='rent')
+rent_users = users.filter(username='rent')
+subscriptions = models.Subscription.objects.all()
+rent_subscriptions = subscriptions.filter(name=['аренда утро', 'аренда вечер'])
+educ_subscriptions = subscriptions.exclude(name=['аренда утро', 'аренда вечер'])
 
 class PlaceDateForm(forms.Form):
     client_subscription = forms.IntegerField(widget=forms.HiddenInput())
@@ -134,7 +137,7 @@ class ClientCommentForm(forms.Form):
 
 
 class ClientSubscriptionForm(forms.Form):
-    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.all())
+    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=educ_subscriptions)
     client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
     teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers)
     payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
@@ -143,5 +146,19 @@ class ClientSubscriptionForm(forms.Form):
 
     def __init__(self, data=None, *args, **kwargs):
         super(ClientSubscriptionForm, self).__init__(data, *args, **kwargs)
+
+        self.fields['payment_type'].initial = models.PaymentType.CASH
+
+
+class RentSubscriptionForm(forms.Form):
+    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=rent_subscriptions)
+    client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=rent_users, empty_label=None)
+    payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
+    comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
+                              required=False)
+
+    def __init__(self, data=None, *args, **kwargs):
+        super(RentSubscriptionForm, self).__init__(data, *args, **kwargs)
 
         self.fields['payment_type'].initial = models.PaymentType.CASH

@@ -13,6 +13,11 @@ urlpatterns = [
         name='crm-create-subscription'
     ),
     path(
+        'subscriptions/create-rent/',
+        views.create_rent_subscription,
+        name='crm-create-rent'
+    ),
+    path(
         'subscriptions/<int:client_subscription_id>/archive/',
         views.archive_client_subscription,
         name='crm-archive-subscription'

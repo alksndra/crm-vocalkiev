@@ -260,3 +260,9 @@ msgstr "назначено"
 
 msgid "in all"
 msgstr "всего"
+
+msgid "Rent"
+msgstr "Аренда"
+
+msgid "Create subscription"
+msgstr "Создать абонемент"
