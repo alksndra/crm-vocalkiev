@@ -7,8 +7,11 @@ from django.utils.translation import gettext_lazy as _
 import vocalkiev.apps.crm.models as models
 
 users = models.User.objects.all()
-teachers = users.filter(groups__name='Teacher')
-
+teachers = users.filter(groups__name='Teacher').exclude(username='rent')
+rent_users = users.filter(username='rent')
+subscriptions = models.Subscription.objects.all()
+rent_subscriptions = subscriptions.filter(name=['аренда утро', 'аренда вечер'])
+educ_subscriptions = subscriptions.exclude(name=['аренда утро', 'аренда вечер'])
 
 class PlaceDateForm(forms.Form):
     client_subscription = forms.IntegerField(widget=forms.HiddenInput())
@@ -134,9 +137,9 @@ class ClientCommentForm(forms.Form):
 
 
 class ClientSubscriptionForm(forms.Form):
-    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.exclude(pk__in=[2, 3]))
+    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=educ_subscriptions)
     client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
-    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers.exclude(username = 'rent'))
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers)
     payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
     comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
                               required=False)
@@ -148,9 +151,9 @@ class ClientSubscriptionForm(forms.Form):
 
 
 class RentSubscriptionForm(forms.Form):
-    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=models.Subscription.objects.filter(pk__in=[2, 3]))
+    subscription = forms.ModelChoiceField(label=_('Subscription'), queryset=rent_subscriptions)
     client = forms.ModelChoiceField(label=_('Client'), queryset=models.Client.objects.all())
-    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=teachers.filter(username='rent'), empty_label=None)
+    teacher = forms.ModelChoiceField(label=_('Teacher'), queryset=rent_users, empty_label=None)
     payment_type = forms.ChoiceField(label=_('Payment type'), choices=models.PaymentType.choices)
     comment = forms.CharField(label=_('Comment'), widget=forms.TextInput(attrs={'placeholder': _('Comment')}),
                               required=False)
